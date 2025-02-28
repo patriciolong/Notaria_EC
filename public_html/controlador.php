@@ -5,6 +5,8 @@ if (!empty($_POST["btningresar"])) {
     }else{
         $usuario=$_POST["usuario"];
         $clave=$_POST["password"];
+        session_start();
+        $_SESSION['usuario']=$usuario;
 
         $sql=$conexion->query(" select * from usuario where u_usuario= '$usuario' and u_contrasena='$clave'");
         if ($datos =$sql->fetch_object()) {
