@@ -7,6 +7,36 @@
     <link href="css/styles.css" rel="stylesheet" />
 </head>
 <body>
+
+<?php
+
+    $inc = include("conexionbd.php");
+    if ($inc) {
+        $consulta = "SELECT * FROM cliente";
+        $resultado = mysqli_query($conexion,$consulta);
+
+       
+        if ($resultado){
+            while($row = $resultado->fetch_array()){
+                $id = $row['c_identificacion'];
+                $nombre = $row['c_nombre'];
+                $apellido = $row['c_apellido'];
+                $telefono = $row['c_telefono' ];  
+                $edad = $row['c_edad'];
+                $direcion = $row['c_direccion'];
+                $pais = $row['c_pais'];
+                $estado = $row['c_estado' ]; 
+                $ciudad = $row['c_ciudad'];
+                $cpostal = $row['c_codpostal'];
+                $email = $row['c_email'];
+                $napartamento = $row['c_napartamento' ];               
+
+            } 
+        }
+        
+    }
+?>
+
 <!-- Responsive navbar-->
 <nav class="navbar navbar-expand-lg" style="background-color: #e2e2e2;">
             <div class="container px-lg-5">
@@ -44,41 +74,201 @@
     <div class="col"><h5>Tramites<h5></div>
   </div>
   <div class="row">
-    <div class="col">01500308732</div>
-    <div class="col">Juan Felipe</div>
-    <div class="col">Carangui Cuesta</div>
-    <div class="col">0983141176</div>
-    <div class="col">$ 100</div>
-    <div class="col">$ 100</div>
+
+  <div class="col"> 
+    
+    <?php
+    $inc = include("conexionbd.php");
+    if ($inc) {
+        $consulta = "SELECT * FROM cliente";
+        $resultado = mysqli_query($conexion,$consulta);
+       
+        if ($resultado){
+            while($row = $resultado->fetch_array()){
+                $id = $row['c_identificacion'];            
+                ?>
+                        <div style="padding:10px">
+                             <?php echo $id; ?>                            
+                        </div>
+                <?php
+            } 
+        }    
+    }
+    ?>
+    
+    </div>
     <div class="col">
-      <div class="dropdown">
-        <div class="btn-group">
-            <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Acciones
-            </button>
-            <ul class="dropdown-menu">              
-                <li><a class="dropdown-item" href="#">Abonar a deuda</a></li>
-                <li><a class="dropdown-item" href="#">Cancelar deuda</a></li>                
-            </ul>
-            </div>
-      </div>
+    
+    <?php
+    $inc = include("conexionbd.php");
+    if ($inc) {
+        $consulta = "SELECT * FROM cliente";
+        $resultado = mysqli_query($conexion,$consulta);
+       
+        if ($resultado){
+            while($row = $resultado->fetch_array()){
+                $nombre = $row['c_nombre'];            
+                ?>
+                        <div style="padding:10px">
+                             <?php echo $nombre; ?>                            
+                        </div>
+                <?php
+            } 
+        }    
+    }
+    ?>
+    
+    </div>
+    <div class="col">
+    
+    <?php
+    $inc = include("conexionbd.php");
+    if ($inc) {
+        $consulta = "SELECT * FROM cliente";
+        $resultado = mysqli_query($conexion,$consulta);
+       
+        if ($resultado){
+            while($row = $resultado->fetch_array()){
+                $apellido = $row['c_apellido'];            
+                ?>
+                        <div style="padding:10px">
+                             <?php echo $apellido; ?>                            
+                        </div>
+                <?php
+            } 
+        }    
+    }
+    ?>
+    
+    </div>
+    <div class="col">
+        
+    <?php
+    $inc = include("conexionbd.php");
+    if ($inc) {
+        $consulta = "SELECT * FROM cliente";
+        $resultado = mysqli_query($conexion,$consulta);
+       
+        if ($resultado){
+            while($row = $resultado->fetch_array()){
+                $telefono = $row['c_telefono'];            
+                ?>
+                        <div style="padding:10px">
+                             <?php echo $telefono; ?>                            
+                        </div>
+                <?php
+            } 
+        }    
+    }
+    ?>
+    
+    </div>
+    <div class="col">
+    
+    <?php
+    $inc = include("conexionbd.php");
+    if ($inc) {
+        $consulta = "SELECT * FROM cliente";
+        $resultado = mysqli_query($conexion,$consulta);
+       
+        if ($resultado){
+            while($row = $resultado->fetch_array()){
+                $abonado = $row['c_abonado'];            
+                ?>
+                        <div style="padding:10px">
+                             <?php echo $abonado; ?>                            
+                        </div>
+                <?php
+            } 
+        }    
+    }
+    ?>
+    
+    </div>
+    <div class="col">
+    
+    <?php
+    $inc = include("conexionbd.php");
+    if ($inc) {
+        $consulta = "SELECT * FROM cliente";
+        $resultado = mysqli_query($conexion,$consulta);
+       
+        if ($resultado){
+            while($row = $resultado->fetch_array()){
+                $deuda = $row['c_deuda'];            
+                ?>
+                        <div style="padding:10px">
+                             <?php echo $deuda; ?>                            
+                        </div>
+                <?php
+            } 
+        }    
+    }
+    ?>
+    
     </div>
 
     <div class="col">
-    <div class="dropdown">
-    <div class="btn-group">
-        <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Tramites
-        </button>
-        <ul class="dropdown-menu">              
-            <li><a class="dropdown-item" href="#">Tramites Varios</a></li>
-            <li><a class="dropdown-item" href="#">Declaracion de impuestos</a></li>
-            <li><a class="dropdown-item" href="#">Poderes</a></li>
-            <li><a class="dropdown-item" href="#">Divorcios</a></li>
-            
-        </ul>
-        </div>
+    <?php
+      $inc = include("conexionbd.php");
+      if ($inc) {
+          $consulta = "SELECT * FROM cliente";
+          $resultado = mysqli_query($conexion,$consulta);
+        
+          if ($resultado){
+              while($row = $resultado->fetch_array()){
+                  $deuda = $row['c_deuda'];            
+                  ?>
+                          <div style="padding:10px" class="dropdown">
+                              <div class="btn-group">
+                                  <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                      Acciones
+                                  </button>
+                                  <ul class="dropdown-menu">              
+                                      <li><a class="dropdown-item" href="#">Abonar a deuda</a></li>
+                                      <li><a class="dropdown-item" href="#">Cancelar deuda</a></li>                
+                                  </ul>
+                                  </div>
+                          </div>
+                  <?php
+              } 
+          }    
+      }
+    ?>
+
+        
     </div>
+
+    <div class="col">
+    <?php
+      $inc = include("conexionbd.php");
+      if ($inc) {
+          $consulta = "SELECT * FROM cliente";
+          $resultado = mysqli_query($conexion,$consulta);
+        
+          if ($resultado){
+              while($row = $resultado->fetch_array()){
+                  $deuda = $row['c_deuda'];            
+                  ?>
+                          <div style="padding:10px" class="dropdown">
+                              <div class="btn-group">
+                                  <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                      Tramites
+                                  </button>
+                                  <ul class="dropdown-menu">              
+                                      <li><a class="dropdown-item" href="#">Tramites Varios</a></li>
+                                      <li><a class="dropdown-item" href="#">Declaracion de impuestos</a></li>
+                                      <li><a class="dropdown-item" href="#">Poderes</a></li>
+                                      <li><a class="dropdown-item" href="#">Divorcios</a></li>
+                                      
+                                  </ul>
+                                  </div>
+                              </div>
+                  <?php
+              } 
+          }    
+      }
+      ?>
   </div>
 </div>
 
