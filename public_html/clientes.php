@@ -34,12 +34,14 @@
 
 <div class="container text-center">
   <div class="row">
-    <div class="col"><h4>Identificación </h4></div>
-    <div class="col"><h4>Nombres<h4></div>
-    <div class="col"><h4>Apellidos<h4></div>
-    <div class="col"><h4>Teléfono<h4></div>
-    <div class="col"><h4>Saldo pendiente<h4></div>
-    <div class="col"><h4>Tramites<h4></div>
+    <div class="col"><h5>Identificación </h5></div>
+    <div class="col"><h5>Nombres<h5></div>
+    <div class="col"><h5>Apellidos<h5></div>
+    <div class="col"><h5>Teléfono<h5></div>
+    <div class="col"><h5>Saldo Abonado<h5></div>
+    <div class="col"><h5>Saldo pendiente<h5></div>
+    <div class="col"><h5>Acciones<h5></div>
+    <div class="col"><h5>Tramites<h5></div>
   </div>
   <div class="row">
     <div class="col">01500308732</div>
@@ -47,6 +49,21 @@
     <div class="col">Carangui Cuesta</div>
     <div class="col">0983141176</div>
     <div class="col">$ 100</div>
+    <div class="col">$ 100</div>
+    <div class="col">
+      <div class="dropdown">
+        <div class="btn-group">
+            <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Acciones
+            </button>
+            <ul class="dropdown-menu">              
+                <li><a class="dropdown-item" href="#">Abonar a deuda</a></li>
+                <li><a class="dropdown-item" href="#">Cancelar deuda</a></li>                
+            </ul>
+            </div>
+      </div>
+    </div>
+
     <div class="col">
     <div class="dropdown">
     <div class="btn-group">
@@ -58,6 +75,7 @@
             <li><a class="dropdown-item" href="#">Declaracion de impuestos</a></li>
             <li><a class="dropdown-item" href="#">Poderes</a></li>
             <li><a class="dropdown-item" href="#">Divorcios</a></li>
+            
         </ul>
         </div>
     </div>
