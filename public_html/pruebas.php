@@ -15,15 +15,7 @@
                 ?>
                     <div>
                         <h2> <?php echo $nombre; ?></h2>
-                            <div>
-                                <p>
-
-                                    <b>ID: </b> <?php echo $id; ?><br>
-                                    <b>Email: </b> <?php echo $email; ?><br>
-                                    <b>Fecha Registro: <?php echo $fechareg; ?></b>
-
-                                </p>
-                            </div>
+                            
                     </div>
                 <?php
 
