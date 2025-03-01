@@ -8,33 +8,12 @@
 </head>
 <body>
 
+
+
 <?php
 
-    $inc = include("conexionbd.php");
-    if ($inc) {
-        $consulta = "SELECT * FROM cliente";
-        $resultado = mysqli_query($conexion,$consulta);
-
-       
-        if ($resultado){
-            while($row = $resultado->fetch_array()){
-                $id = $row['c_identificacion'];
-                $nombre = $row['c_nombre'];
-                $apellido = $row['c_apellido'];
-                $telefono = $row['c_telefono' ];  
-                $edad = $row['c_edad'];
-                $direcion = $row['c_direccion'];
-                $pais = $row['c_pais'];
-                $estado = $row['c_estado' ]; 
-                $ciudad = $row['c_ciudad'];
-                $cpostal = $row['c_codpostal'];
-                $email = $row['c_email'];
-                $napartamento = $row['c_napartamento' ];               
-
-            } 
-        }
-        
-    }
+    include("conexionbd.php");
+    include("modales.php");
 ?>
 
 <!-- Responsive navbar-->
@@ -87,7 +66,7 @@
             while($row = $resultado->fetch_array()){
                 $id = $row['c_identificacion'];            
                 ?>
-                        <div style="padding:10px">
+                        <div style="padding:13.5px">
                              <?php echo $id; ?>                            
                         </div>
                 <?php
@@ -109,7 +88,7 @@
             while($row = $resultado->fetch_array()){
                 $nombre = $row['c_nombre'];            
                 ?>
-                        <div style="padding:10px">
+                        <div style="padding:13.5px">
                              <?php echo $nombre; ?>                            
                         </div>
                 <?php
@@ -131,7 +110,7 @@
             while($row = $resultado->fetch_array()){
                 $apellido = $row['c_apellido'];            
                 ?>
-                        <div style="padding:10px">
+                        <div style="padding:13.5px">
                              <?php echo $apellido; ?>                            
                         </div>
                 <?php
@@ -153,7 +132,7 @@
             while($row = $resultado->fetch_array()){
                 $telefono = $row['c_telefono'];            
                 ?>
-                        <div style="padding:10px">
+                        <div style="padding:13.5px">
                              <?php echo $telefono; ?>                            
                         </div>
                 <?php
@@ -175,7 +154,7 @@
             while($row = $resultado->fetch_array()){
                 $abonado = $row['c_abonado'];            
                 ?>
-                        <div style="padding:10px">
+                        <div style="padding:13.5px">
                              <?php echo $abonado; ?>                            
                         </div>
                 <?php
@@ -197,7 +176,7 @@
             while($row = $resultado->fetch_array()){
                 $deuda = $row['c_deuda'];            
                 ?>
-                        <div style="padding:10px">
+                        <div style="padding:13.5px">
                              <?php echo $deuda; ?>                            
                         </div>
                 <?php
@@ -225,8 +204,8 @@
                                       Acciones
                                   </button>
                                   <ul class="dropdown-menu">              
-                                      <li><a class="dropdown-item" href="#">Abonar a deuda</a></li>
-                                      <li><a class="dropdown-item" href="#">Cancelar deuda</a></li>                
+                                      <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalabonar">Abonar a deuda</a></li>
+                                      <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalcancelardeuda">Cancelar deuda</a></li>                
                                   </ul>
                                   </div>
                           </div>
@@ -256,8 +235,8 @@
                                       Tramites
                                   </button>
                                   <ul class="dropdown-menu">              
-                                      <li><a class="dropdown-item" href="#">Tramites Varios</a></li>
-                                      <li><a class="dropdown-item" href="#">Declaracion de impuestos</a></li>
+                                      <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Tramites Varios</a></li>
+                                      <li><a class="dropdown-item" >Declaracion de impuestos</a></li>
                                       <li><a class="dropdown-item" href="#">Poderes</a></li>
                                       <li><a class="dropdown-item" href="#">Divorcios</a></li>
                                       
@@ -272,11 +251,12 @@
   </div>
 </div>
 
+
+
       <!-- Bootstrap core JS-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Core theme JS-->
         <script src="js/scripts.js"></script>
-
 
 
 </body>

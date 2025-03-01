@@ -1,26 +1,40 @@
 <?php
 
-    $inc = include("conexionbd.php");
-    if ($inc) {
-        $consulta = "SELECT * FROM cliente";
-        $resultado = mysqli_query($conexion,$consulta);
+include("conexionbd.php")
 
-       
-        if ($resultado){
-            while($row = $resultado->fetch_array()){
-                $id = $row['id_cliente'];
-                $nombre = $row['c_identificacion'];
-                $email = $row['c_nombre'];
-                $fechareg = $row['c_apellido' ];
-                ?>
-                    <div>
-                        <h2> <?php echo $nombre; ?></h2>
-                            
-                    </div>
-                <?php
+?>
 
-            } 
-        }
-        
-    }
+<! DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Formulario</title>
+</head>
+<body>
+
+<form action="#" name="ejemplo" method="post">
+
+<input type="submit" name="registro">
+
+</form>
+
+</body>
+
+<?php
+
+if(isset($_POST['registro'])){
+
+
+$insertarDatos = "UPDATE cliente SET c_abonado='6', c_deuda='5' WHERE id_cliente='1'";
+
+//$insertarDatos = "INSERT INTO cliente VALUES('$nombre', '$correo', '$telefono','','','','','','','','','','','','')";
+$ejecutarInsertar = mysqli_query ($conexion, $insertarDatos);
+
+//echo $insertarDatos;
+header("Refresh:4 ;URL=pruebas.php");
+exit;
+
+
+}
+
 ?>
