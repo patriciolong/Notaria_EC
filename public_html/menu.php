@@ -3,6 +3,7 @@
 session_start();
 error_reporting(0);
 $varsesion =$_SESSION['usuario'];
+echo $varsesion;
 if ($varsesion==null || $varsesion='') {
     header("location:index.php");
     die;
