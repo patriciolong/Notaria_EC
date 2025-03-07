@@ -204,7 +204,9 @@
                                       Acciones
                                   </button>
                                   <ul class="dropdown-menu">              
-                                      <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalabonar">Abonar a deuda</a></li>
+                                      <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalabonar" data-clienteid="1" data-abonado="0"
+                                      
+                                      >Abonar a deuda</a></li>
                                       <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalcancelardeuda">Cancelar deuda</a></li>                
                                   </ul>
                                   </div>
