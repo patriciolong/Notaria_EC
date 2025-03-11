@@ -167,14 +167,6 @@
                         <input class="fs-input" type="number" name="abono" id="abono"/>
                     </div>
                     <div class="fs-field">
-                        <label class="fs-label" for="">Saldo del tramite</label>
-                        <input class="fs-input" type="number" name="saldo_t" id="saldo_t"/>
-                    </div>
-                    <div class="fs-field">
-                        <label class="fs-label" for="">Saldo total</label>
-                        <input class="fs-input" type="number" name="saldo_t" id="saldo_t"/>
-                    </div>
-                    <div class="fs-field">
                         <label class="fs-label" for="">Enviar a Ecuador a nombre de:</label>
                         <input class="fs-input" name="remitente" id="remitente"/>
                     </div>
@@ -204,6 +196,7 @@
 
 
     </div>
+
 
 
 
