@@ -14,17 +14,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->execute();
         $resultado = $stmt->get_result();
 
-        if ($resultado->num_rows > 0) {
+        $sql_select2 = "SELECT c_saldo FROM cliente WHERE id_cliente = ?";
+        $stmt2 = $conexion->prepare($sql_select2);
+        $stmt2->bind_param("i", $cliente_id);
+        $stmt2->execute();
+        $resultado2 = $stmt2->get_result();
+
+        if ($resultado->num_rows > 0 && $resultado2->num_rows > 0) {
             $fila = $resultado->fetch_assoc();
-            $abono_actual = floatval($fila['c_abonado']);
+            $fila2 = $resultado2->fetch_assoc();
+            $abono_actual = floatval($fila['c_abonado']);            
+            $deuda_actual = floatval($fila2['c_saldo']);
 
             // Sumar el nuevo abono
             $nuevo_total = $abono_actual + $nuevo_abono;
+            $nuevo_total2 = $deuda_actual - $nuevo_abono;
+
+            if($nuevo_total2 < 0) {
+                echo "El abono no puede ser mayor al saldo pendiente.";
+                exit;
+            
+                
+            }
 
             // Actualizar en la base de datos
-            $sql_update = "UPDATE cliente SET c_abonado = ? WHERE id_cliente = ?";
+            $sql_update = "UPDATE cliente SET c_abonado = ?, c_saldo = ? WHERE id_cliente = ?";
             $stmt_update = $conexion->prepare($sql_update);
-            $stmt_update->bind_param("di", $nuevo_total, $cliente_id);
+            $stmt_update->bind_param("ddi", $nuevo_total, $nuevo_total2,  $cliente_id);
 
             if ($stmt_update->execute()) {
                 echo "Abono actualizado correctamente.";

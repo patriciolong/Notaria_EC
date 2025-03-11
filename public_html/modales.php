@@ -71,7 +71,8 @@ document.addEventListener("DOMContentLoaded", function() {
     abonoModal.addEventListener("show.bs.modal", function(event) {
         var button = event.relatedTarget; // Botón que abrió el modal
         var clienteId = button.getAttribute("data-clienteid");
-        var abonado = button.getAttribute("data-abonado");
+        var abonado = button.getAttribute("data-abonado");        
+        var deuda = button.getAttribute("data-deuda");
 
         // Asignar los valores al formulario dentro del modal
         document.getElementById("cliente_id").value = clienteId;
