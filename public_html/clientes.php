@@ -68,9 +68,11 @@
                 $id = $row['c_identificacion'];            
                 ?>
                         <div style="padding:13.5px">
+
                              <?php 
                              echo $id;                              
                              ?>                            
+
                         </div>
                 <?php
             } 
@@ -114,7 +116,7 @@
                 $apellido = $row['c_apellido'];            
                 ?>
                         <div style="padding:13.5px">
-                             <?php echo $apellido;  ?>                            
+                             <?php echo $apellido; ?>                            
                         </div>
                 <?php
             } 
@@ -200,6 +202,7 @@
        
         if ($resultado){
             while($row = $resultado->fetch_array()){
+
                 /*$abonado = $row['c_abonado']; 
                 $deuda = $row['c_deuda']; 
                 $saldo = $deuda - $abonado;*/
@@ -208,7 +211,7 @@
                 ?>
                         <div style="padding:13.5px">
                              <?php echo $saldo;?>      
-                                                   
+
                         </div>
                 <?php
             } 
@@ -235,10 +238,12 @@
                                       Acciones
                                   </button>
                                   <ul class="dropdown-menu">              
+
                                       <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalabonar" 
                                       data-clienteid="<?php echo $idcli;?>" data-abonado="0" data-deuda="0"
                                       
                                       >Abonar a deuda</a></li>
+
                                       <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalcancelardeuda">Cancelar deuda</a></li>                
                                   </ul>
                                   </div>

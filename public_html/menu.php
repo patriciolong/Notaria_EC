@@ -1,3 +1,17 @@
+<?php
+//seguridad de paginacion 
+session_start();
+error_reporting(0);
+$varsesion =$_SESSION['usuario'];
+echo $varsesion;
+if ($varsesion==null || $varsesion='') {
+    header("location:index.php");
+    die;
+}
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -23,7 +37,7 @@
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Cerrar Sesión</a></li>
+                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="cerrar_sesion.php">Cerrar Sesión</a></li>
                     </ul>
                 </div>
             </div>
@@ -44,7 +58,7 @@
                     <div class="col-lg-6 col-xxl-4 mb-5">
                         <div class="card bg-light border-0 h-100">
                             <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
-                                <div class="feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4"><i class="bi bi-person-fill"></i></div>
+                                <a href="clientes.php" type="button"  class="feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4"><i  class="bi bi-person-fill"></i></a>
                                 <h2 class="fs-4 fw-bold">Clientes</h2>
                                 <p class="mb-0">With Bootstrap 5, we've created a fresh new layout for this template!</p>
                             </div>
@@ -53,7 +67,7 @@
                     <div class="col-lg-6 col-xxl-4 mb-5">
                         <div class="card bg-light border-0 h-100">
                             <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
-                                <div class="feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4"><i class="bi bi-file-text"></i></div>
+                                <a href="tramites_varios.php" class="feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4"><i class="bi bi-file-text"></i></a>
                                 <h2 class="fs-4 fw-bold">Tramites Varios</h2>
                                 <p class="mb-0">As always, Start Bootstrap has a powerful collectin of free templates.</p>
                             </div>
