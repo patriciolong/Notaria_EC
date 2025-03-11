@@ -67,12 +67,7 @@
                 $id = $row['c_identificacion'];            
                 ?>
                         <div style="padding:13.5px">
-                             <?php 
-                             echo $id; 
-                             $conta = 1;
-                             $conta = $conta + 1;
-                             
-                             ?>                            
+                             <?php echo $id; ?>                            
                         </div>
                 <?php
             } 
@@ -116,7 +111,7 @@
                 $apellido = $row['c_apellido'];            
                 ?>
                         <div style="padding:13.5px">
-                             <?php echo $apellido;  ?>                            
+                             <?php echo $apellido; ?>                            
                         </div>
                 <?php
             } 
@@ -179,12 +174,10 @@
        
         if ($resultado){
             while($row = $resultado->fetch_array()){
-                $deuda = $row['c_deuda'];     
-                $idcli = $row['id_cliente'];      
+                $deuda = $row['c_deuda'];            
                 ?>
                         <div style="padding:13.5px">
-                             <?php echo $deuda;?>      
-                                                   
+                             <?php echo $deuda; ?>                            
                         </div>
                 <?php
             } 
@@ -211,9 +204,7 @@
                                       Acciones
                                   </button>
                                   <ul class="dropdown-menu">              
-                                      <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalabonar" data-clienteid="<?php echo $idcli;?>    " data-abonado="0"
-                                      
-                                      >Abonar a deuda</a></li>
+                                      <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalabonar">Abonar a deuda</a></li>
                                       <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalcancelardeuda">Cancelar deuda</a></li>                
                                   </ul>
                                   </div>
