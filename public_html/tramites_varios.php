@@ -1,3 +1,15 @@
+<?php
+//seguridad de paginacion 
+session_start();
+error_reporting(0);
+$varsesion =$_SESSION['usuario'];
+$variable_ses = $varsesion;
+if ($varsesion==null || $varsesion='') {
+    header("location:index.php");
+    die;
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -31,20 +43,26 @@
 
     <!-- Responsive navbar-->
     <nav class="navbar navbar-expand-lg" style="background-color: #e2e2e2;">
-        <div class="container px-lg-5">
-            <a class="navbar-brand" href="http://localhost/NOTARIA_ECUADOR/public_html/menu.php">
+            <div class="container px-lg-5">
+            <a class="navbar-brand" href="http://localhost/NotariaEc/Notaria_EC/public_html/menu.php">
                 <img src="img\logo.png" alt="logo" width="150px">
             </a>
-            <div class="container px-lg-5">
-
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Cerrar Sesión</a>
-                        </li>
-                    </ul>
-                </div>
+        <!-- Example single danger button -->
+       <div class="btn-group">
+       <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+        <?php echo $variable_ses;?>
+        </button>
+        <ul class="dropdown-menu">
+        <li><hr class="dropdown-divider"></li>
+       <li><a class="dropdown-item" href="cerrar_sesion.php">Cerrar Sesion</a></li>
+       </ul>
+      </div>
             </div>
-    </nav>
+        </nav>
+
+        <div style="widht: 100px; margin:0 auto;text-align: center">
+        <p class="fs-2" >Tramites Varios</p>
+        </div>
 
     <!-- Barra de busqueda-->
     <nav class="navbar bg-body-tertiary">
