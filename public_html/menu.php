@@ -3,7 +3,7 @@
 session_start();
 error_reporting(0);
 $varsesion =$_SESSION['usuario'];
-echo $varsesion;
+$variable_ses = $varsesion;
 if ($varsesion==null || $varsesion='') {
     header("location:index.php");
     die;
@@ -31,15 +31,19 @@ if ($varsesion==null || $varsesion='') {
         <!-- Responsive navbar-->
         <nav class="navbar navbar-expand-lg" style="background-color: #e2e2e2;">
             <div class="container px-lg-5">
-                <a class="navbar-brand" href="#!">
-                    <img src="img\logo.png" alt="logo" width="150px">
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="cerrar_sesion.php">Cerrar Sesión</a></li>
-                    </ul>
-                </div>
+            <a class="navbar-brand" href="http://localhost/NotariaEc/Notaria_EC/public_html/menu.php">
+                <img src="img\logo.png" alt="logo" width="150px">
+            </a>
+        <!-- Example single danger button -->
+       <div class="btn-group">
+       <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+        <?php echo $variable_ses;?>
+        </button>
+        <ul class="dropdown-menu">
+        <li><hr class="dropdown-divider"></li>
+       <li><a class="dropdown-item" href="cerrar_sesion.php">Cerrar Sesion</a></li>
+       </ul>
+      </div>
             </div>
         </nav>
         <!-- Header-->

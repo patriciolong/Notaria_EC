@@ -1,3 +1,15 @@
+<?php
+//seguridad de paginacion 
+session_start();
+error_reporting(0);
+$varsesion =$_SESSION['usuario'];
+$variable_ses = $varsesion;
+if ($varsesion==null || $varsesion='') {
+    header("location:index.php");
+    die;
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,17 +31,25 @@
 <!-- Responsive navbar-->
 <nav class="navbar navbar-expand-lg" style="background-color: #e2e2e2;">
             <div class="container px-lg-5">
-                <a class="navbar-brand" href="menu.php">
-                    <img src="img\logo.png" alt="logo" width="150px">
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Cerrar Sesión</a></li>
-                    </ul>
-                </div>
+            <a class="navbar-brand" href="http://localhost/NotariaEc/Notaria_EC/public_html/menu.php">
+                <img src="img\logo.png" alt="logo" width="150px">
+            </a>
+        <!-- Example single danger button -->
+       <div class="btn-group">
+       <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+        <?php echo $variable_ses;?>
+        </button>
+        <ul class="dropdown-menu">
+        <li><hr class="dropdown-divider"></li>
+       <li><a class="dropdown-item" href="cerrar_sesion.php">Cerrar Sesion</a></li>
+       </ul>
+      </div>
             </div>
         </nav>
+
+        <div style="widht: 100px; margin:0 auto;text-align: center">
+        <p class="fs-2" >Clientes</p>
+        </div>
 
         <!-- Barra de busqueda-->
 <nav class="navbar bg-body-tertiary">
@@ -37,6 +57,7 @@
         <form class="d-flex" role="search">
         <input class="form-control me-2" type="search" placeholder="Nombre o Identificación" aria-label="Nombre o Identificación">
         <button class="btn btn-outline-success" type="submit">Buscar</button>
+        <a class=" btn btn-outline-success" type="button"  style="margin-left:10px" href="crud_clientes.php">Crear</a>
       </form>  
       </div>
 </nav>
