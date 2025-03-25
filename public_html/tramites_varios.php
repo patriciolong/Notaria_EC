@@ -160,11 +160,11 @@
                     </div>
                     <div class="fs-field">
                         <label class="fs-label" for="">Valor</label>
-                        <input class="fs-input" type="number" name="valor" id="valor" />
+                        <input class="fs-input" type="number" name="valor" min="0" id="valor" />
                     </div>
                     <div class="fs-field">
                         <label class="fs-label" for="">Abono</label>
-                        <input class="fs-input" type="number" name="abono" id="abono"/>
+                        <input class="fs-input" type="number" name="abono" min="0" id="abono"/>
                     </div>
                     <div class="fs-field">
                         <label class="fs-label" for="">Enviar a Ecuador a nombre de:</label>
