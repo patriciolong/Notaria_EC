@@ -2,9 +2,9 @@
 //seguridad de paginacion 
 session_start();
 error_reporting(0);
-$varsesion =$_SESSION['usuario'];
+$varsesion = $_SESSION['usuario'];
 $variable_ses = $varsesion;
-if ($varsesion==null || $varsesion='') {
+if ($varsesion == null || $varsesion = '') {
     header("location:index.php");
     die;
 }
@@ -16,7 +16,7 @@ if ($varsesion==null || $varsesion='') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tramites Varios</title>
+    <title>Declaración de Impuestos</title>
     <link href="css/styles.css" rel="stylesheet" />
     <link href="css/tram_varis.css" rel="stylesheet" />
     <!-- Bootstrap core JS-->
@@ -43,26 +43,29 @@ if ($varsesion==null || $varsesion='') {
 
     <!-- Responsive navbar-->
     <nav class="navbar navbar-expand-lg" style="background-color: #e2e2e2;">
-            <div class="container px-lg-5">
+        <div class="container px-lg-5">
             <a class="navbar-brand" href="http://localhost/NOTARIA_ECUADOR/public_html/menu.php">
                 <img src="img\logo.png" alt="logo" width="150px">
             </a>
-        <!-- Example single danger button -->
-       <div class="btn-group">
-       <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-        <?php echo $variable_ses;?>
-        </button>
-        <ul class="dropdown-menu">
-        <li><hr class="dropdown-divider"></li>
-       <li><a class="dropdown-item" href="cerrar_sesion.php">Cerrar Sesion</a></li>
-       </ul>
-      </div>
+            <!-- Example single danger button -->
+            <div class="btn-group">
+                <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    <?php echo $variable_ses; ?>
+                </button>
+                <ul class="dropdown-menu">
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item" href="cerrar_sesion.php">Cerrar Sesion</a></li>
+                </ul>
             </div>
-        </nav>
-
-        <div style="widht: 100px; margin:0 auto;text-align: center">
-        <p class="fs-2" >Tramites Varios</p>
         </div>
+    </nav>
+
+    <div style="widht: 100px; margin:0 auto;text-align: center">
+        <p class="fs-2">Declaración de Impuestos</p>
+    </div>
 
     <!-- Barra de busqueda-->
     <nav class="navbar bg-body-tertiary">
@@ -86,8 +89,10 @@ if ($varsesion==null || $varsesion='') {
             ?>
             <fieldset>
                 <div class="fs-field">
-                <input class="fs-input" type="hidden" id="id_usuario" name="id_usuario" placeholder="identificacion" />  
-                <input class="fs-input" type="hidden" id="id_cliente" name="id_cliente" placeholder="identificacion" />
+                    <input class="fs-input" type="hidden" id="id_usuario" name="id_usuario"
+                        placeholder="identificacion" />
+                    <input class="fs-input" type="hidden" id="id_cliente" name="id_cliente"
+                        placeholder="identificacion" />
                     <label class="fs-label" for="">Identificacion</label>
                     <input class="fs-input" id="identificacion" name="identificacion" placeholder="identificacion" />
                     <div class="fs-field">
@@ -108,99 +113,87 @@ if ($varsesion==null || $varsesion='') {
                     </div>
                     <div class="fs-field">
                         <label class="fs-label" for="">Estado</label>
-                        <input class="fs-input" name="estado" id="estado"/>
+                        <input class="fs-input" name="estado" id="estado" />
                     </div>
                     <div class="fs-field">
                         <label class="fs-label" for="">Ciudad</label>
-                        <input class="fs-input" name="ciudad" id="ciudad"/>
+                        <input class="fs-input" name="ciudad" id="ciudad" />
                     </div>
                     <div class="fs-field">
                         <label class="fs-label" for="">Codigo Postal</label>
-                        <input class="fs-input" name="postal" id="postal"/>
+                        <input class="fs-input" name="postal" id="postal" />
                     </div>
                     <div class="fs-field">
                         <label class="fs-label" for="">Email</label>
-                        <input class="fs-input" name="email" id="email"/>
+                        <input class="fs-input" name="email" id="email" />
                     </div>
                     <div class="fs-field">
                         <label class="fs-label" for="">N° Departamento</label>
-                        <input class="fs-input" name="departamento" id="departamento"/>
+                        <input class="fs-input" name="departamento" id="departamento" />
                     </div>
 
 
                 </div>
                 <div class="fs-field">
-                    <label class="fs-label" for="">Tipo de documento</label>
-                    <select class="form-select" name="tipo_doc" id="tipo_doc">
-                        <option>Elegir</option>
-                        <option>Nacimiento</option>
-                        <option>Matrimonio</option>
-                        <option>Defuncion</option>
-                        <option>Divorcio</option>
-                        <option>Academicas</option>
-                        <option>Carta de invitacion</option>
-                        <option>Otros</option>
-                    </select>
                     <div class="fs-field">
-                        <label class="fs-label" for="">Servicios</label>
-                        <div class="form-check">
+                        <label class="fs-label" for="">Fecha</label>
+                        <input class="fs-input" type="date" name="Cambiar" id="Cambiar" />
+                    </div>
+                    <div class="form-check">
                         <input class="form-check-input" type="hidden" id="check1" name="check1" value="0">
-                        <input class="form-check-input" type="hidden" id="check2" name="check2" value="0">
-                        <input class="form-check-input" type="hidden" id="check3" name="check3" value="0">
-                        <input class="form-check-input" type="hidden" id="check4" name="check4" value="0">
-                        <label class="form-check-label">Traducciones</label>
+                        
+                        <label class="form-check-label" style="text-decoration:solid;">Aplicación Itin</label>
                             <input class="form-check-input" type="checkbox" id="check1" name="check1" value="1">
                         </div>
-                        <div class="form-check">
-                        <label class="form-check-label">Notarizacion</label>
-                            <input class="form-check-input" type="checkbox" id="check2" name="check2" value="1">
-                        </div>
-                        <div class="form-check">
-                        <label class="form-check-label">Certificacion</label>
-                            <input class="form-check-input" type="checkbox" id="check3" name="check3" value="1">
-                        </div>
-                        <div class="form-check">
-                        <label class="form-check-label">Apostilla</label>
-                            <input class="form-check-input" type="checkbox" id="check4" name="check4" value="1">
-                        </div>
+                        <div class="fs-field">
+                        <label class="fs-label" for="">Fecha de Ingreso a EEUU</label>
+                        <input class="fs-input" type="date" name="Cambiar" id="Cambiar" />
                     </div>
                     <div class="fs-field">
-                        <label class="fs-label" for="">Para uso en:</label>
-                        <input class="fs-input" id="motivo" name="motivo" />
+                        <label class="fs-label" for="">Numero de Itin o Social</label>
+                        <input class="fs-input" name="Cambiar" id="Cambiar" />
                     </div>
-                    <div class="fs-field">
-                        <label class="fs-label" for="">Opcion de envio</label>
-                        <select class="form-select" name="opc_envio" id="opc_envio">
-                        <option>A su domicilio en EE.UU.</option>
-                        <option>Ofrecemos envios express al Ecuador en 3 dias laborables.</option>
-                        <option>Venirlo a retirar personalmente en la oficina.</option>
+                    <label class="fs-label" for="">Estado Civil</label>
+                    <select class="form-select" name="Cambiar" id="Cambiar">
+                        <option>Elegir</option>
+                        <option>Soltero(A)</option>
+                        <option>Casados Juntos</option>
+                        <option>Cabeza de Familia</option>
+                        <option>Casados Separados</option>
+                        
                     </select>
-                    </div>
-                    <div class="fs-field">
-                        <label class="fs-label" for="">Valor</label>
-                        <input class="fs-input" type="number" name="valor" min="0" id="valor" />
-                    </div>
-                    <div class="fs-field">
-                        <label class="fs-label" for="">Abono</label>
-                        <input class="fs-input" type="number" name="abono" min="0" id="abono"/>
-                    </div>
-                    <div class="fs-field">
-                        <label class="fs-label" for="">Enviar a Ecuador a nombre de:</label>
-                        <input class="fs-input" name="remitente" id="remitente"/>
-                    </div>
-                    <div class="fs-field">
-                        <label class="fs-label" for="">Ciudad del remitente</label>
-                        <input class="fs-input" name="ciudad_r" id="ciudad_r"/>
-                    </div>
-                    <div class="fs-field">
-                        <label class="fs-label" for="">Provincia del remitente</label>
-                        <input class="fs-input" name="provincia_r" id="provincia_r"/>
-                    </div>
-                    <div class="fs-field">
-                        <label class="fs-label" for="">Telefono del remitente</label>
-                        <input class="fs-input" name="telefono_r" id="telefono_r"/>
-                    </div>
 
+                    <div class="fs-field">
+                        <label class="fs-label" for="">Profesion</label>
+                        <input class="fs-input" name="Cambiar" id="Cambiar" />
+                    </div>
+                    <div class="fs-field">
+                        <label class="fs-label" for="">Numero Dependentes</label>
+                        <input class="fs-input" type="number" name="Cambiar" id="Cambiar" />
+                    </div>
+                    <label class="fs-label" for="">Metodo de Pago</label>
+                    <select class="form-select" name="Cambiar" id="Cambiar">
+                        <option>Elegir</option>
+                        <option>W2</option>
+                        <option>1099</option>
+                        <option>CASH</option>  
+                    </select>
+                    <div class="fs-field">
+                        <label class="fs-label" for="">Banco</label>
+                        <input class="fs-input" type="number" name="Cambiar" id="Cambiar" />
+                    </div>
+                    <div class="fs-field">
+                        <label class="fs-label" for="">Numero de Cuenta</label>
+                        <input class="fs-input" type="number" name="Cambiar" id="Cambiar" />
+                    </div>
+                    <div class="fs-field">
+                        <label class="fs-label" for="">Numero de Ruta</label>
+                        <input class="fs-input" type="number" name="Cambiar" id="Cambiar" />
+                    </div>
+                    <div class="fs-field">
+                        <label class="fs-label" for="">Notas</label>
+                        <textarea  style="border-style: solid; border-width: 1px;" name="cambiar" id="cambiar"></textarea>
+                    </div>
 
                 </div>
             </fieldset>
@@ -249,7 +242,7 @@ if ($varsesion==null || $varsesion='') {
                     $("#email").val(valores.email);
                     $("#departamento").val(valores.departamento);
                     $("#id_cliente").val(valores.id_cliente);
-                   
+
                 },
 
 
