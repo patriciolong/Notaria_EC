@@ -31,7 +31,7 @@ if ($varsesion==null || $varsesion='') {
 <!-- Responsive navbar-->
 <nav class="navbar navbar-expand-lg" style="background-color: #e2e2e2;">
             <div class="container px-lg-5">
-            <a class="navbar-brand" href="http://localhost/NotariaEc/Notaria_EC/public_html/menu.php">
+            <a class="navbar-brand" href="http://localhost/NOTARIA_ECUADOR/public_html/menu.php">
                 <img src="img\logo.png" alt="logo" width="150px">
             </a>
         <!-- Example single danger button -->
