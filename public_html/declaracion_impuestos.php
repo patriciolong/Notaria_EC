@@ -85,7 +85,7 @@ if ($varsesion == null || $varsesion = '') {
         <form class="fs-form fs-layout__2-column" method="POST" action="">
             <?php
             include("conexionbd.php");
-            include("prueba_poblacion.php");
+            include("declaracion_impu_controller.php");
             ?>
             <fieldset>
                 <div class="fs-field">
@@ -137,7 +137,7 @@ if ($varsesion == null || $varsesion = '') {
                 <div class="fs-field">
                     <div class="fs-field">
                         <label class="fs-label" for="">Fecha</label>
-                        <input class="fs-input" type="date" name="Cambiar" id="Cambiar" />
+                        <input class="fs-input" type="date" name="fechaim" id="fechaim" />
                     </div>
                     <div class="form-check">
                         <input class="form-check-input" type="hidden" id="check1" name="check1" value="0">
@@ -147,14 +147,14 @@ if ($varsesion == null || $varsesion = '') {
                         </div>
                         <div class="fs-field">
                         <label class="fs-label" for="">Fecha de Ingreso a EEUU</label>
-                        <input class="fs-input" type="date" name="Cambiar" id="Cambiar" />
+                        <input class="fs-input" type="date" name="fechaeeuu" id="fechaeeuu" />
                     </div>
                     <div class="fs-field">
                         <label class="fs-label" for="">Numero de Itin o Social</label>
-                        <input class="fs-input" name="Cambiar" id="Cambiar" />
+                        <input class="fs-input" name="numitin" id="numitin" />
                     </div>
                     <label class="fs-label" for="">Estado Civil</label>
-                    <select class="form-select" name="Cambiar" id="Cambiar">
+                    <select class="form-select" name="estcivil" id="estcivil">
                         <option>Elegir</option>
                         <option>Soltero(A)</option>
                         <option>Casados Juntos</option>
@@ -165,14 +165,14 @@ if ($varsesion == null || $varsesion = '') {
 
                     <div class="fs-field">
                         <label class="fs-label" for="">Profesion</label>
-                        <input class="fs-input" name="Cambiar" id="Cambiar" />
+                        <input class="fs-input" name="profesion" id="profesion" />
                     </div>
                     <div class="fs-field">
                         <label class="fs-label" for="">Numero Dependentes</label>
-                        <input class="fs-input" type="number" name="Cambiar" id="Cambiar" />
+                        <input class="fs-input" type="number" name="dependentes" id="dependentes" />
                     </div>
                     <label class="fs-label" for="">Metodo de Pago</label>
-                    <select class="form-select" name="Cambiar" id="Cambiar">
+                    <select class="form-select" name="metpago" id="metpago">
                         <option>Elegir</option>
                         <option>W2</option>
                         <option>1099</option>
@@ -180,19 +180,19 @@ if ($varsesion == null || $varsesion = '') {
                     </select>
                     <div class="fs-field">
                         <label class="fs-label" for="">Banco</label>
-                        <input class="fs-input" type="number" name="Cambiar" id="Cambiar" />
+                        <input class="fs-input"  name="banco" id="banco" />
                     </div>
                     <div class="fs-field">
                         <label class="fs-label" for="">Numero de Cuenta</label>
-                        <input class="fs-input" type="number" name="Cambiar" id="Cambiar" />
+                        <input class="fs-input" type="number" name="ncuenta" id="ncuenta" />
                     </div>
                     <div class="fs-field">
                         <label class="fs-label" for="">Numero de Ruta</label>
-                        <input class="fs-input" type="number" name="Cambiar" id="Cambiar" />
+                        <input class="fs-input" type="number" name="nruta" id="nruta" />
                     </div>
                     <div class="fs-field">
                         <label class="fs-label" for="">Notas</label>
-                        <textarea  style="border-style: solid; border-width: 1px;" name="cambiar" id="cambiar"></textarea>
+                        <textarea  style="border-style: solid; border-width: 1px;" name="notas" id="notas"></textarea>
                     </div>
 
                 </div>
@@ -200,7 +200,7 @@ if ($varsesion == null || $varsesion = '') {
 
 
             <div class="fs-button-group">
-                <input class="fs-button" type="submit" name="btn_registro_tra">
+                <input class="fs-button" type="submit" name="btn_registro_imp">
             </div>
 
         </form>
@@ -227,7 +227,7 @@ if ($varsesion == null || $varsesion = '') {
             {
                 data: parametros,
                 dataType: 'json',
-                url: 'prueba_poblacion.php',
+                url: 'declaracion_impu_controller.php',
                 type: 'post',
                 error: function () { alert("Error"); },
                 success: function (valores) {
