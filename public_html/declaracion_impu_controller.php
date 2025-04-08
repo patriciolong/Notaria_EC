@@ -50,7 +50,7 @@ if (isset($_POST['buscar'])) {
 
 
 
-if (!empty($_POST["btn_registro_tra"])) {
+if (!empty($_POST["btn_registro_imp"])) {
     if (empty($_POST["identificacion"])) {
         echo 'Esta vacio';
         # code...
@@ -61,18 +61,18 @@ if (!empty($_POST["btn_registro_tra"])) {
 
 
         $id_cliente = $_POST["id_cliente"];
-        $tipo_doc = $_POST["tipo_doc"];
+        $fechaim = $_POST["fechaim"];
         $check1 = $_POST["check1"];
-        $check2 = $_POST["check2"];
-        $check3 = $_POST["check3"];
-        $check4 = $_POST["check4"];
-        $motivo = $_POST["motivo"];
-        $opc_envio = $_POST["opc_envio"];
-        $remitente = $_POST["remitente"];
-        $ciudad_r = $_POST["ciudad_r"];
-        $provincia_r = $_POST["provincia_r"];
-        $telefono_r = $_POST["telefono_r"];
-        $valor = $_POST["valor"];
+        $fechaeeuu = $_POST["fechaeeuu"];
+        $numitin = $_POST["numitin"];
+        $estcivil = $_POST["estcivil"];
+        $profesion = $_POST["profesion"];
+        $dependentes = $_POST["dependentes"];
+        $metpago = $_POST["metpago"];
+        $banco = $_POST["banco"];
+        $ncuenta = $_POST["ncuenta"];
+        $nruta = $_POST["nruta"];
+        $notas = $_POST["notas"];
         $abono = $_POST["abono"];
 
         $sqlabono = "SELECT c_abonado FROM cliente WHERE id_cliente = ?";
@@ -108,18 +108,21 @@ if (!empty($_POST["btn_registro_tra"])) {
 
             echo "<script>alert('El abono no puede ser mayor al valor del tramite');</script>";
         }else{
-            $sql = $conexion->query("INSERT INTO tramites_varios (id_tramite_varios,id_cliente,tv_motivo,tv_oenvio,tv_nrecibo,tv_nom_envio,tv_ciudad,tv_provincia,tv_telefono,id_usuario,tv_tip_documento,tv_traducciones,tv_notarizacion,tv_certificacion,tv_apostilla,tv_valor_tramite) 
-            VALUES ('','$id_cliente','$motivo','$opc_envio','23131','$remitente','$ciudad_r','$provincia_r','$telefono_r','$user_id','$tipo_doc','$check1','$check2','$check3','$check4','$valor')");
-              $sql3 = $conexion->query("UPDATE cliente SET c_abonado='$abonot', c_deuda='$deudt', c_saldo='$sald' WHERE id_cliente='$id_cliente'");
-              if ($sql == 1 and $sql3 == 1 ) {
+            $sql = $conexion->query("INSERT INTO tramite_impuestos (id_tram_impuestos,id_cliente,ti_fecha,ti_itin,ti_fechain,ti_nitin,ti_ecivil,ti_dependientes,ti_mpago,ti_banco,ti_ncuenta,ti_nruta,ti_observacion,id_usuario,ti_profesion) 
+            VALUES ('','$id_cliente','$fechaim','$check1','$fechaeeuu','$numitin','$estcivil','$dependentes','$metpago','$banco','$ncuenta','$nruta','$notas','$user_id','$profesion')");
+             // $sql3 = $conexion->query("UPDATE cliente SET c_abonado='$abonot', c_deuda='$deudt', c_saldo='$sald' WHERE id_cliente='$id_cliente'");
+             //and $sql3 == 1
+              if ($sql == 1  ) {
                   echo '<div class="succes">REGISTRADO TRAMITE </div>';
                   echo '<div class="succes"></div>';
                   header("Refresh:4 ;URL=menu.php");
                   exit;
-                  # code...
+            //      # code...
               } else {
                   echo "Error";
-              }
+                  header("Refresh:4 ;URL=menu.php");
+                  exit;
+             }
         }
 
 
