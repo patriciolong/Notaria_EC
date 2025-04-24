@@ -16,7 +16,7 @@ if ($varsesion == null || $varsesion = '') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Declaración de Impuestos</title>
+    <title>Poderes</title>
     <link href="css/styles.css" rel="stylesheet" />
     <link href="css/tram_varis.css" rel="stylesheet" />
     <!-- Bootstrap core JS-->
@@ -44,7 +44,7 @@ if ($varsesion == null || $varsesion = '') {
     <!-- Responsive navbar-->
     <nav class="navbar navbar-expand-lg" style="background-color: #e2e2e2;">
         <div class="container px-lg-5">
-            <a class="navbar-brand" href="http://localhost/Notaria_EC/public_html/menu.php">
+            <a class="navbar-brand" href="http://localhost/NOTARIA_ECUADOR/public_html/menu.php">
                 <img src="img\logo.png" alt="logo" width="150px">
             </a>
             <!-- Example single danger button -->
@@ -64,7 +64,7 @@ if ($varsesion == null || $varsesion = '') {
     </nav>
 
     <div style="widht: 100px; margin:0 auto;text-align: center">
-        <p class="fs-2">Declaración de Impuestos</p>
+        <p class="fs-2">Poderes</p>
     </div>
 
     <!-- Barra de busqueda-->
