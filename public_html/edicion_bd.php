@@ -30,10 +30,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $nuevo_total = $abono_actual + $nuevo_abono;
             $nuevo_total2 = $deuda_actual - $nuevo_abono;
 
-            if($nuevo_total2 < 0) {
-                echo "El abono no puede ser mayor al saldo pendiente.";
-                exit;
-            
+            if($nuevo_total2 < 0 || $nuevo_abono < 0) {
+                echo "El abono no puede ser mayor al saldo pendiente ni menor que 0.";
+                exit;            
                 
             }
 
