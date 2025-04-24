@@ -19,7 +19,7 @@ if ($varsesion==null || $varsesion='') {
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Heroic Features - Start Bootstrap Template</title>
+        <title>Notaria Ecuador</title>
         <!-- Favicon-->
         <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
         <!-- Bootstrap icons-->
@@ -31,7 +31,7 @@ if ($varsesion==null || $varsesion='') {
         <!-- Responsive navbar-->
         <nav class="navbar navbar-expand-lg" style="background-color: #e2e2e2;">
             <div class="container px-lg-5">
-            <a class="navbar-brand" href="http://localhost/NotariaEc/Notaria_EC/public_html/menu.php">
+            <a class="navbar-brand" href="http://localhost/Notaria_EC/public_html/menu.php">
                 <img src="img\logo.png" alt="logo" width="150px">
             </a>
         <!-- Example single danger button -->
@@ -64,7 +64,7 @@ if ($varsesion==null || $varsesion='') {
                             <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
                                 <a href="clientes.php" type="button"  class="feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4"><i  class="bi bi-person-fill"></i></a>
                                 <h2 class="fs-4 fw-bold">Clientes</h2>
-                                <p class="mb-0">With Bootstrap 5, we've created a fresh new layout for this template!</p>
+                                <p class="mb-0"></p>
                             </div>
                         </div>
                     </div>
@@ -73,7 +73,7 @@ if ($varsesion==null || $varsesion='') {
                             <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
                                 <a href="tramites_varios.php" class="feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4"><i class="bi bi-file-text"></i></a>
                                 <h2 class="fs-4 fw-bold">Tramites Varios</h2>
-                                <p class="mb-0">As always, Start Bootstrap has a powerful collectin of free templates.</p>
+                                <p class="mb-0"></p>
                             </div>
                         </div>
                     </div>
@@ -82,7 +82,7 @@ if ($varsesion==null || $varsesion='') {
                             <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
                             <a href="declaracion_impuestos.php" class="feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4"><i class="bi bi-file-text"></i></a>
                                 <h2 class="fs-4 fw-bold">Declaracion de impuestos</h2>
-                                <p class="mb-0">The heroic part of this template is the jumbotron hero header!</p>
+                                <p class="mb-0"></p>
                             </div>
                         </div>
                     </div>
@@ -91,7 +91,7 @@ if ($varsesion==null || $varsesion='') {
                             <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
                                 <div class="feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4"><i class="bi bi-file-ppt"></i></div>
                                 <h2 class="fs-4 fw-bold">Poderes</h2>
-                                <p class="mb-0">We've created some custom feature boxes using Bootstrap icons!</p>
+                                <p class="mb-0"></p>
                             </div>
                         </div>
                     </div>
@@ -100,7 +100,7 @@ if ($varsesion==null || $varsesion='') {
                             <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
                                 <div class="feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4"><i class="bi bi-file-zip"></i></div>
                                 <h2 class="fs-4 fw-bold">Divorcios</h2>
-                                <p class="mb-0">We keep our dependencies up to date and squash bugs as they come!</p>
+                                <p class="mb-0"></p>
                             </div>
                         </div>
                     </div>
@@ -109,7 +109,7 @@ if ($varsesion==null || $varsesion='') {
                             <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
                                 <div class="feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4"><i class="bi bi-person-circle"></i></div>
                                 <h2 class="fs-4 fw-bold">Opciones de usuario</h2>
-                                <p class="mb-0">Start Bootstrap has been the leader in free Bootstrap templates since 2013!</p>
+                                <p class="mb-0"></p>
                             </div>
                         </div>
                     </div>
