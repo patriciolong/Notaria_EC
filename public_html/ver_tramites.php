@@ -33,9 +33,9 @@
                 "mostrar_columnas" =>  [
                     "tv_motivo" => "Motivo",
                     "tv_oenvio" => "Opcion de Envio",
-                    "tv_valor" => "Valor",
-                    "tv_abono" => "Abono",
-                    "tv_saldo" => "Saldo",
+                    //"tv_valor" => "Valor",
+                    //"tv_abono" => "Abono",
+                    //"tv_saldo" => "Saldo",
                     "tv_nrecibo" => "Recibo",
                     "tv_nom_envio" => "Nombre del envio",
                     "tv_ciudad" => "Ciudad",

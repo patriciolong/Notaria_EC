@@ -85,10 +85,13 @@ if ($varsesion == null || $varsesion = '') {
         <form class="fs-form fs-layout__2-column" method="POST" action="">
             <?php
             include("conexionbd.php");
-            include("declaracion_impu_controller.php");
+            include("poderes_controller.php");
             ?>
             <fieldset>
                 <div class="fs-field">
+                <div class="">
+                        <h3 class="" for="">1. Persona que otorga el poder (Usted):</h3>
+                    </div>
                     <input class="fs-input" type="hidden" id="id_usuario" name="id_usuario"
                         placeholder="identificacion" />
                     <input class="fs-input" type="hidden" id="id_cliente" name="id_cliente"
@@ -130,30 +133,7 @@ if ($varsesion == null || $varsesion = '') {
                     <div class="fs-field">
                         <label class="fs-label" for="">N° Departamento</label>
                         <input class="fs-input" name="departamento" id="departamento" />
-                    </div>
-
-
-                </div>
-                <div class="fs-field">
-                    <div class="fs-field">
-                        <label class="fs-label" for="">Fecha</label>
-                        <input class="fs-input" type="date" name="fechaim" id="fechaim" />
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="hidden" id="check1" name="check1" value="0">
-                        
-                        <label class="form-check-label" style="text-decoration:solid;">Aplicación Itin</label>
-                            <input class="form-check-input" type="checkbox" id="check1" name="check1" value="1">
-                        </div>
-                        <div class="fs-field">
-                        <label class="fs-label" for="">Fecha de Ingreso a EEUU</label>
-                        <input class="fs-input" type="date" name="fechaeeuu" id="fechaeeuu" />
-                    </div>
-                    <div class="fs-field">
-                        <label class="fs-label" for="">Numero de Itin o Social</label>
-                        <input class="fs-input" name="numitin" id="numitin" />
-                    </div>
-                    <label class="fs-label" for="">Estado Civil</label>
+                        <label class="fs-label" for="">Estado Civil</label>
                     <select class="form-select" name="estcivil" id="estcivil">
                         <option>Elegir</option>
                         <option>Soltero(A)</option>
@@ -162,37 +142,89 @@ if ($varsesion == null || $varsesion = '') {
                         <option>Casados Separados</option>
                         
                     </select>
+                    <div class="fs-field">
+                        <label class="fs-label" for="">Fecha</label>
+                        <input class="fs-input" type="date" name="fecha" id="fecha" />
+                    </div>
+                    <div class="fs-field">
+                        <label class="fs-label" for="">Oficina</label>
+                        <input class="fs-input" name="Oficina" id="Oficina" />
+                    </div>
+                    </div>
 
-                    <div class="fs-field">
-                        <label class="fs-label" for="">Profesion</label>
-                        <input class="fs-input" name="profesion" id="profesion" />
+
+                </div>
+                <div class="fs-field">
+                    
+
+                    <div class="">
+                        <h3 class="" for="">2. Persona a Favor de quien se otorga el poder</h3>
                     </div>
                     <div class="fs-field">
-                        <label class="fs-label" for="">Numero Dependentes</label>
-                        <input class="fs-input" type="number" name="dependentes" id="dependentes" />
+                        <label class="fs-label" for="">Nombres y Apellidos Completos</label>
+                        <input class="fs-input" name="nombres_otorga" id="nombres_otorga" />
                     </div>
-                    <label class="fs-label" for="">Metodo de Pago</label>
-                    <select class="form-select" name="metpago" id="metpago">
+                    <div class="fs-field">
+                        <label class="fs-label" for="">Numero de Cedula (Si la sabe)</label>
+                        <input class="fs-input"  name="cedula_otorga" id="cedula_otorga" />
+                    </div>
+                    <div class="">
+                        <h3 class="" for="">3. Razon del poder</h3>
+                    </div>
+                    <select class="form-select" name="razon_poder" id="razon_poder">
                         <option>Elegir</option>
-                        <option>W2</option>
-                        <option>1099</option>
-                        <option>CASH</option>  
+                        <option>Especial ($160)</option>
+                        <option>General ($170)</option>
+                        <option>Minuta ($160/$90 c/u)</option>  
                     </select>
-                    <div class="fs-field">
-                        <label class="fs-label" for="">Banco</label>
-                        <input class="fs-input"  name="banco" id="banco" />
+                    <div class="">
+                        <h3 class="" for="">4. Usted prefiere que el poder se le envie:</h3>
                     </div>
                     <div class="fs-field">
-                        <label class="fs-label" for="">Numero de Cuenta</label>
-                        <input class="fs-input" type="number" name="ncuenta" id="ncuenta" />
+                        <div class="form-check">
+                        <input class="form-check-input" type="hidden" id="check1" name="check1" value="0">
+                        <input class="form-check-input" type="hidden" id="check2" name="check2" value="0">
+                        <input class="form-check-input" type="hidden" id="check3" name="check3" value="0">
+                        <input class="form-check-input" type="hidden" id="check4" name="check4" value="0">
+                        <label class="form-check-label">Scan a un email o Whatsapp ($10)</label>
+                            <input class="form-check-input" type="checkbox" id="check1" name="check1" value="1">
+                        </div>
+                        <div class="form-check">
+                        <label class="form-check-label">A su domicilio en EE.UU. ($20)</label>
+                            <input class="form-check-input" type="checkbox" id="check2" name="check2" value="1">
+                        </div>
+                        <div class="form-check">
+                        <label class="form-check-label">Venirlo a retirar personalmente en la oficina:</label>
+                            <input class="form-check-input" type="checkbox" id="check3" name="check3" value="1">
+                        </div>
+                        <div class="form-check">
+                        <label class="form-check-label">Original al Ecuador Via Expres 3 dias laborables ($45)</label>
+                            <input class="form-check-input" type="checkbox" id="check4" name="check4" value="1">
+                        </div>
                     </div>
                     <div class="fs-field">
-                        <label class="fs-label" for="">Numero de Ruta</label>
-                        <input class="fs-input" type="number" name="nruta" id="nruta" />
+                        <label class="fs-label" for="">Valor</label>
+                        <input class="fs-input" type="number" name="valor" min="0" id="valor" />
                     </div>
                     <div class="fs-field">
-                        <label class="fs-label" for="">Notas</label>
-                        <textarea  style="border-style: solid; border-width: 1px;" name="notas" id="notas"></textarea>
+                        <label class="fs-label" for="">Abono</label>
+                        <input class="fs-input" type="number" name="abono" min="0" id="abono"/>
+                    </div>
+                    <div class="fs-field">
+                        <label class="fs-label" for="">Enviar a Ecuador a nombre de:</label>
+                        <input class="fs-input" name="remitente" id="remitente"/>
+                    </div>
+                    <div class="fs-field">
+                        <label class="fs-label" for="">Ciudad del remitente</label>
+                        <input class="fs-input" name="ciudad_r" id="ciudad_r"/>
+                    </div>
+                    <div class="fs-field">
+                        <label class="fs-label" for="">Provincia del remitente</label>
+                        <input class="fs-input" name="provincia_r" id="provincia_r"/>
+                    </div>
+                    <div class="fs-field">
+                        <label class="fs-label" for="">Telefono del remitente</label>
+                        <input class="fs-input" name="telefono_r" id="telefono_r"/>
                     </div>
 
                 </div>
