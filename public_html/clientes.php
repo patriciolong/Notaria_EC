@@ -31,7 +31,7 @@ if ($varsesion==null || $varsesion='') {
 <!-- Responsive navbar-->
 <nav class="navbar navbar-expand-lg" style="background-color: #e2e2e2;">
             <div class="container px-lg-5">
-            <a class="navbar-brand" href="http://localhost/NOTARIA_ECUADOR/public_html/menu.php">
+            <a class="navbar-brand" href="http://localhost/Notaria_EC/public_html/menu.php">
                 <img src="img\logo.png" alt="logo" width="150px">
             </a>
         <!-- Example single danger button -->
@@ -287,22 +287,17 @@ if ($varsesion==null || $varsesion='') {
         
           if ($resultado){
               while($row = $resultado->fetch_array()){
-                  $deuda = $row['c_deuda'];            
+                //$cliente = $row['id_cliente'];  
+                $deuda = $row['c_deuda'];            
                   ?>
-                          <div style="padding:10px" class="dropdown">
-                              <div class="btn-group">
-                                  <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                      Tramites
-                                  </button>
-                                  <ul class="dropdown-menu">              
-                                      <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Tramites Varios</a></li>
-                                      <li><a class="dropdown-item" >Declaracion de impuestos</a></li>
-                                      <li><a class="dropdown-item" href="#">Poderes</a></li>
-                                      <li><a class="dropdown-item" href="#">Divorcios</a></li>
-                                      
-                                  </ul>
-                                  </div>
-                              </div>
+                        <div style="padding:10px" class="dropdown">
+                            <div class="btn-group">
+                                <a href="ver_tramites.php?id_cliente=<?= $row['id_cliente'] ?>" target="_blank" class="btn btn-secondary btn-sm">
+                                    Trámites
+                                </a>
+                                  
+                            </div>
+                        </div>
                   <?php
               } 
           }    

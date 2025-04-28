@@ -61,19 +61,24 @@ if (!empty($_POST["btn_registro_imp"])) {
 
 
         $id_cliente = $_POST["id_cliente"];
-        $fechaim = $_POST["fechaim"];
-        $check1 = $_POST["check1"];
-        $fechaeeuu = $_POST["fechaeeuu"];
-        $numitin = $_POST["numitin"];
+        $fecha = $_POST["fecha"];
+        $Oficina = $_POST["Oficina"];
+        $nombres_otorga = $_POST["nombres_otorga"];
+        $cedula_otorga = $_POST["cedula_otorga"];
         $estcivil = $_POST["estcivil"];
-        $profesion = $_POST["profesion"];
-        $dependentes = $_POST["dependentes"];
-        $metpago = $_POST["metpago"];
-        $banco = $_POST["banco"];
-        $ncuenta = $_POST["ncuenta"];
-        $nruta = $_POST["nruta"];
-        $notas = $_POST["notas"];
+        $razon_poder = $_POST["razon_poder"];
+        $check1 = $_POST["check1"];
+        $check2 = $_POST["check2"];
+        $check3 = $_POST["check3"];
+        $check4 = $_POST["check4"];
+        $valor = $_POST["valor"];
         $abono = $_POST["abono"];
+        $remitente = $_POST["remitente"];
+        $ciudad_r = $_POST["ciudad_r"];
+        $provincia_r = $_POST["provincia_r"];
+        $telefono_r = $_POST["telefono_r"];
+
+
 
         $sqlabono = "SELECT c_abonado FROM cliente WHERE id_cliente = ?";
         $stmt = $conexion->prepare($sqlabono);
@@ -108,12 +113,12 @@ if (!empty($_POST["btn_registro_imp"])) {
 
             echo "<script>alert('El abono no puede ser mayor al valor del tramite');</script>";
         }else{
-            $sql = $conexion->query("INSERT INTO tramite_impuestos (id_tram_impuestos,id_cliente,ti_fecha,ti_itin,ti_fechain,ti_nitin,ti_ecivil,ti_dependientes,ti_mpago,ti_banco,ti_ncuenta,ti_nruta,ti_observacion,id_usuario,ti_profesion) 
-            VALUES ('','$id_cliente','$fechaim','$check1','$fechaeeuu','$numitin','$estcivil','$dependentes','$metpago','$banco','$ncuenta','$nruta','$notas','$user_id','$profesion')");
+            $sql = $conexion->query("INSERT INTO tramite_poderes (id_tram_poderes,id_cliente,tp_oficina,tp_fecha,tp_estado_civil,tp_nombres_otorga_poder,tp_cedulla_otorga_poder,tp_razon_otorga_poder,tp_opcion_envio_poder,tp_enviar_nombrede,tp_ciudad_enviar,tp_telefonos_enviar,id_usuario) 
+            VALUES ('','$id_cliente','$Oficina','$fecha','$estcivil','$nombres_otorga','$cedula_otorga','$razon_poder','$banco','$remitente','$ciudad_r','$telefono_r','$user_id')");
              // $sql3 = $conexion->query("UPDATE cliente SET c_abonado='$abonot', c_deuda='$deudt', c_saldo='$sald' WHERE id_cliente='$id_cliente'");
              //and $sql3 == 1
               if ($sql == 1  ) {
-                  echo '<div class="succes">REGISTRADO TRAMITE </div>';
+                  echo '<div class="succes">REGISTRADO Poder </div>';
                   echo '<div class="succes"></div>';
                   header("Refresh:4 ;URL=menu.php");
                   exit;
