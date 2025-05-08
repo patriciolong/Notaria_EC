@@ -1,318 +1,112 @@
 <?php
-//seguridad de paginacion 
+// Seguridad de sesión
 session_start();
 error_reporting(0);
-$varsesion =$_SESSION['usuario'];
-$variable_ses = $varsesion;
-if ($varsesion==null || $varsesion='') {
+$varsesion = $_SESSION['usuario'];
+if ($varsesion == null || $varsesion == '') {
     header("location:index.php");
     die;
 }
 
+include("conexionbd.php");
+include("modales.php");
+
+// Búsqueda
+$busqueda = "";
+if (isset($_GET['buscar'])) {
+    $busqueda = mysqli_real_escape_string($conexion, $_GET['buscar']);
+    $consulta = "SELECT * FROM cliente WHERE c_nombre LIKE '%$busqueda%' OR c_apellido LIKE '%$busqueda%' OR c_identificacion LIKE '%$busqueda%' OR c_telefono LIKE '%$busqueda%'";
+} else {
+    $consulta = "SELECT * FROM cliente";
+}
+$resultado = mysqli_query($conexion, $consulta);
 ?>
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Clientes</title>
     <link href="css/styles.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
 </head>
 <body>
 
-
-
-<?php
-
-    include("conexionbd.php");
-    include("modales.php");
-?>
-
-<!-- Responsive navbar-->
 <nav class="navbar navbar-expand-lg" style="background-color: #e2e2e2;">
-            <div class="container px-lg-5">
-            <a class="navbar-brand" href="http://localhost/Notaria_EC/public_html/menu.php">
-                <img src="img\logo.png" alt="logo" width="150px">
-            </a>
-        <!-- Example single danger button -->
-       <div class="btn-group">
-       <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-        <?php echo $variable_ses;?>
-        </button>
-        <ul class="dropdown-menu">
-        <li><hr class="dropdown-divider"></li>
-       <li><a class="dropdown-item" href="cerrar_sesion.php">Cerrar Sesion</a></li>
-       </ul>
-      </div>
-            </div>
-        </nav>
-
-        <div style="widht: 100px; margin:0 auto;text-align: center">
-        <p class="fs-2" >Clientes</p>
+    <div class="container px-lg-5">
+        <a class="navbar-brand" href="menu.php">
+            <img src="img/logo.png" alt="logo" width="150px">
+        </a>
+        <div class="btn-group">
+            <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown">
+                <?php echo $varsesion; ?>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="cerrar_sesion.php">Cerrar Sesión</a></li>
+            </ul>
         </div>
-
-        <!-- Barra de busqueda-->
-<nav class="navbar bg-body-tertiary">
-  <div class="container-fluid">
-        <form class="d-flex" role="search">
-        <input class="form-control me-2" type="search" placeholder="Nombre o Identificación" aria-label="Nombre o Identificación">
-        <button class="btn btn-outline-success" type="submit">Buscar</button>
-        <a class=" btn btn-outline-success" type="button"  style="margin-left:10px" href="crud_clientes.php">Crear</a>
-      </form>  
-      </div>
+    </div>
 </nav>
 
-<div class="container text-center">
-  <div class="row">
-    <div class="col"><h5>Identificación </h5></div>
-    <div class="col"><h5>Nombres<h5></div>
-    <div class="col"><h5>Apellidos<h5></div>
-    <div class="col"><h5>Teléfono<h5></div>    
-    <div class="col"><h5>Deuda total<h5></div>
-    <div class="col"><h5>Abonado<h5></div>
-    <div class="col"><h5>Saldo Pendiente<h5></div>
-    <div class="col"><h5>Acciones<h5></div>
-    <div class="col"><h5>Tramites<h5></div>
-  </div>
-  <div class="row">
+<div class="container mt-4">
+    <h2 class="text-center">Clientes</h2>
 
-  <div class="col"> 
-    
-    <?php
-    $inc = include("conexionbd.php");
-    if ($inc) {
-        $consulta = "SELECT * FROM cliente";
-        $resultado = mysqli_query($conexion,$consulta);
-       
-        if ($resultado){
-            while($row = $resultado->fetch_array()){
-                $id = $row['c_identificacion'];            
-                ?>
-                        <div style="padding:13.5px">
+    <form class="row g-3 mb-3" method="get" action="">
+        <div class="col-auto">
+            <input class="form-control" type="search" name="buscar" value="<?php echo htmlspecialchars($busqueda); ?>" placeholder="Nombre, Apellido, Identificación o Teléfono">
+        </div>
+        <div class="col-auto">
+            <button class="btn btn-outline-success" type="submit">Buscar</button>
+            <a href="crud_clientes.php" class="btn btn-outline-primary">Crear</a>
+        </div>
+    </form>
 
-                             <?php 
-                             echo $id;                              
-                             ?>                            
-
-                        </div>
-                <?php
-            } 
-        }    
-    }
-    ?>
-    
-    </div>
-    <div class="col">
-    
-    <?php
-    $inc = include("conexionbd.php");
-    if ($inc) {
-        $consulta = "SELECT * FROM cliente";
-        $resultado = mysqli_query($conexion,$consulta);
-       
-        if ($resultado){
-            while($row = $resultado->fetch_array()){
-                $nombre = $row['c_nombre'];            
-                ?>
-                        <div style="padding:13.5px">
-                             <?php echo $nombre; ?>                            
-                        </div>
-                <?php
-            } 
-        }    
-    }
-    ?>
-    
-    </div>
-    <div class="col">
-    
-    <?php
-    $inc = include("conexionbd.php");
-    if ($inc) {
-        $consulta = "SELECT * FROM cliente";
-        $resultado = mysqli_query($conexion,$consulta);
-       
-        if ($resultado){
-            while($row = $resultado->fetch_array()){
-                $apellido = $row['c_apellido'];            
-                ?>
-                        <div style="padding:13.5px">
-                             <?php echo $apellido; ?>                            
-                        </div>
-                <?php
-            } 
-        }    
-    }
-    ?>
-    
-    </div>
-    <div class="col">
-        
-    <?php
-    $inc = include("conexionbd.php");
-    if ($inc) {
-        $consulta = "SELECT * FROM cliente";
-        $resultado = mysqli_query($conexion,$consulta);
-       
-        if ($resultado){
-            while($row = $resultado->fetch_array()){
-                $telefono = $row['c_telefono'];            
-                ?>
-                        <div style="padding:13.5px">
-                             <?php echo $telefono; ?>                            
-                        </div>
-                <?php
-            } 
-        }    
-    }
-    ?>
-    
-    </div>
-
-    <div class="col">
-    
-    <?php
-    $inc = include("conexionbd.php");
-    if ($inc) {
-        $consulta = "SELECT * FROM cliente";
-        $resultado = mysqli_query($conexion,$consulta);
-       
-        if ($resultado){
-            while($row = $resultado->fetch_array()){
-                $deuda = $row['c_deuda'];            
-                ?>
-                        <div style="padding:13.5px">
-                             <?php echo $deuda; ?>                            
-                        </div>
-                <?php
-            } 
-        }    
-    }
-    ?>
-    </div>
-
-    <div class="col">
-    
-    <?php
-    $inc = include("conexionbd.php");
-    if ($inc) {
-        $consulta = "SELECT * FROM cliente";
-        $resultado = mysqli_query($conexion,$consulta);
-       
-        if ($resultado){
-            while($row = $resultado->fetch_array()){
-                $abonado = $row['c_abonado'];            
-                ?>
-                        <div style="padding:13.5px">
-                             <?php echo $abonado; ?>                            
-                        </div>
-                <?php
-            } 
-        }    
-    }
-    ?>
-    
-    </div>
-    <div class="col">
-    
-    <?php
-    $inc = include("conexionbd.php");
-    if ($inc) {
-        $consulta = "SELECT * FROM cliente";
-        $resultado = mysqli_query($conexion,$consulta);
-       
-        if ($resultado){
-            while($row = $resultado->fetch_array()){
-
-                /*$abonado = $row['c_abonado']; 
-                $deuda = $row['c_deuda']; 
-                $saldo = $deuda - $abonado;*/
-                $saldo = $row['c_saldo'];      
-                  
-                ?>
-                        <div style="padding:13.5px">
-                             <?php echo $saldo;?>      
-
-                        </div>
-                <?php
-            } 
-        }    
-    }
-    ?>
-    
-    </div>
-
-    <div class="col">
-    <?php
-      $inc = include("conexionbd.php");
-      if ($inc) {
-          $consulta = "SELECT * FROM cliente";
-          $resultado = mysqli_query($conexion,$consulta);
-        
-          if ($resultado){
-              while($row = $resultado->fetch_array()){
-                    $idcli = $row['id_cliente'];               
-                  ?>
-                          <div style="padding:10px" class="dropdown">
-                              <div class="btn-group">
-                                  <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                      Acciones
-                                  </button>
-                                  <ul class="dropdown-menu">              
-
-                                      <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalabonar" 
-                                      data-clienteid="<?php echo $idcli;?>" data-abonado="0" data-deuda="0"
-                                      
-                                      >Abonar a deuda</a></li>
-
-                                      <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalcancelardeuda">Cancelar deuda</a></li>                
-                                  </ul>
-                                  </div>
-                          </div>
-                  <?php
-              } 
-          }    
-      }
-    ?>
-
-        
-    </div>
-
-    <div class="col">
-    <?php
-      $inc = include("conexionbd.php");
-      if ($inc) {
-          $consulta = "SELECT * FROM cliente";
-          $resultado = mysqli_query($conexion,$consulta);
-        
-          if ($resultado){
-              while($row = $resultado->fetch_array()){
-                //$cliente = $row['id_cliente'];  
-                $deuda = $row['c_deuda'];            
-                  ?>
-                        <div style="padding:10px" class="dropdown">
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>Identificación</th>
+                    <th>Nombres</th>
+                    <th>Apellidos</th>
+                    <th>Teléfono</th>
+                    <th>Deuda Total</th>
+                    <th>Abonado</th>
+                    <th>Saldo Pendiente</th>
+                    <th>Acciones</th>
+                    <th>Trámites</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php while ($row = mysqli_fetch_assoc($resultado)): ?>
+                    <tr>
+                        <td><?= htmlspecialchars($row['c_identificacion']) ?></td>
+                        <td><?= htmlspecialchars($row['c_nombre']) ?></td>
+                        <td><?= htmlspecialchars($row['c_apellido']) ?></td>
+                        <td><?= htmlspecialchars($row['c_telefono']) ?></td>
+                        <td><?= htmlspecialchars($row['c_deuda']) ?></td>
+                        <td><?= htmlspecialchars($row['c_abonado']) ?></td>
+                        <td><?= htmlspecialchars($row['c_saldo']) ?></td>
+                        <td>
                             <div class="btn-group">
-                                <a href="ver_tramites.php?id_cliente=<?= $row['id_cliente'] ?>" target="_blank" class="btn btn-secondary btn-sm">
-                                    Trámites
-                                </a>
-                                  
+                                <button class="btn btn-secondary btn-sm dropdown-toggle" data-bs-toggle="dropdown">Acciones</button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalabonar" data-clienteid="<?= $row['id_cliente'] ?>" data-abonado="<?= $row['c_abonado'] ?>" data-deuda="<?= $row['c_deuda'] ?>">Abonar a deuda</a></li>
+                                    <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalcancelardeuda">Cancelar deuda</a></li>
+                                </ul>
                             </div>
-                        </div>
-                  <?php
-              } 
-          }    
-      }
-      ?>
-  </div>
+                        </td>
+                        <td>
+                            <a href="ver_tramites.php?id_cliente=<?= $row['id_cliente'] ?>" target="_blank" class="btn btn-secondary btn-sm">Trámites</a>
+                        </td>
+                    </tr>
+                <?php endwhile; ?>
+            </tbody>
+        </table>
+    </div>
 </div>
 
-
-
-      <!-- Bootstrap core JS-->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-        <!-- Core theme JS-->
-        <script src="js/scripts.js"></script>
-
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/scripts.js"></script>
 </body>
 </html>
