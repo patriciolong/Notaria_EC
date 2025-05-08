@@ -112,7 +112,7 @@ if (!empty($_POST["btn_registro_tra"])) {
             VALUES ('','$id_cliente','$motivo','$opc_envio','23131','$remitente','$ciudad_r','$provincia_r','$telefono_r','$user_id','$tipo_doc','$check1','$check2','$check3','$check4','$valor')");
               $sql3 = $conexion->query("UPDATE cliente SET c_abonado='$abonot', c_deuda='$deudt', c_saldo='$sald' WHERE id_cliente='$id_cliente'");
               if ($sql == 1 and $sql3 == 1 ) {
-                  echo '<div class="succes">REGISTRADO TRAMITE </div>';
+                  echo '<div class="succes">REGISTRADO TRAMITE VARIO</div>';
                   echo '<div class="succes"></div>';
                   header("Refresh:4 ;URL=menu.php");
                   exit;

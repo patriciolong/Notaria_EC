@@ -8,6 +8,7 @@ if (!empty($_POST["btningresar"])) {
         $clave=$_POST["password"];
         session_start();
         $_SESSION['usuario']=$usuario;
+        date_default_timezone_set('America/Bogota');
         $fechaHora = date('Y-m-d H:i:s');
 
 
