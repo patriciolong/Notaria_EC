@@ -36,6 +36,7 @@ if ($varsesion == null || $varsesion = '') {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -82,7 +83,7 @@ if ($varsesion == null || $varsesion = '') {
 
     </div>
     <div class="container">
-        <form class="fs-form fs-layout__2-column" method="POST" action="">
+        <form class="fs-form fs-layout__2-column" method="POST" action="" id="formPoderes">
             <?php
             include("conexionbd.php");
             include("poderes_controller.php");
@@ -242,6 +243,47 @@ if ($varsesion == null || $varsesion = '') {
 
 
 
+
+
+<script>
+document.getElementById('formPoderes').addEventListener('submit', function(e) {
+    e.preventDefault(); // Evita recarga
+    console.log('Formulario enviado'); // para debug
+    const form = e.target;
+    const formData = new FormData(form);
+
+    fetch('poderes_controller.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(res => res.text())
+    .then(response => {
+        if (response.toLowerCase().includes("correctamente")) {
+            Swal.fire({
+                icon: 'success',
+                title: '¡Éxito!',
+                text: response,
+                timer: 3000,
+                showConfirmButton: false
+            });
+            form.reset(); // Limpia el formulario
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: response
+            });
+        }
+    })
+    .catch(error => {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error de red',
+            text: 'No se pudo enviar el formulario. Intenta más tarde.'
+        });
+    });
+});
+</script>
 
 </body>
 
