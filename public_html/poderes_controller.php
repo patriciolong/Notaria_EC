@@ -111,23 +111,18 @@ if (!empty($_POST["btn_registro_imp"])) {
 
         if ($abono > $valor) {
 
-            echo "<script>alert('El abono no puede ser mayor al valor del tramite');</script>";
+            echo "El abono no puede ser mayor al valor del trámite";
+    exit; // para cortar ejecución
         }else{
             $sql = $conexion->query("INSERT INTO tramite_poderes (id_tram_poderes,id_cliente,tp_oficina,tp_fecha,tp_estado_civil,tp_nombres_otorga_poder,tp_cedulla_otorga_poder,tp_razon_otorga_poder,tp_opcion_envio_poder,tp_enviar_nombrede,tp_ciudad_enviar,tp_telefonos_enviar,id_usuario) 
             VALUES ('','$id_cliente','$Oficina','$fecha','$estcivil','$nombres_otorga','$cedula_otorga','$razon_poder','$banco','$remitente','$ciudad_r','$telefono_r','$user_id')");
              // $sql3 = $conexion->query("UPDATE cliente SET c_abonado='$abonot', c_deuda='$deudt', c_saldo='$sald' WHERE id_cliente='$id_cliente'");
              //and $sql3 == 1
-              if ($sql == 1  ) {
-                  echo '<div class="succes">REGISTRADO Poder </div>';
-                  echo '<div class="succes"></div>';
-                  header("Refresh:4 ;URL=menu.php");
-                  exit;
-            //      # code...
-              } else {
-                  echo "Error";
-                  header("Refresh:4 ;URL=menu.php");
-                  exit;
-             }
+             if ($sql) {
+                echo "Registro insertado correctamente";
+            } else {
+                echo "Error en la consulta: " . $conexion->error;
+            }
         }
 
 
