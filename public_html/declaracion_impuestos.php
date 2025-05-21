@@ -35,6 +35,7 @@ if ($varsesion == null || $varsesion = '') {
         crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 </head>
 
@@ -82,7 +83,7 @@ if ($varsesion == null || $varsesion = '') {
 
     </div>
     <div class="container">
-        <form class="fs-form fs-layout__2-column" method="POST" action="">
+        <form class="fs-form fs-layout__2-column" method="POST" action="" id="formPoderes">
             <?php
             include("conexionbd.php");
             include("declaracion_impu_controller.php");
@@ -205,11 +206,77 @@ if ($varsesion == null || $varsesion = '') {
 
         </form>
 
+        <div id="printButtonContainer" style="display: none; text-align: center; margin-top: 20px;">
+            <button class="btn btn-primary" id="printRecordBtn">Imprimir Registro</button>
+        </div>
+
 
     </div>
 
 
+    <script>
+document.getElementById('formPoderes').addEventListener('submit', function (e) {
+    e.preventDefault();
 
+    const formData = new FormData(this);
+    formData.append("btn_registro_imp", "1");
+
+    fetch('declaracion_impu_controller.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(res => res.json()) // <--- CAMBIO CLAVE: Esperar JSON
+    .then(data => { // <--- CAMBIO CLAVE: 'data' en lugar de 'response'
+        console.log('Respuesta del servidor:', data);
+        if (data.status === "success") { // <--- Verificar el 'status' del JSON
+            Swal.fire({
+                icon: 'success',
+                title: '¡Éxito!',
+                text: data.message, // <--- Usar data.message
+                timer: 3000,
+                showConfirmButton: false
+            });
+            this.reset();
+            // Mostrar el contenedor del botón de imprimir
+            document.getElementById('printButtonContainer').style.display = 'block';
+            // Adjuntar el ID del nuevo registro al botón de imprimir
+            document.getElementById('printRecordBtn').setAttribute('data-record-id', data.id); // <--- Guardar el ID
+
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: data.message // <--- Usar data.message
+            });
+            document.getElementById('printButtonContainer').style.display = 'none'; // Ocultar si hay error
+        }
+    })
+    .catch(error => {
+        console.error('Error en la solicitud:', error);
+        Swal.fire({
+            icon: 'error',
+            title: 'Error de red',
+            text: 'No se pudo enviar el formulario. Intenta más tarde.'
+        });
+        document.getElementById('printButtonContainer').style.display = 'none'; // Ocultar si hay error
+    });
+});
+
+// Event listener para el botón de imprimir
+document.getElementById('printRecordBtn').addEventListener('click', function() {
+    const recordId = this.getAttribute('data-record-id'); // Obtener el ID que guardamos
+    if (recordId) {
+        // Abrir la nueva página de impresión en una nueva pestaña
+        window.open('imprimir_declaracion_impuestos.php?id=' + recordId, '_blank');
+    } else {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Atención',
+            text: 'No se pudo obtener el ID del registro para imprimir. Por favor, intente guardar de nuevo.'
+        });
+    }
+});
+</script>
 
 </body>
 

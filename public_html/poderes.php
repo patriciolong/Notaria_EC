@@ -19,9 +19,7 @@ if ($varsesion == null || $varsesion = '') {
     <title>Poderes</title>
     <link href="css/styles.css" rel="stylesheet" />
     <link href="css/tram_varis.css" rel="stylesheet" />
-    <!-- Bootstrap core JS-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Core theme JS-->
     <script src="js/scripts.js"></script>
     <script src="js/scripts.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
@@ -42,13 +40,11 @@ if ($varsesion == null || $varsesion = '') {
 <body>
 
 
-    <!-- Responsive navbar-->
     <nav class="navbar navbar-expand-lg" style="background-color: #e2e2e2;">
         <div class="container px-lg-5">
-            <a class="navbar-brand" href="http://localhost/NOTARIA_ECUADOR/public_html/menu.php">
+            <a class="navbar-brand" href="http://localhost/NotariaEc/Notaria_EC/public_html/menu.php">
                 <img src="img\logo.png" alt="logo" width="150px">
             </a>
-            <!-- Example single danger button -->
             <div class="btn-group">
                 <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown"
                     aria-expanded="false">
@@ -68,7 +64,6 @@ if ($varsesion == null || $varsesion = '') {
         <p class="fs-2">Poderes</p>
     </div>
 
-    <!-- Barra de busqueda-->
     <nav class="navbar bg-body-tertiary">
         <div class="container-fluid">
             <form class="d-flex" role="search">
@@ -181,28 +176,13 @@ if ($varsesion == null || $varsesion = '') {
                     <div class="">
                         <h3 class="" for="">4. Usted prefiere que el poder se le envie:</h3>
                     </div>
-                    <div class="fs-field">
-                        <div class="form-check">
-                        <input class="form-check-input" type="hidden" id="check1" name="check1" value="0">
-                        <input class="form-check-input" type="hidden" id="check2" name="check2" value="0">
-                        <input class="form-check-input" type="hidden" id="check3" name="check3" value="0">
-                        <input class="form-check-input" type="hidden" id="check4" name="check4" value="0">
-                        <label class="form-check-label">Scan a un email o Whatsapp ($10)</label>
-                            <input class="form-check-input" type="checkbox" id="check1" name="check1" value="1">
-                        </div>
-                        <div class="form-check">
-                        <label class="form-check-label">A su domicilio en EE.UU. ($20)</label>
-                            <input class="form-check-input" type="checkbox" id="check2" name="check2" value="1">
-                        </div>
-                        <div class="form-check">
-                        <label class="form-check-label">Venirlo a retirar personalmente en la oficina:</label>
-                            <input class="form-check-input" type="checkbox" id="check3" name="check3" value="1">
-                        </div>
-                        <div class="form-check">
-                        <label class="form-check-label">Original al Ecuador Via Expres 3 dias laborables ($45)</label>
-                            <input class="form-check-input" type="checkbox" id="check4" name="check4" value="1">
-                        </div>
-                    </div>
+                    <select class="form-select" name="opcion_envio_poder" id="opcion_envio_poder">
+                        <option>Elegir</option>
+                        <option>Scan a un email o Whatsapp ($10)</option>
+                        <option>A su domicilio en EE.UU. ($20)</option>
+                        <option>Venirlo a retirar personalmente en la oficina:</option>  
+                        <option>Original al Ecuador Via Expres 3 dias laborables ($45)</option>  
+                    </select>
                     <div class="fs-field">
                         <label class="fs-label" for="">Valor</label>
                         <input class="fs-input" type="number" name="valor" min="0" id="valor" />
@@ -238,6 +218,10 @@ if ($varsesion == null || $varsesion = '') {
 
         </form>
 
+        <div id="printButtonContainer" style="display: none; text-align: center; margin-top: 20px;">
+            <button class="btn btn-primary" id="printRecordBtn">Imprimir Registro</button>
+        </div>
+
 
     </div>
 
@@ -245,45 +229,70 @@ if ($varsesion == null || $varsesion = '') {
 
 
 
-<script>
-document.getElementById('formPoderes').addEventListener('submit', function(e) {
-    e.preventDefault(); // Evita recarga
-    console.log('Formulario enviado'); // para debug
-    const form = e.target;
-    const formData = new FormData(form);
+    <script>
+document.getElementById('formPoderes').addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const formData = new FormData(this);
+    formData.append("btn_registro_imp", "1");
 
     fetch('poderes_controller.php', {
         method: 'POST',
         body: formData
     })
-    .then(res => res.text())
-    .then(response => {
-        if (response.toLowerCase().includes("correctamente")) {
+    .then(res => res.json()) // <--- CAMBIO CLAVE: Esperar JSON
+    .then(data => { // <--- CAMBIO CLAVE: 'data' en lugar de 'response'
+        console.log('Respuesta del servidor:', data);
+        if (data.status === "success") { // <--- Verificar el 'status' del JSON
             Swal.fire({
                 icon: 'success',
                 title: '¡Éxito!',
-                text: response,
+                text: data.message, // <--- Usar data.message
                 timer: 3000,
                 showConfirmButton: false
             });
-            form.reset(); // Limpia el formulario
+            this.reset();
+            // Mostrar el contenedor del botón de imprimir
+            document.getElementById('printButtonContainer').style.display = 'block';
+            // Adjuntar el ID del nuevo registro al botón de imprimir
+            document.getElementById('printRecordBtn').setAttribute('data-record-id', data.id); // <--- Guardar el ID
+
         } else {
             Swal.fire({
                 icon: 'error',
                 title: 'Error',
-                text: response
+                text: data.message // <--- Usar data.message
             });
+            document.getElementById('printButtonContainer').style.display = 'none'; // Ocultar si hay error
         }
     })
     .catch(error => {
+        console.error('Error en la solicitud:', error);
         Swal.fire({
             icon: 'error',
             title: 'Error de red',
             text: 'No se pudo enviar el formulario. Intenta más tarde.'
         });
+        document.getElementById('printButtonContainer').style.display = 'none'; // Ocultar si hay error
     });
 });
+
+// Event listener para el botón de imprimir
+document.getElementById('printRecordBtn').addEventListener('click', function() {
+    const recordId = this.getAttribute('data-record-id'); // Obtener el ID que guardamos
+    if (recordId) {
+        // Abrir la nueva página de impresión en una nueva pestaña
+        window.open('imprimir_poder.php?id=' + recordId, '_blank');
+    } else {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Atención',
+            text: 'No se pudo obtener el ID del registro para imprimir. Por favor, intente guardar de nuevo.'
+        });
+    }
+});
 </script>
+
 
 </body>
 
@@ -301,7 +310,7 @@ document.getElementById('formPoderes').addEventListener('submit', function(e) {
             {
                 data: parametros,
                 dataType: 'json',
-                url: 'declaracion_impu_controller.php',
+                url: 'declaracion_impu_controller.php', // Asegúrate de que esta URL sea correcta para la búsqueda
                 type: 'post',
                 error: function () { alert("Error"); },
                 success: function (valores) {

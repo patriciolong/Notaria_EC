@@ -106,23 +106,24 @@ if (!empty($_POST["btn_registro_imp"])) {
 
         if ($abono > $valor) {
 
-            echo "<script>alert('El abono no puede ser mayor al valor del tramite');</script>";
+            echo json_encode(["status" => "error", "message" => "El abono no puede ser mayor al valor del trámite"]);
+            exit; // para cortar ejecución
         }else{
             $sql = $conexion->query("INSERT INTO tramite_impuestos (id_tram_impuestos,id_cliente,ti_fecha,ti_itin,ti_fechain,ti_nitin,ti_ecivil,ti_dependientes,ti_mpago,ti_banco,ti_ncuenta,ti_nruta,ti_observacion,id_usuario,ti_profesion) 
             VALUES ('','$id_cliente','$fechaim','$check1','$fechaeeuu','$numitin','$estcivil','$dependentes','$metpago','$banco','$ncuenta','$nruta','$notas','$user_id','$profesion')");
              // $sql3 = $conexion->query("UPDATE cliente SET c_abonado='$abonot', c_deuda='$deudt', c_saldo='$sald' WHERE id_cliente='$id_cliente'");
              //and $sql3 == 1
-              if ($sql == 1  ) {
-                  echo '<div class="succes">REGISTRADO TRAMITE </div>';
-                  echo '<div class="succes"></div>';
-                  header("Refresh:4 ;URL=menu.php");
-                  exit;
-            //      # code...
-              } else {
-                  echo "Error";
-                  header("Refresh:4 ;URL=menu.php");
-                  exit;
-             }
+             if ($sql) {
+                // Obtener el ID del último registro insertado
+                $last_id = $conexion->insert_id;
+                // Devolver una respuesta JSON con el mensaje y el ID
+                echo json_encode(["status" => "success", "message" => "Registro insertado correctamente", "id" => $last_id]);
+                $sql3 = $conexion->query("UPDATE cliente SET c_abonado='$abonot', c_deuda='$deudt', c_saldo='$sald' WHERE id_cliente='$id_cliente'");
+
+            } else {
+                // Si hay un error en la inserción
+                echo json_encode(["status" => "error", "message" => "Error al insertar el registro: " . $conexion->error]);
+            }
         }
 
 
