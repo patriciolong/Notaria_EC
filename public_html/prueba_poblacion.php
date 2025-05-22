@@ -50,7 +50,7 @@ if (isset($_POST['buscar'])) {
 
 
 
-if (!empty($_POST["btn_registro_tra"])) {
+if (!empty($_POST["btn_registro_imp"])) {
     if (empty($_POST["identificacion"])) {
         echo 'Esta vacio';
         # code...
@@ -106,20 +106,24 @@ if (!empty($_POST["btn_registro_tra"])) {
 
         if ($abono > $valor) {
 
-            echo "<script>alert('El abono no puede ser mayor al valor del tramite');</script>";
+            
+            echo json_encode(["status" => "error", "message" => "El abono no puede ser mayor al valor del trámite"]);
+            exit; // para cortar ejecución
         }else{
             $sql = $conexion->query("INSERT INTO tramites_varios (id_tramite_varios,id_cliente,tv_motivo,tv_oenvio,tv_nrecibo,tv_nom_envio,tv_ciudad,tv_provincia,tv_telefono,id_usuario,tv_tip_documento,tv_traducciones,tv_notarizacion,tv_certificacion,tv_apostilla,tv_valor_tramite) 
             VALUES ('','$id_cliente','$motivo','$opc_envio','23131','$remitente','$ciudad_r','$provincia_r','$telefono_r','$user_id','$tipo_doc','$check1','$check2','$check3','$check4','$valor')");
-              $sql3 = $conexion->query("UPDATE cliente SET c_abonado='$abonot', c_deuda='$deudt', c_saldo='$sald' WHERE id_cliente='$id_cliente'");
-              if ($sql == 1 and $sql3 == 1 ) {
-                  echo '<div class="succes">REGISTRADO TRAMITE VARIO</div>';
-                  echo '<div class="succes"></div>';
-                  header("Refresh:4 ;URL=menu.php");
-                  exit;
-                  # code...
-              } else {
-                  echo "Error";
-              }
+              //$sql3 = $conexion->query("UPDATE cliente SET c_abonado='$abonot', c_deuda='$deudt', c_saldo='$sald' WHERE id_cliente='$id_cliente'");
+              if ($sql) {
+                // Obtener el ID del último registro insertado
+                $last_id = $conexion->insert_id;
+                // Devolver una respuesta JSON con el mensaje y el ID
+                echo json_encode(["status" => "success", "message" => "Registro insertado correctamente", "id" => $last_id]);
+                $sql3 = $conexion->query("UPDATE cliente SET c_abonado='$abonot', c_deuda='$deudt', c_saldo='$sald' WHERE id_cliente='$id_cliente'");
+
+            } else {
+                // Si hay un error en la inserción
+                echo json_encode(["status" => "error", "message" => "Error al insertar el registro: " . $conexion->error]);
+            }
         }
 
 
