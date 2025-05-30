@@ -1,356 +1,173 @@
 <?php
 session_start();
-error_reporting(0); // Considera activar esto para depuración en desarrollo
-include("conexionbd.php"); // Asegúrate de que esta ruta sea correcta para tu conexión
+// Habilitar errores para depuración (cambiar a 0 para producción)
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ini_set('log_errors', 1);
+ini_set('error_log', __DIR__ . '/php_error_tramite.log'); // Un log diferente para este archivo
 
-if (isset($_GET['id'])) {
-    $id_tramite = $_GET['id'];
+// Incluir la librería de PHPWord
+require 'vendor/autoload.php';
 
-    // Consulta para obtener los datos del trámite, cliente y usuario
-    $sql = "SELECT tv.*, c.*, u.u_nombre, u.u_apellido 
-            FROM tramites_varios tv
-            JOIN cliente c ON tv.id_cliente = c.id_cliente
-            JOIN usuario u ON tv.id_usuario = u.id_usuario
-            WHERE tv.id_tramite_varios = ?";
-    $stmt = $conexion->prepare($sql);
-    $stmt->bind_param("i", $id_tramite);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $tramite = $result->fetch_assoc();
-    $stmt->close();
+use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\IOFactory;
+// No necesitamos SimpleType\VerticalPosition para este documento por ahora, pero lo dejo por si acaso
+// use PhpOffice\PhpWord\SimpleType\VerticalPosition;
 
-    if (!$tramite) {
-        echo "Trámite no encontrado.";
-        exit;
-    }
-} else {
-    echo "ID de trámite no proporcionado.";
+// Incluir tu archivo de conexión a la base de datos
+include("conexionbd.php");
+
+// Verificar si se ha pasado el ID del trámite
+if (!isset($_GET['id']) || empty($_GET['id'])) {
+    echo "ID de trámite no proporcionado o inválido.";
     exit;
 }
 
-// Obtener la fecha actual
-$fecha_actual = date("d/m/Y");
+$id_tramite = (int)$_GET['id']; // Castear a entero para seguridad
 
-// Mapear los nombres de los servicios para mostrar "Sí" o "No"
-$traducciones = $tramite['tv_traducciones'] ? 'Sí' : 'No';
-$notarizacion = $tramite['tv_notarizacion'] ? 'Sí' : 'No';
-$certificacion = $tramite['tv_certificacion'] ? 'Sí' : 'No';
-$apostilla = $tramite['tv_apostilla'] ? 'Sí' : 'No';
+// Consulta para obtener los datos del trámite, cliente y usuario
+$sql = "SELECT tv.*, c.*, u.u_nombre, u.u_apellido
+        FROM tramites_varios tv
+        JOIN cliente c ON tv.id_cliente = c.id_cliente
+        JOIN usuario u ON tv.id_usuario = u.id_usuario
+        WHERE tv.id_tramite_varios = ?";
+
+$stmt = $conexion->prepare($sql);
+
+if (!$stmt) {
+    error_log("Error al preparar la consulta SQL en imprimir_tramite.php: " . $conexion->error);
+    echo "Error interno al procesar la solicitud para el trámite.";
+    exit;
+}
+
+$stmt->bind_param("i", $id_tramite);
+$stmt->execute();
+$result = $stmt->get_result();
+$tramite = $result->fetch_assoc();
+$stmt->close();
+
+if (!$tramite) {
+    echo "Trámite no encontrado con el ID: " . htmlspecialchars($id_tramite) . ".";
+    exit;
+}
+
+// Inicializar PhpWord
+$phpWord = new PhpWord();
+
+// Definir estilos
+$phpWord->addFontStyle('TitleStyle', ['name' => 'Times New Roman', 'size' => 16, 'bold' => true]);
+$phpWord->addFontStyle('SubtitleStyle', ['name' => 'Times New Roman', 'size' => 12, 'bold' => true]);
+$phpWord->addFontStyle('NormalStyle', ['name' => 'Times New Roman', 'size' => 11]);
+$phpWord->addParagraphStyle('Center', ['align' => 'center']);
+$phpWord->addParagraphStyle('Left', ['align' => 'left']);
+$phpWord->addParagraphStyle('Justify', ['align' => 'both']);
+$phpWord->addParagraphStyle('Right', ['align' => 'right']); // Añadir estilo para la derecha
+
+// Añadir una sección al documento
+$section = $phpWord->addSection();
+
+// --- Limpiar y obtener variables para el documento ---
+// Puedes seguir usando trim() para limpiar espacios al inicio/final
+$c_nombre = trim($tramite['c_nombre'] ?? '');
+$c_apellido = trim($tramite['c_apellido'] ?? '');
+$c_identificacion = trim($tramite['c_identificacion'] ?? '');
+$c_telefono = trim($tramite['c_telefono'] ?? '');
+$c_direccion = trim($tramite['c_direccion'] ?? '');
+$c_email = trim($tramite['c_email'] ?? '');
+$c_ciudad = trim($tramite['c_ciudad'] ?? '');
+
+$tv_fecha = date('d/m/Y', strtotime($tramite['tv_fecha'] ?? date('Y-m-d'))); // Asegura formato fecha
+$tv_ntramite = trim($tramite['tv_ntramite'] ?? '');
+$tv_valor_tramite = number_format($tramite['tv_valor_tramite'] ?? 0, 2, '.', ',');
+$c_abonado = number_format($tramite['c_abonado'] ?? 0, 2, '.', ',');
+$c_saldo = number_format($tramite['c_saldo'] ?? 0, 2, '.', ',');
+$tv_nrecibo = trim($tramite['tv_nrecibo'] ?? '');
+$u_nombre = trim($tramite['u_nombre'] ?? '');
+$u_apellido = trim($tramite['u_apellido'] ?? '');
+
+// Mapear los servicios para mostrar "Sí" o "No"
+$traducciones = ($tramite['tv_traducciones'] ?? 0) ? 'Sí' : 'No';
+$apostillas = ($tramite['tv_apostillas'] ?? 0) ? 'Sí' : 'No';
+$autenticaciones = ($tramite['tv_autenticaciones'] ?? 0) ? 'Sí' : 'No';
+$legalizaciones = ($tramite['tv_legalizaciones'] ?? 0) ? 'Sí' : 'No';
+$asesoramiento = ($tramite['tv_asesoramiento'] ?? 0) ? 'Sí' : 'No';
+$otro = ($tramite['tv_otro'] ?? 0) ? 'Sí' : 'No';
+$observaciones = trim($tramite['tv_observaciones'] ?? '');
+
+
+// --- Contenido del documento Word ---
+
+// Encabezado
+$section->addText('NOTARÍA PÚBLICA DEL CANTÓN CUENCA', 'TitleStyle', 'Center');
+$section->addTextBreak(1);
+
+// Información del Trámite
+$section->addText('COMPROBANTE DE TRÁMITE', 'SubtitleStyle', 'Center');
+$section->addTextBreak(1);
+
+$section->addText('FECHA: ' . $tv_fecha, 'NormalStyle', 'Right');
+$section->addText('Nº TRÁMITE: ' . $tv_ntramite, 'NormalStyle', 'Right');
+$section->addTextBreak(1);
+
+$section->addText('DATOS DEL CLIENTE', 'SubtitleStyle', 'Left');
+$section->addTextBreak(1);
+
+$section->addText('Nombre: ' . $c_nombre . ' ' . $c_apellido, 'NormalStyle', 'Left');
+$section->addText('Identificación: ' . $c_identificacion, 'NormalStyle', 'Left');
+$section->addText('Teléfono: ' . $c_telefono, 'NormalStyle', 'Left');
+$section->addText('Dirección: ' . $c_direccion, 'NormalStyle', 'Left');
+$section->addText('Ciudad: ' . $c_ciudad, 'NormalStyle', 'Left');
+$section->addText('Email: ' . $c_email, 'NormalStyle', 'Left');
+$section->addTextBreak(1);
+
+$section->addText('SERVICIOS SOLICITADOS', 'SubtitleStyle', 'Left');
+$section->addTextBreak(1);
+
+$section->addListItem('Traducciones: ' . $traducciones, 0, 'NormalStyle', 'Left');
+$section->addListItem('Apostillas: ' . $apostillas, 0, 'NormalStyle', 'Left');
+$section->addListItem('Autenticaciones: ' . $autenticaciones, 0, 'NormalStyle', 'Left');
+$section->addListItem('Legalizaciones: ' . $legalizaciones, 0, 'NormalStyle', 'Left');
+$section->addListItem('Asesoramiento: ' . $asesoramiento, 0, 'NormalStyle', 'Left');
+$section->addListItem('Otro: ' . $otro, 0, 'NormalStyle', 'Left');
+$section->addTextBreak(1);
+
+$section->addText('Observaciones:', 'SubtitleStyle', 'Left');
+$section->addText($observaciones, 'NormalStyle', 'Justify');
+$section->addTextBreak(1);
+
+$section->addText('VALOR DEL TRÁMITE: $' . $tv_valor_tramite, 'NormalStyle', 'Left');
+$section->addText('ABONO: $' . $c_abonado, 'NormalStyle', 'Left');
+$section->addText('SALDO: $' . $c_saldo, 'NormalStyle', 'Left');
+$section->addText('RECIBO Nº: ' . $tv_nrecibo, 'NormalStyle', 'Left');
+$section->addTextBreak(2);
+
+$section->addText('Hemos solicitado los servicios de Notaría Ecuador Inc. Para la(s)', 'NormalStyle', 'Justify');
+$section->addText('Traducción(es) y apostille(s) de(los) documentos arriba mencionados.', 'NormalStyle', 'Justify');
+$section->addTextBreak(1);
+$section->addText('PARA USO INTERNO DE LA OFICINA', 'SubtitleStyle', 'Center');
+$section->addTextBreak(1);
+
+$section->addText('FIRMA: _________________________________', 'NormalStyle', 'Center');
+$section->addText('Registrado por: ' . $u_nombre . ' ' . $u_apellido, 'NormalStyle', 'Center');
+$section->addTextBreak(2);
+
+
+// --- Preparar el nombre del archivo para la descarga ---
+$filename = 'Comprobante_Tramite_' . str_replace('/', '-', $tv_ntramite) . '_' . str_replace(' ', '_', $c_apellido) . '.docx';
+
+// --- Cabeceras HTTP para forzar la descarga del archivo Word ---
+header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+header('Content-Disposition: attachment;filename="' . $filename . '"');
+header('Cache-Control: max-age=0');
+header('Expires: 0');
+header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+header('Pragma: public');
+
+// --- Generar y guardar el documento en la salida ---
+$objWriter = IOFactory::createWriter($phpWord, 'Word2007');
+$objWriter->save('php://output');
+
+// --- Finalizar el script ---
+exit;
 
 ?>
-
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Imprimir Recibo de Trámite Varios</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0; /* Elimina el margen predeterminado */
-            padding: 20px;
-            box-sizing: border-box;
-            background-color: #f8f8f8;
-        }
-        .form-container {
-            width: 210mm; /* Ancho de una hoja A4 */
-            min-height: 297mm; /* Alto de una hoja A4 */
-            margin: 0 auto;
-            border: 1px solid #ccc;
-            padding: 30px;
-            background-color: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            position: relative; /* Para posicionar elementos absolutamente */
-            box-sizing: border-box;
-        }
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 20px;
-        }
-        .header .logo {
-            flex: 0 0 auto;
-            margin-right: 20px;
-        }
-        .header .logo img {
-            max-width: 150px; /* Ajusta el tamaño del logo */
-        }
-        .header .office-info {
-            flex-grow: 1;
-            text-align: right;
-            border-bottom: 1px solid #000; /* Línea para Oficina y Fecha */
-            padding-bottom: 5px;
-            margin-bottom: 10px;
-        }
-        .header .office-info p {
-            margin: 0;
-            font-size: 14px;
-        }
-        .title {
-            text-align: center;
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 20px;
-            border-bottom: 1px solid #000;
-            padding-bottom: 10px;
-        }
-        .section {
-            margin-bottom: 15px;
-        }
-        .section h3 {
-            font-size: 16px;
-            margin-bottom: 5px;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 3px;
-        }
-        .form-row {
-            display: flex;
-            flex-wrap: wrap;
-            margin-bottom: 5px;
-        }
-        .form-field {
-            flex: 1;
-            display: flex;
-            align-items: baseline;
-            margin-right: 20px; /* Espacio entre campos */
-            min-width: 200px; /* Asegura que no se apilen demasiado */
-        }
-        .form-field.full-width {
-            flex-basis: 100%;
-            margin-right: 0;
-        }
-        .form-field label {
-            font-weight: bold;
-            margin-right: 5px;
-            white-space: nowrap; /* Evita que el label se rompa */
-        }
-        .form-field .value-display {
-            flex-grow: 1;
-            border-bottom: 1px solid #000;
-            padding-bottom: 2px;
-            font-size: 14px;
-        }
-        .checkbox-group {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px; /* Espacio entre checkboxes */
-            margin-top: 10px;
-            margin-bottom: 10px;
-        }
-        .checkbox-item {
-            display: flex;
-            align-items: center;
-        }
-        .checkbox-item input[type="checkbox"] {
-            margin-right: 5px;
-        }
-        .checkbox-item label {
-            font-weight: normal;
-        }
-        .footer-notes {
-            margin-top: 30px;
-            font-size: 12px;
-            border-top: 1px solid #ccc;
-            padding-top: 10px;
-            text-align: center;
-        }
-        .button-container {
-            text-align: center;
-            margin-top: 30px;
-        }
-        @media print {
-            body {
-                margin: 0;
-                padding: 0;
-            }
-            .form-container {
-                border: none;
-                box-shadow: none;
-                width: 100%;
-                min-height: auto;
-                padding: 10mm; /* Pequeño margen para impresión */
-            }
-            .button-container {
-                display: none; /* Oculta el botón de imprimir */
-            }
-        }
-    </style>
-</head>
-<body>
-    <div class="form-container">
-        <div class="header">
-            <div class="logo">
-                <img src="img/logo.png" alt="Notaría Ecuador">
-                </div>
-            <div class="office-info">
-                <p>Oficina: New York</p>
-                <p>Fecha: <?php echo $fecha_actual; ?></p>
-            </div>
-        </div>
-
-        <div class="title">
-            TRAMITES - VARIOS
-        </div>
-
-        <div class="section">
-            <div class="form-row">
-                <div class="form-field full-width">
-                    <label>Nombre y Apellidos:</label>
-                    <span class="value-display"><?php echo htmlspecialchars($tramite['c_nombre'] . " " . $tramite['c_apellido']); ?></span>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-field">
-                    <label>IDENTIFICACIÓN:</label>
-                    <span class="value-display"><?php echo htmlspecialchars($tramite['c_identificacion']); ?></span>
-                </div>
-                <div class="form-field">
-                    <label>NÚMERO DE LA IDENTIFICACIÓN:</label>
-                    <span class="value-display"><?php echo htmlspecialchars($tramite['c_identificacion']); ?></span>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-field full-width">
-                    <label>DIRECCIÓN:</label>
-                    <span class="value-display"><?php echo htmlspecialchars($tramite['c_direccion'] . " Apt. #" . $tramite['c_napartamento']); ?></span>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-field">
-                    <label>CIUDAD:</label>
-                    <span class="value-display"><?php echo htmlspecialchars($tramite['c_ciudad']); ?></span>
-                </div>
-                <div class="form-field">
-                    <label>ESTADO:</label>
-                    <span class="value-display"><?php echo htmlspecialchars($tramite['c_estado']); ?></span>
-                </div>
-                <div class="form-field">
-                    <label>CÓDIGO POSTAL:</label>
-                    <span class="value-display"><?php echo htmlspecialchars($tramite['c_codpostal']); ?></span>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-field">
-                    <label>TELÉFONO:</label>
-                    <span class="value-display"><?php echo htmlspecialchars($tramite['c_telefono']); ?></span>
-                </div>
-                <div class="form-field">
-                    <label>Celular:</label>
-                    <span class="value-display"><?php echo htmlspecialchars($tramite['c_telefono']); ?></span>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-field full-width">
-                    <label>CORREO ELECTRÓNICO:</label>
-                    <span class="value-display"><?php echo htmlspecialchars($tramite['c_email']); ?></span>
-                </div>
-            </div>
-        </div>
-
-        <div class="section">
-            <div class="form-row">
-                <div class="form-field">
-                    <label>TIPO DE DOCUMENTO:</label>
-                    <span class="value-display">
-                        <input type="checkbox" <?php echo ($tramite['tv_tip_documento'] == 'Nacimiento') ? 'checked' : ''; ?>> Nacimiento
-                        <input type="checkbox" <?php echo ($tramite['tv_tip_documento'] == 'Matrimonio') ? 'checked' : ''; ?>> Matrimonio
-                        <input type="checkbox" <?php echo ($tramite['tv_tip_documento'] == 'Defuncion') ? 'checked' : ''; ?>> Defunción
-                        <input type="checkbox" <?php echo ($tramite['tv_tip_documento'] == 'Divorcio') ? 'checked' : ''; ?>> Divorcio
-                        <input type="checkbox" <?php echo ($tramite['tv_tip_documento'] == 'Academicas') ? 'checked' : ''; ?>> Académicas
-                        <input type="checkbox" <?php echo ($tramite['tv_tip_documento'] == 'Carta de invitacion') ? 'checked' : ''; ?>> Carta de Invitación
-                        <input type="checkbox" <?php echo ($tramite['tv_tip_documento'] == 'Otros') ? 'checked' : ''; ?>> Otros
-                    </span>
-                </div>
-                <div class="form-field">
-                    <label>Para Uso En:</label>
-                    <span class="value-display"><?php echo htmlspecialchars($tramite['tv_motivo']); ?></span>
-                </div>
-            </div>
-            
-            <div class="form-row">
-                <div class="form-field">
-                    <label>Servicios:</label>
-                    <span class="value-display">
-                        <input type="checkbox" <?php echo ($tramite['tv_traducciones'] == 1) ? 'checked' : ''; ?>> TRADUCCIONES
-                        <input type="checkbox" <?php echo ($tramite['tv_notarizacion'] == 1) ? 'checked' : ''; ?>> NOTARIZACIÓN
-                        <input type="checkbox" <?php echo ($tramite['tv_certificacion'] == 1) ? 'checked' : ''; ?>> CERTIFICACIÓN
-                        <input type="checkbox" <?php echo ($tramite['tv_apostilla'] == 1) ? 'checked' : ''; ?>> APOSTILLA
-                    </span>
-                </div>
-            </div>
-        </div>
-
-        <div class="section">
-            <div class="form-row">
-                <div class="form-field full-width">
-                    <label>USTED DESEA QUE EL DOCUMENTO SE LE ENVIE:</label>
-                    <span class="value-display">
-                        <input type="checkbox" <?php echo ($tramite['tv_oenvio'] == 'A su domicilio en EE.UU.') ? 'checked' : ''; ?>> A Su Domicilio En Los EE.UU.
-                        <input type="checkbox" <?php echo ($tramite['tv_oenvio'] == 'Ofrecemos envios express al Ecuador en 3 dias laborables.') ? 'checked' : ''; ?>> Ofrecemos envíos express al Ecuador en 3 días laborables.
-                        <input type="checkbox" <?php echo ($tramite['tv_oenvio'] == 'Venirlo a retirar personalmente en la oficina.') ? 'checked' : ''; ?>> Venirlo a Retirar Personalmente En La Oficina De:
-                    </span>
-                </div>
-            </div>
-            <?php if (!empty($tramite['tv_nom_envio'])): ?>
-            <div class="form-row">
-                <div class="form-field full-width">
-                    <label>Enviar a nombre de:</label>
-                    <span class="value-display"><?php echo htmlspecialchars($tramite['tv_nom_envio']); ?></span>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-field">
-                    <label>Ciudad de Destino:</label>
-                    <span class="value-display"><?php echo htmlspecialchars($tramite['tv_ciudad']); ?></span>
-                </div>
-                <div class="form-field">
-                    <label>Provincia de Destino:</label>
-                    <span class="value-display"><?php echo htmlspecialchars($tramite['tv_provincia']); ?></span>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-field">
-                    <label>Teléfono de Contacto:</label>
-                    <span class="value-display"><?php echo htmlspecialchars($tramite['tv_telefono']); ?></span>
-                </div>
-            </div>
-            <?php endif; ?>
-        </div>
-
-        <div class="section">
-            <div class="form-row">
-                <div class="form-field">
-                    <label>VALOR $</label>
-                    <span class="value-display"><?php echo htmlspecialchars(number_format($tramite['tv_valor_tramite'], 2, '.', ',')); ?></span>
-                </div>
-                <div class="form-field">
-                    <label>ABONO $</label>
-                    <span class="value-display"><?php echo htmlspecialchars(number_format($tramite['c_abonado'], 2, '.', ',')); ?></span>
-                </div>
-                <div class="form-field">
-                    <label>SALDO $</label>
-                    <span class="value-display"><?php echo htmlspecialchars(number_format($tramite['c_saldo'], 2, '.', ',')); ?></span>
-                </div>
-                <div class="form-field">
-                    <label>RECIBO #</label>
-                    <span class="value-display"><?php echo htmlspecialchars($tramite['tv_nrecibo']); ?></span>
-                </div>
-            </div>
-        </div>
-
-        <div class="footer-notes">
-            <p>Hemos solicitado los servicios de Notaría Ecuador Inc. Para la(s)</p>
-            <p>Traducción(es) y apostille(s) de(los) documentos arriba mencionados.</p>
-            <p>PARA USO INTERNO DE LA OFICINA</p>
-            <p>FIRMA: _________________________________</p>
-            <p>Registrado por: <?php echo htmlspecialchars($tramite['u_nombre'] . " " . $tramite['u_apellido']); ?></p>
-        </div>
-
-        <div class="button-container">
-            <button onclick="window.print()">Imprimir Recibo</button>
-        </div>
-    </div>
-</body>
-</html>
