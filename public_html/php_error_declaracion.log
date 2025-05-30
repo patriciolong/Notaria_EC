@@ -1,0 +1,6 @@
+[29-May-2025 19:39:51 Europe/Berlin] Error al preparar la consulta SQL en imprimir_declaracion_impuestos.php: Unknown column 'c.c_nacimiento' in 'field list'
+[29-May-2025 19:43:48 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'c.c_nacimiento' in 'field list' in C:\xampp\htdocs\NotariaEc\Notaria_EC\public_html\imprimir_declaracion_impuestos.php:35
+Stack trace:
+#0 C:\xampp\htdocs\NotariaEc\Notaria_EC\public_html\imprimir_declaracion_impuestos.php(35): mysqli->prepare('SELECT\r\n       ...')
+#1 {main}
+  thrown in C:\xampp\htdocs\NotariaEc\Notaria_EC\public_html\imprimir_declaracion_impuestos.php on line 35
