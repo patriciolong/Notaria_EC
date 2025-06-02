@@ -72,7 +72,7 @@
                     //"tp_valor" => "Valor",
                     //"tp_abono" => "Abono",
                     //"tp_saldo" => "Saldo",
-                    "tp_nrecibo" => "Recibo",
+                    //"tp_nrecibo" => "Recibo",
                     "tp_enviar_nombrede" => "Nombre del envio",
                     "tp_ciudad_enviar" => "Ciudad",
                     "tp_provincia" => "Provincia",
