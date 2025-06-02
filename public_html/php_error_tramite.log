@@ -1,0 +1,7 @@
+[02-Jun-2025 02:39:29 Europe/Berlin] PHP Fatal error:  Uncaught Error: Class "ZipArchive" not found in C:\xampp\htdocs\Notaria_EC\public_html\vendor\phpoffice\phpword\src\PhpWord\Shared\ZipArchive.php:139
+Stack trace:
+#0 C:\xampp\htdocs\Notaria_EC\public_html\vendor\phpoffice\phpword\src\PhpWord\Writer\AbstractWriter.php(284): PhpOffice\PhpWord\Shared\ZipArchive->open('C:\\Users\\juanf\\...', 8)
+#1 C:\xampp\htdocs\Notaria_EC\public_html\vendor\phpoffice\phpword\src\PhpWord\Writer\Word2007.php(98): PhpOffice\PhpWord\Writer\AbstractWriter->getZipArchive('C:\\Users\\juanf\\...')
+#2 C:\xampp\htdocs\Notaria_EC\public_html\imprimir_tramite.php(168): PhpOffice\PhpWord\Writer\Word2007->save('C:\\Users\\juanf\\...')
+#3 {main}
+  thrown in C:\xampp\htdocs\Notaria_EC\public_html\vendor\phpoffice\phpword\src\PhpWord\Shared\ZipArchive.php on line 139
