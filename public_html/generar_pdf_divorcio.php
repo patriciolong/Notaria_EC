@@ -4,8 +4,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 // Carga el autoloader de Composer si usaste Composer
-require_once __DIR__ . '/../vendor/autoload.php';
-
+require_once __DIR__ . '/vendor/autoload.php';
 
 // Si descargaste Dompdf manualmente, ajusta la ruta a tu carpeta dompdf
 // require_once 'lib/dompdf/autoload.inc.php'; // Ejemplo si lo pusiste en public_html/lib/dompdf
