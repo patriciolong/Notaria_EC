@@ -1,178 +1,119 @@
-@import url('https://fonts.googleapis.com/css?family=Raleway:400,700');
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap');
 
 * {
-	box-sizing: border-box;
-	margin: 0;
-	padding: 0;	
-	font-family: Raleway, sans-serif;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Lato', sans-serif; /* Professional sans-serif font */
 }
 
 body {
-	background: linear-gradient(90deg, #ffffff, #f0ff1e);		
+    background: linear-gradient(90deg, #F0F2F5, #DDE1E6); /* Soft, professional gradient */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
 }
 
 .container {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    width: 100%; /* Ensure container fills body */
 }
 
-.screen {		
-	background: linear-gradient(90deg, #ffee00, #fffeaa);		
-	position: relative;	
-	height: 600px;
-	width: 360px;	
-	box-shadow: 0px 0px 24px #f5e982;
+.screen {
+    background: #FFFFFF; /* Clean white background */
+    position: relative;
+    height: 520px; /* Slightly adjusted height */
+    width: 380px; /* Slightly adjusted width */
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1); /* Softer, more elegant shadow */
+    border-radius: 12px; /* Rounded corners for a modern touch */
+    overflow: hidden; /* Hide any overflowing background elements */
 }
 
 .screen__content {
-	z-index: 1;
-	position: relative;	
-	height: 100%;
+    z-index: 1;
+    position: relative;
+    height: 100%;
+    padding: 40px; /* Add padding for better spacing */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
-.screen__background {		
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	z-index: 0;
-	-webkit-clip-path: inset(0 0 0 0);
-	clip-path: inset(0 0 0 0);	
+/* Remove or significantly simplify background shapes */
+.screen__background {
+    display: none; /* Hide for a cleaner look */
 }
-
-.screen__background__shape {
-	transform: rotate(45deg);
-	position: absolute;
-}
-
-.screen__background__shape1 {
-	height: 520px;
-	width: 520px;
-	background: #ffffff;	
-	top: -50px;
-	right: 120px;	
-	border-radius: 0 72px 0 0;
-}
-
-.screen__background__shape2 {
-	height: 220px;
-	width: 220px;
-	background: #ffdc15;	
-	top: -172px;
-	right: 0;	
-	border-radius: 32px;
-}
-
-.screen__background__shape3 {
-	height: 540px;
-	width: 190px;
-	background: linear-gradient(270deg, #ffe677, #ffef10);
-	top: -24px;
-	right: 0;	
-	border-radius: 32px;
-}
-
-.screen__background__shape4 {
-	height: 400px;
-	width: 200px;
-	background: #ffec3f;	
-	top: 420px;
-	right: 50px;	
-	border-radius: 60px;
-}
+/* If you want very subtle abstract shapes, you could define them here with muted colors. */
 
 .login {
-	width: 320px;
-	padding: 30px;
-	padding-top: 156px;
+    width: 100%; /* Adjust to fill content area */
+    padding-top: 0; /* Remove top padding from original */
 }
 
 .login__field {
-	padding: 20px 0px;	
-	position: relative;	
+    position: relative;
+    margin-bottom: 25px; /* Increased spacing between fields */
 }
 
 .login__icon {
-	position: absolute;
-	top: 30px;
-	color: #7875B5;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    color: #8C9BB7; /* Muted icon color */
+    font-size: 18px; /* Slightly larger icon */
 }
 
 .login__input {
-	border: none;
-	border-bottom: 2px solid #D1D1D4;
-	background: none;
-	padding: 10px;
-	padding-left: 24px;
-	font-weight: 700;
-	width: 75%;
-	transition: .2s;
+    border: 1px solid #D1D4DA; /* Subtle border */
+    border-radius: 8px; /* Rounded input fields */
+    background: #F8F9FA; /* Light background for input */
+    padding: 12px 12px 12px 35px; /* Adjust padding for icon */
+    font-weight: 400; /* Lighter font weight */
+    width: 100%; /* Full width */
+    transition: all .3s ease; /* Smooth transition for focus */
+    font-size: 16px;
+    color: #333333;
 }
 
-.login__input:active,
-.login__input:focus,
-.login__input:hover {
-	outline: none;
-	border-bottom-color: #6A679E;
+.login__input:focus {
+    outline: none;
+    border-color: #007BFF; /* A professional blue on focus */
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25); /* Subtle focus shadow */
+    background: #FFFFFF;
 }
 
 .login__submit {
-	background: #fff;
-	font-size: 14px;
-	margin-top: 30px;
-	padding: 16px 20px;
-	border-radius: 26px;
-	border: 1px solid #D4D3E8;
-	text-transform: uppercase;
-	font-weight: 700;
-	display: flex;
-	align-items: center;
-	width: 100%;
-	color: #4C489D;
-	box-shadow: 0px 2px 2px #5C5696;
-	cursor: pointer;
-	transition: .2s;
+    background: #0056b3; /* Darker blue for the button */
+    color: #FFFFFF; /* White text */
+    font-size: 16px;
+    margin-top: 25px; /* Adjusted margin */
+    padding: 14px 20px;
+    border-radius: 8px; /* Rounded button */
+    border: none; /* No border */
+    text-transform: uppercase;
+    font-weight: 700;
+    width: 100%;
+    cursor: pointer;
+    transition: background-color .3s ease, box-shadow .3s ease;
+    box-shadow: 0px 4px 15px rgba(0, 86, 179, 0.2); /* Softer shadow for button */
 }
 
-.login__submit:active,
-.login__submit:focus,
 .login__submit:hover {
-	border-color: #6A679E;
-	outline: none;
+    background: #003F8C; /* Slightly darker blue on hover */
+    box-shadow: 0px 6px 20px rgba(0, 86, 179, 0.3);
 }
 
-.button__icon {
-	font-size: 24px;
-	margin-left: auto;
-	color: #7875B5;
+.login__submit:active {
+    background: #002C66;
 }
 
-.social-login {	
-	position: absolute;
-	height: 140px;
-	width: 160px;
-	text-align: center;
-	bottom: 0px;
-	right: 0px;
-	color: #fff;
-}
-
-.social-icons {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-
-.social-login__icon {
-	padding: 20px 10px;
-	color: #fff;
-	text-decoration: none;	
-	text-shadow: 0px 0px 8px #7875B5;
-}
-
-.social-login__icon:hover {
-	transform: scale(1.5);	
+/* Remove social login elements or redesign if absolutely necessary for notary */
+.social-login {
+    display: none; /* Hide social login for a professional notary site */
 }

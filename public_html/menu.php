@@ -1,10 +1,10 @@
 <?php
-//seguridad de paginacion 
+//seguridad de paginacion
 session_start();
 error_reporting(0);
 $varsesion =$_SESSION['usuario'];
 $variable_ses = $varsesion;
-if ($varsesion==null || $varsesion='') {
+if ($varsesion==null || $varsesion=='') {
     header("location:index.php");
     die;
 }
@@ -20,33 +20,33 @@ if ($varsesion==null || $varsesion='') {
         <meta name="description" content="" />
         <meta name="author" content="" />
         <title>Notaria Ecuador</title>
-        <!-- Favicon-->
-        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
-        <!-- Bootstrap icons-->
+        <link rel="icon" type="image/x-xicon" href="assets/favicon.ico" />
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet" />
-        <!-- Core theme CSS (includes Bootstrap)-->
         <link href="css/styles.css" rel="stylesheet" />
+        <link href="css/estilos_menu.css" rel="stylesheet" />
     </head>
     <body>
-        <!-- Responsive navbar-->
-        <nav class="navbar navbar-expand-lg" style="background-color: #e2e2e2;">
+        <nav class="custom-navbar navbar navbar-expand-lg">
             <div class="container px-lg-5">
-            <a class="navbar-brand" href="http://localhost/Notaria_EC/public_html/menu.php">
-                <img src="img\logo.png" alt="logo" width="150px">
-            </a>
-        <!-- Example single danger button -->
-       <div class="btn-group">
-       <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-        <?php echo $variable_ses;?>
-        </button>
-        <ul class="dropdown-menu">
-        <li><hr class="dropdown-divider"></li>
-       <li><a class="dropdown-item" href="cerrar_sesion.php">Cerrar Sesion</a></li>
-       </ul>
-      </div>
+                <a class="navbar-brand" href="http://localhost/Notaria_EC/public_html/menu.php">
+                    <img src="img\logo.png" alt="logo"> </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle user-name" href="#" id="navbarDropdownUser" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <?php echo $variable_ses;?>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownUser">
+                                <li><a class="dropdown-item" href="cerrar_sesion.php">Cerrar Sesión</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </nav>
-        <!-- Header-->
         <header class="py-5">
             <div class="container px-lg-5">
                         <p class="fs-4">Porfavor seleccione el tramite a realizar</p>
@@ -54,10 +54,8 @@ if ($varsesion==null || $varsesion='') {
                 </div>
             </div>
         </header>
-        <!-- Page Content-->
         <section class="pt-4">
             <div class="container px-lg-5">
-                <!-- Page Features-->
                 <div class="row gx-lg-5">
                     <div class="col-lg-6 col-xxl-4 mb-5">
                         <div class="card bg-light border-0 h-100">
@@ -134,10 +132,8 @@ if ($varsesion==null || $varsesion='') {
                 </div>
             </div>
         </section>
-        
-        <!-- Bootstrap core JS-->
+
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-        <!-- Core theme JS-->
         <script src="js/scripts.js"></script>
     </body>
 </html>

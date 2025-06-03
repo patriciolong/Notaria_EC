@@ -1,0 +1,225 @@
+/*
+* estilos_menu.css
+* Archivo de estilos personalizado para el menú principal de la Notaría Ecuador
+* Profesional y Elegante.
+*/
+
+/* Importar fuente Lato para todo el proyecto */
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap');
+
+/* Definición de variables de color para consistencia */
+:root {
+    --primary-color: #004080; /* Azul oscuro y profesional para elementos principales */
+    --secondary-color: #4A6572; /* Un gris azulado complementario */
+    --accent-color: #C0A16B; /* Un dorado sutil para acentos y botones */
+    --background-light: #F8F9FA; /* Fondo muy claro para secciones */
+    --text-dark: #333333; /* Color de texto oscuro general */
+    --text-light: #FFFFFF; /* Color de texto claro para fondos oscuros */
+    --border-light: #E0E0E0; /* Borde claro para elementos como tarjetas */
+}
+
+/* Estilos generales de tipografía para el menú */
+body {
+    font-family: 'Lato', sans-serif;
+    color: var(--text-dark);
+    background-color: var(--background-light); /* Fondo general suave para el cuerpo */
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Lato', sans-serif;
+    color: var(--primary-color);
+    font-weight: 700; /* Negrita para títulos */
+}
+
+p {
+    line-height: 1.6;
+}
+
+/* --- NUEVOS ESTILOS DE LA BARRA DE NAVEGACIÓN (Navbar) --- */
+.custom-navbar { /* Usamos la clase personalizada */
+    background-color: var(--primary-color) !important; /* Fondo azul oscuro */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25); /* Sombra más prominente para profundidad */
+    padding: 0.8rem 0; /* Espaciado vertical para una altura elegante */
+}
+
+.custom-navbar .container {
+    display: flex;
+    justify-content: space-between; /* Logo a la izquierda, usuario a la derecha */
+    align-items: center; /* Centrar verticalmente todos los elementos */
+    flex-wrap: nowrap; /* Evita que los elementos se envuelvan a la siguiente línea */
+}
+
+.custom-navbar .navbar-brand {
+    padding: 0;
+    margin-right: 30px; /* Espacio a la derecha del logo */
+    display: flex; /* Asegura que el logo se comporte bien */
+    align-items: center;
+}
+
+.custom-navbar .navbar-brand img {
+    /* Mantiene los colores originales del logo */
+    width: 180px; /* Tamaño adaptado del logo */
+    height: auto;
+    transition: transform 0.3s ease;
+}
+
+.custom-navbar .navbar-brand img:hover {
+    transform: scale(1.03); /* Ligerísimo efecto de escala al pasar el ratón */
+}
+
+/* Estilo para el nombre de usuario (texto en blanco) */
+.custom-navbar .user-name {
+    color: var(--text-light) !important; /* Texto blanco puro */
+    font-weight: 700; /* Negrita */
+    font-size: 1.15rem; /* Tamaño de fuente más grande */
+    margin-right: 15px; /* Espacio antes del icono de flecha/menú */
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.4); /* Sombra de texto para mayor contraste */
+    white-space: nowrap; /* Evita que el nombre de usuario se rompa en varias líneas */
+}
+
+/* Estilo del menú desplegable del usuario */
+.custom-navbar .dropdown-menu {
+    border: none;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25); /* Sombra prominente */
+    border-radius: 0.75rem; /* Esquinas redondeadas */
+    padding: 0.75rem 0;
+    min-width: 180px; /* Ancho mínimo para el menú */
+}
+
+.custom-navbar .dropdown-item {
+    color: var(--text-dark); /* Color de texto oscuro para los ítems */
+    padding: 0.85rem 1.8rem; /* Espaciado interno */
+    font-size: 1rem;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.custom-navbar .dropdown-item:hover {
+    background-color: var(--primary-color); /* Fondo azul oscuro al pasar el ratón */
+    color: var(--text-light) !important; /* Texto blanco al pasar el ratón */
+}
+
+.custom-navbar .dropdown-divider {
+    border-top: 1px solid var(--border-light); /* Divisor sutil */
+    margin: 0.5rem 0;
+}
+
+/* Estilos para el botón de menú hamburguesa (responsive) */
+.custom-navbar .navbar-toggler {
+    border-color: rgba(255, 255, 255, 0.7) !important; /* Borde blanco semi-transparente */
+    transition: border-color 0.3s ease;
+}
+
+.custom-navbar .navbar-toggler:hover {
+    border-color: var(--accent-color) !important; /* Borde dorado al pasar el ratón */
+}
+
+.custom-navbar .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important; /* Icono blanco puro para contraste */
+}
+
+/* --- Estilos del Encabezado --- (Manteniendo los estilos mejorados de antes) */
+header.py-5 {
+    background-color: var(--background-light); /* Fondo claro para el encabezado */
+    padding-top: 5rem !important;
+    padding-bottom: 5rem !important;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+    flex-direction: column;
+}
+
+header .fs-4 {
+    font-size: 2.2rem !important;
+    color: var(--primary-color);
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 15px;
+}
+
+header .fs-4::after {
+    content: '';
+    display: block;
+    width: 80px;
+    height: 3px;
+    background-color: var(--accent-color);
+    margin: 1.5rem auto 0 auto;
+    border-radius: 50px;
+}
+
+/* --- Estilos de las Tarjetas de Funciones --- (Manteniendo los estilos mejorados de antes) */
+.card {
+    border: 1px solid var(--border-light);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    border-radius: 1rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%;
+}
+
+.card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+}
+
+.card-body {
+    padding: 2.5rem !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.feature {
+    background-color: var(--primary-color) !important;
+    border-radius: 50% !important;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.8rem;
+    color: var(--text-light) !important;
+    margin-bottom: 1.75rem !important;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature i {
+    color: var(--text-light);
+}
+
+.feature:hover {
+    background-color: darken(var(--primary-color), 5%) !important;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+.card-body .fs-4.fw-bold {
+    font-size: 1.6rem !important;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.5px;
+}
+
+.card-body p.mb-0 {
+    color: var(--secondary-color);
+    font-size: 0.95rem;
+}
+
+/* Ajustes de espaciado para las secciones */
+section.pt-4 {
+    padding-top: 2rem !important;
+    padding-bottom: 4rem !important;
+}
+
+.row.gx-lg-5 {
+    --bs-gutter-x: 3rem;
+    --bs-gutter-y: 2rem;
+}
+
+.col-lg-6.col-xxl-4.mb-5 {
+    margin-bottom: 2rem !important;
+}

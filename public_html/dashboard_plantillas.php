@@ -222,8 +222,12 @@
     ?>
 
     <div class="container">
+    <div class="button-container">
+    <button type="button" class="redirect-button" onclick="location.href='menu.php'">< REGRESAR</button>
+</div>
         <h1>Generador de Poder Especial</h1> <form method="POST" action="">
             <div class="form-group">
+                
                 <label for="template_id">Seleccionar Plantilla:</label>
                 <select name="template_id" id="template_id" required>
                     <option value="">-- Seleccione una plantilla --</option>
