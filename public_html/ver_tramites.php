@@ -82,7 +82,7 @@
             "tramite_divorcio" => [
                 "titulo" => "Divorcios",
                 "mostrar_columnas" =>  [
-                    "td_tdivorcio" => "Nombre",
+                    //"td_tdivorcio" => "Nombre",
                     "td_identificacion_c" => "Identificacion",
                     "td_nombre_c" => "Nombre del conyugue",
                     "td_direccion_c" => "Direccion del conyugue",
@@ -93,7 +93,8 @@
                     "td_cpostal_c" => "Codigo postal del conyugue",
                     "td_lugar_matrimonio" => "Lugar de matrimonio",
                     "td_fecha_matrimonio" => "Fecha de matrimonio",
-                    "td_eseparacion" => "Estado de separacion",
+                    "td_separados" => "Separados",
+                    "td_noseparados" => "No Separados",
                     "td_tiempo_separacion" => "Tiempo de separacion",
                     "td_ep_matrimonio" => "Partida de matrimonio",
                     "td_ep_nacimiento" => "Partida de nacimiento",
@@ -130,12 +131,52 @@
                 echo "</tr></thead>";
         
                 // 👇 FILAS
+                /*echo "<tbody>";
+                while ($row = $result->fetch_assoc()) {
+                    echo "<tr>";
+                    foreach ($config["mostrar_columnas"] as $nombre_col_db => $nombre_amigable) {
+                        echo "<td>" . htmlspecialchars($row[$nombre_col_db]) . "</td>";
+                    }
+                    echo "</tr>";
+                }
+                echo "</tbody>";*/
+
                 echo "<tbody>";
                 while ($row = $result->fetch_assoc()) {
                     echo "<tr>";
                     foreach ($config["mostrar_columnas"] as $nombre_col_db => $nombre_amigable) {
                         echo "<td>" . htmlspecialchars($row[$nombre_col_db]) . "</td>";
                     }
+
+                    // Agrega columna extra con botón PDF
+                    echo "<td>";
+                    
+                    // Determina el nombre del controlador según la tabla
+                    if ($tabla === "tramites_varios") {
+                        $id = $row['id_tramite_varios'];
+                        $archivo = "imprimir_tramite.php.";
+                    } elseif ($tabla === "tramite_impuestos") {
+                        $id = $row['id_tram_impuestos'];
+                        $archivo = "imprimir_declaracion_impuestos.php";
+                    } elseif ($tabla === "tramite_poderes") {
+                        $id = $row['id_tram_poderes'];
+                        $archivo = "imprimir_poder.php";
+                    } elseif ($tabla === "tramite_divorcio") {
+                        $id = $row['id_tram_div'];
+                        $archivo = "generar_pdf_divorcio.php";
+                    } else {
+                        $id = null;
+                        $archivo = null;
+                    }
+
+                    if ($id && $archivo) {
+                        echo "<a href='{$archivo}?id={$id}' target='_blank' class='btn btn-danger btn-sm'>
+                                <i class='bi bi-file-earmark-pdf'></i> PDF
+                            </a>";
+                    }
+
+                    echo "</td>";
+
                     echo "</tr>";
                 }
                 echo "</tbody>";
