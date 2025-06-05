@@ -20,7 +20,7 @@ if ($varsesion==null || $varsesion=='') {
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Registro Clientes</title>
+    <title>Registro Usuarios</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet" />
     <link href="css/styles.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
@@ -148,14 +148,14 @@ if ($varsesion==null || $varsesion=='') {
             color: #333;
         }
 
-        .form-control, .form-select {
+        .form-control {
             border-radius: 5px;
             border: 1px solid #ced4da;
             padding: 10px 15px;
             font-size: 1rem;
         }
 
-        .form-control:focus, .form-select:focus {
+        .form-control:focus {
             border-color: var(--primary-color);
             box-shadow: 0 0 0 0.25rem rgba(0, 64, 128, 0.25);
         }
@@ -211,11 +211,10 @@ if ($varsesion==null || $varsesion=='') {
     </nav>
 
     <div class="container form-section">
-        <h2 class="form-title">Registrar Cliente</h2>
-        <form action="register_controler.php" method="POST">
+        <h2 class="form-title">Registrar Usuario</h2>
+        <form action="usuarios_controler.php" method="POST">
             <div class="row">
-                <div class="col-md-6">
-                    <div class="mb-3">
+                <div class="col-md-6 offset-md-3"> <div class="mb-3">
                         <label for="nombre" class="form-label">Nombre</label>
                         <input type="text" class="form-control" name="nombre" />
                     </div>
@@ -224,52 +223,18 @@ if ($varsesion==null || $varsesion=='') {
                         <input type="text" class="form-control" name="apellido" />
                     </div>
                     <div class="mb-3">
-                        <label for="edad" class="form-label">Edad</label>
-                        <input type="number" class="form-control" name="edad" />
+                        <label for="usuario" class="form-label">Usuario</label>
+                        <input type="text" class="form-control" name="usuario" />
                     </div>
                     <div class="mb-3">
-                        <label for="identificacion" class="form-label">Identificación</label>
-                        <input type="text" class="form-control" name="identificacion" />
-                    </div>
-                    <div class="mb-3">
-                        <label for="telefono" class="form-label">Teléfono</label>
-                        <input type="text" class="form-control" name="telefono" />
-                    </div>
-                    <div class="mb-3">
-                        <label for="direccion" class="form-label">Dirección</label>
-                        <input type="text" class="form-control" name="direccion" />
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label for="pais" class="form-label">País</label>
-                        <input type="text" class="form-control" name="pais" />
-                    </div>
-                    <div class="mb-3">
-                        <label for="estado" class="form-label">Estado</label>
-                        <input type="text" class="form-control" name="estado" />
-                    </div>
-                    <div class="mb-3">
-                        <label for="ciudad" class="form-label">Ciudad</label>
-                        <input type="text" class="form-control" name="ciudad" />
-                    </div>
-                    <div class="mb-3">
-                        <label for="postal" class="form-label">Código Postal</label>
-                        <input type="text" class="form-control" name="postal" />
-                    </div>
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" name="email" />
-                    </div>
-                    <div class="mb-3">
-                        <label for="departamento" class="form-label">N° Departamento</label>
-                        <input type="text" class="form-control" name="departamento" />
+                        <label for="contrasena" class="form-label">Contraseña</label>
+                        <input type="password" class="form-control" name="contrasena" />
                     </div>
                 </div>
             </div>
 
             <div class="button-container">
-                <button type="submit" class="btn btn-submit-custom" name="btn_registro">Registrar Cliente</button>
+                <button type="submit" class="btn btn-submit-custom" name="btn_registro">Registrar Usuario</button>
             </div>
         </form>
     </div>

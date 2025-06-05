@@ -1,5 +1,5 @@
 <?php
-//seguridad de paginacion 
+//seguridad de paginacion
 session_start();
 error_reporting(0);
 $varsesion =$_SESSION['usuario'];
@@ -18,16 +18,15 @@ if ($varsesion==null || $varsesion='') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tramites Varios</title>
     <link href="css/styles.css" rel="stylesheet" />
-    <link href="css/tram_varis.css" rel="stylesheet" />
-    <!-- Bootstrap core JS-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Core theme JS-->
     <script src="js/scripts.js"></script>
     <script src="js/scripts.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
         crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/umd/popper.min.js"
         integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
         crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js"
@@ -134,6 +133,69 @@ if ($varsesion==null || $varsesion='') {
         .custom-navbar .navbar-toggler-icon {
             background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important; /* Icono blanco puro para contraste */
         }
+
+        /* Custom styles for the form */
+        .form-section {
+            background-color: #f8f9fa; /* Light background for the form area */
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+        }
+
+        .form-section h3 {
+            color: var(--primary-color);
+            margin-bottom: 25px;
+            font-weight: 700;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .form-control, .form-select {
+            border-radius: 5px;
+            border: 1px solid #ced4da;
+            padding: 10px 15px;
+            font-size: 1rem;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.25rem rgba(0, 64, 128, 0.25);
+        }
+
+        .form-check-label {
+            margin-left: 5px;
+            color: #333;
+        }
+
+        .btn-submit-custom {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            color: var(--text-light);
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+            width: 100%; /* Full width for the button */
+        }
+
+        .btn-submit-custom:hover {
+            background-color: #003366; /* Slightly darker blue on hover */
+            border-color: #003366;
+            transform: translateY(-2px); /* Slight lift effect */
+            color: var(--text-light);
+        }
+
+        /* Adjust button container for alignment */
+        .button-container {
+            text-align: center;
+            margin-top: 30px;
+        }
     </style>
 </head>
 <body>
@@ -160,160 +222,155 @@ if ($varsesion==null || $varsesion='') {
     </div>
 </nav>
 
-    <!-- Barra de busqueda-->
-    <nav class="navbar bg-body-tertiary">
-        <div class="container-fluid">
-            <form class="d-flex" role="search">
+    <nav class="navbar bg-light mb-4"> <div class="container-fluid">
+            <form class="d-flex w-100" role="search">
                 <input class="form-control me-2" type="search" placeholder="Nombre o Identificación"
                     aria-label="Nombre o Identificación" id="buscador" name="buscador">
-                <input class="btn btn-outline-success" type="button" onclick="buscar_datos()" value="Buscar"></input>
+                <input class="btn btn-primary" type="button" onclick="buscar_datos()" value="Buscar"></input>
             </form>
         </div>
     </nav>
 
 
-
-    </div>
-    <div class="container">
-        <form class="fs-form fs-layout__2-column" method="POST" action="" id="formPoderes">
+    <div class="container form-section">
+        <h3 class="mb-4">Registro de Trámites Varios</h3>
+        <form method="POST" action="" id="formPoderes">
             <?php
             include("conexionbd.php");
             include("prueba_poblacion.php");
             ?>
-            <fieldset>
-                <div class="fs-field">
-                <input class="fs-input" type="hidden" id="id_usuario" name="id_usuario" placeholder="identificacion" />  
-                <input class="fs-input" type="hidden" id="id_cliente" name="id_cliente" placeholder="identificacion" />
-                    <label class="fs-label" for="">Identificacion</label>
-                    <input class="fs-input" id="identificacion" name="identificacion" placeholder="identificacion" />
-                    <div class="fs-field">
-                        <label class="fs-label" for="">Nombres</label>
-                        <input class="fs-input" id="nombre" name="nombre" />
-                    </div>
-                    <div class="fs-field">
-                        <label class="fs-label" for="">Apellidos</label>
-                        <input class="fs-input" id="apellido" name="apellido" />
-                    </div>
-                    <div class="fs-field">
-                        <label class="fs-label" for="">Telefono</label>
-                        <input class="fs-input" name="telefono" id="telefono" />
-                    </div>
-                    <div class="fs-field">
-                        <label class="fs-label" for="">Direccion</label>
-                        <input class="fs-input" name="direccion" id="direccion" />
-                    </div>
-                    <div class="fs-field">
-                        <label class="fs-label" for="">Estado</label>
-                        <input class="fs-input" name="estado" id="estado"/>
-                    </div>
-                    <div class="fs-field">
-                        <label class="fs-label" for="">Ciudad</label>
-                        <input class="fs-input" name="ciudad" id="ciudad"/>
-                    </div>
-                    <div class="fs-field">
-                        <label class="fs-label" for="">Codigo Postal</label>
-                        <input class="fs-input" name="postal" id="postal"/>
-                    </div>
-                    <div class="fs-field">
-                        <label class="fs-label" for="">Email</label>
-                        <input class="fs-input" name="email" id="email"/>
-                    </div>
-                    <div class="fs-field">
-                        <label class="fs-label" for="">N° Departamento</label>
-                        <input class="fs-input" name="departamento" id="departamento"/>
-                    </div>
+            <input type="hidden" id="id_usuario" name="id_usuario" />
+            <input type="hidden" id="id_cliente" name="id_cliente" />
 
-
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="identificacion" class="form-label">Identificación</label>
+                        <input type="text" class="form-control" id="identificacion" name="identificacion" placeholder="Identificación" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label">Nombres</label>
+                        <input type="text" class="form-control" id="nombre" name="nombre" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="apellido" class="form-label">Apellidos</label>
+                        <input type="text" class="form-control" id="apellido" name="apellido" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="telefono" class="form-label">Teléfono</label>
+                        <input type="text" class="form-control" name="telefono" id="telefono" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="direccion" class="form-label">Dirección</label>
+                        <input type="text" class="form-control" name="direccion" id="direccion" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="estado" class="form-label">Estado</label>
+                        <input type="text" class="form-control" name="estado" id="estado"/>
+                    </div>
+                    <div class="mb-3">
+                        <label for="ciudad" class="form-label">Ciudad</label>
+                        <input type="text" class="form-control" name="ciudad" id="ciudad"/>
+                    </div>
+                    <div class="mb-3">
+                        <label for="postal" class="form-label">Código Postal</label>
+                        <input type="text" class="form-control" name="postal" id="postal"/>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" name="email" id="email"/>
+                    </div>
+                    <div class="mb-3">
+                        <label for="departamento" class="form-label">N° Departamento</label>
+                        <input type="text" class="form-control" name="departamento" id="departamento"/>
+                    </div>
                 </div>
-                <div class="fs-field">
-                    <label class="fs-label" for="">Tipo de documento</label>
-                    <select class="form-select" name="tipo_doc" id="tipo_doc">
-                        <option>Elegir</option>
-                        <option>Nacimiento</option>
-                        <option>Matrimonio</option>
-                        <option>Defuncion</option>
-                        <option>Divorcio</option>
-                        <option>Academicas</option>
-                        <option>Carta de invitacion</option>
-                        <option>Otros</option>
-                    </select>
-                    <div class="fs-field">
-                        <label class="fs-label" for="">Servicios</label>
+
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="tipo_doc" class="form-label">Tipo de documento</label>
+                        <select class="form-select" name="tipo_doc" id="tipo_doc">
+                            <option>Elegir</option>
+                            <option>Nacimiento</option>
+                            <option>Matrimonio</option>
+                            <option>Defuncion</option>
+                            <option>Divorcio</option>
+                            <option>Academicas</option>
+                            <option>Carta de invitacion</option>
+                            <option>Otros</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Servicios</label>
                         <div class="form-check">
-                        <input class="form-check-input" type="hidden" id="check1" name="check1" value="0">
-                        <input class="form-check-input" type="hidden" id="check2" name="check2" value="0">
-                        <input class="form-check-input" type="hidden" id="check3" name="check3" value="0">
-                        <input class="form-check-input" type="hidden" id="check4" name="check4" value="0">
-                        <label class="form-check-label">Traducciones</label>
                             <input class="form-check-input" type="checkbox" id="check1" name="check1" value="1">
+                            <label class="form-check-label" for="check1">Traducciones</label>
                         </div>
                         <div class="form-check">
-                        <label class="form-check-label">Notarizacion</label>
                             <input class="form-check-input" type="checkbox" id="check2" name="check2" value="1">
+                            <label class="form-check-label" for="check2">Notarización</label>
                         </div>
                         <div class="form-check">
-                        <label class="form-check-label">Certificacion</label>
                             <input class="form-check-input" type="checkbox" id="check3" name="check3" value="1">
+                            <label class="form-check-label" for="check3">Certificación</label>
                         </div>
                         <div class="form-check">
-                        <label class="form-check-label">Apostilla</label>
                             <input class="form-check-input" type="checkbox" id="check4" name="check4" value="1">
+                            <label class="form-check-label" for="check4">Apostilla</label>
                         </div>
+                         <input type="hidden" name="check1" value="0">
+                         <input type="hidden" name="check2" value="0">
+                         <input type="hidden" name="check3" value="0">
+                         <input type="hidden" name="check4" value="0">
                     </div>
-                    <div class="fs-field">
-                        <label class="fs-label" for="">Para uso en:</label>
-                        <input class="fs-input" id="motivo" name="motivo" />
+                    <div class="mb-3">
+                        <label for="motivo" class="form-label">Para uso en:</label>
+                        <input type="text" class="form-control" id="motivo" name="motivo" />
                     </div>
-                    <div class="fs-field">
-                        <label class="fs-label" for="">Opcion de envio</label>
+                    <div class="mb-3">
+                        <label for="opc_envio" class="form-label">Opción de envío</label>
                         <select class="form-select" name="opc_envio" id="opc_envio">
-                        <option>A su domicilio en EE.UU.</option>
-                        <option>Ofrecemos envios express al Ecuador en 3 dias laborables.</option>
-                        <option>Venirlo a retirar personalmente en la oficina.</option>
-                    </select>
+                            <option>A su domicilio en EE.UU.</option>
+                            <option>Ofrecemos envíos express al Ecuador en 3 días laborables.</option>
+                            <option>Venirlo a retirar personalmente en la oficina.</option>
+                        </select>
                     </div>
-                    <div class="fs-field">
-                        <label class="fs-label" for="">Valor</label>
-                        <input class="fs-input" type="number" name="valor" min="0" id="valor" />
+                    <div class="mb-3">
+                        <label for="valor" class="form-label">Valor</label>
+                        <input type="number" class="form-control" name="valor" min="0" id="valor" />
                     </div>
-                    <div class="fs-field">
-                        <label class="fs-label" for="">Abono</label>
-                        <input class="fs-input" type="number" name="abono" min="0" id="abono"/>
+                    <div class="mb-3">
+                        <label for="abono" class="form-label">Abono</label>
+                        <input type="number" class="form-control" name="abono" min="0" id="abono"/>
                     </div>
-                    <div class="fs-field">
-                        <label class="fs-label" for="">Enviar a Ecuador a nombre de:</label>
-                        <input class="fs-input" name="remitente" id="remitente"/>
+                    <div class="mb-3">
+                        <label for="remitente" class="form-label">Enviar a Ecuador a nombre de:</label>
+                        <input type="text" class="form-control" name="remitente" id="remitente"/>
                     </div>
-                    <div class="fs-field">
-                        <label class="fs-label" for="">Ciudad del remitente</label>
-                        <input class="fs-input" name="ciudad_r" id="ciudad_r"/>
+                    <div class="mb-3">
+                        <label for="ciudad_r" class="form-label">Ciudad del remitente</label>
+                        <input type="text" class="form-control" name="ciudad_r" id="ciudad_r"/>
                     </div>
-                    <div class="fs-field">
-                        <label class="fs-label" for="">Provincia del remitente</label>
-                        <input class="fs-input" name="provincia_r" id="provincia_r"/>
+                    <div class="mb-3">
+                        <label for="provincia_r" class="form-label">Provincia del remitente</label>
+                        <input type="text" class="form-control" name="provincia_r" id="provincia_r"/>
                     </div>
-                    <div class="fs-field">
-                        <label class="fs-label" for="">Telefono del remitente</label>
-                        <input class="fs-input" name="telefono_r" id="telefono_r"/>
+                    <div class="mb-3">
+                        <label for="telefono_r" class="form-label">Teléfono del remitente</label>
+                        <input type="text" class="form-control" name="telefono_r" id="telefono_r"/>
                     </div>
-
-
                 </div>
-            </fieldset>
+            </div>
 
-
-            <div class="fs-button-group">
-                <input class="fs-button" type="submit" name="btn_registro_imp">
+            <div class="button-container">
+                <button type="submit" class="btn btn-submit-custom" name="btn_registro_imp">Registrar Trámite</button>
             </div>
 
         </form>
 
         <div id="printButtonContainer" style="display: none; text-align: center; margin-top: 20px;">
-            <button class="btn btn-primary" id="printRecordBtn">Imprimir Registro</button>
+            <button class="btn btn-success" id="printRecordBtn">Imprimir Registro</button>
         </div>
-
-
-
     </div>
 
     <script>
@@ -321,13 +378,26 @@ document.getElementById('formPoderes').addEventListener('submit', function (e) {
     e.preventDefault();
 
     const formData = new FormData(this);
+    // Ensure unchecked checkboxes send '0'
+    ['check1', 'check2', 'check3', 'check4'].forEach(id => {
+        if (!document.getElementById(id).checked) {
+            formData.set(id, '0');
+        }
+    });
+
     formData.append("btn_registro_imp", "1");
 
     fetch('prueba_poblacion.php', {
         method: 'POST',
         body: formData
     })
-    .then(res => res.json()) // <--- CAMBIO CLAVE: Esperar JSON
+    .then(res => {
+        if (!res.ok) {
+            // If response is not OK, try to read it as text for more info
+            return res.text().then(text => { throw new Error(text); });
+        }
+        return res.json(); // <--- CAMBIO CLAVE: Esperar JSON
+    })
     .then(data => { // <--- CAMBIO CLAVE: 'data' en lugar de 'response'
         console.log('Respuesta del servidor:', data);
         if (data.status === "success") { // <--- Verificar el 'status' del JSON
@@ -339,18 +409,18 @@ document.getElementById('formPoderes').addEventListener('submit', function (e) {
                 showConfirmButton: false
             });
             this.reset();
-            // Mostrar el contenedor del botón de imprimir
+            // Show print button container
             document.getElementById('printButtonContainer').style.display = 'block';
-            // Adjuntar el ID del nuevo registro al botón de imprimir
-            document.getElementById('printRecordBtn').setAttribute('data-record-id', data.id); // <--- Guardar el ID
+            // Attach new record ID to print button
+            document.getElementById('printRecordBtn').setAttribute('data-record-id', data.id); // <--- Store the ID
 
         } else {
             Swal.fire({
                 icon: 'error',
                 title: 'Error',
-                text: data.message // <--- Usar data.message
+                text: data.message // <--- Use data.message
             });
-            document.getElementById('printButtonContainer').style.display = 'none'; // Ocultar si hay error
+            document.getElementById('printButtonContainer').style.display = 'none'; // Hide if error
         }
     })
     .catch(error => {
@@ -360,15 +430,15 @@ document.getElementById('formPoderes').addEventListener('submit', function (e) {
             title: 'Error de red',
             text: 'No se pudo enviar el formulario. Intenta más tarde.'
         });
-        document.getElementById('printButtonContainer').style.display = 'none'; // Ocultar si hay error
+        document.getElementById('printButtonContainer').style.display = 'none'; // Hide if error
     });
 });
 
-// Event listener para el botón de imprimir
+// Event listener for the print button
 document.getElementById('printRecordBtn').addEventListener('click', function() {
-    const recordId = this.getAttribute('data-record-id'); // Obtener el ID que guardamos
+    const recordId = this.getAttribute('data-record-id'); // Get the stored ID
     if (recordId) {
-        // Abrir la nueva página de impresión en una nueva pestaña
+        // Open new print page in a new tab
         window.open('imprimir_tramite.php?id=' + recordId, '_blank');
     } else {
         Swal.fire({
@@ -399,20 +469,43 @@ document.getElementById('printRecordBtn').addEventListener('click', function() {
                 dataType: 'json',
                 url: 'prueba_poblacion.php',
                 type: 'post',
-                error: function () { alert("Error"); },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.error("AJAX Error: " + textStatus, errorThrown);
+                    alert("Error al buscar datos: " + textStatus);
+                },
                 success: function (valores) {
-                    $("#nombre").val(valores.nombre);
-                    $("#apellido").val(valores.apellido);
-                    $("#identificacion").val(valores.identificacion);
-                    $("#telefono").val(valores.telefono);
-                    $("#direccion").val(valores.direccion);
-                    $("#estado").val(valores.estado);
-                    $("#ciudad").val(valores.ciudad);
-                    $("#postal").val(valores.postal);
-                    $("#email").val(valores.email);
-                    $("#departamento").val(valores.departamento);
-                    $("#id_cliente").val(valores.id_cliente);
-                   
+                    if (valores) { // Check if 'valores' is not null or empty
+                        $("#nombre").val(valores.nombre);
+                        $("#apellido").val(valores.apellido);
+                        $("#identificacion").val(valores.identificacion);
+                        $("#telefono").val(valores.telefono);
+                        $("#direccion").val(valores.direccion);
+                        $("#estado").val(valores.estado);
+                        $("#ciudad").val(valores.ciudad);
+                        $("#postal").val(valores.postal);
+                        $("#email").val(valores.email);
+                        $("#departamento").val(valores.departamento);
+                        $("#id_cliente").val(valores.id_cliente);
+                    } else {
+                        // Optionally, clear fields if no data is found
+                        $("#nombre").val('');
+                        $("#apellido").val('');
+                        $("#identificacion").val('');
+                        $("#telefono").val('');
+                        $("#direccion").val('');
+                        $("#estado").val('');
+                        $("#ciudad").val('');
+                        $("#postal").val('');
+                        $("#email").val('');
+                        $("#departamento").val('');
+                        $("#id_cliente").val('');
+                        Swal.fire({
+                            icon: 'info',
+                            title: 'No encontrado',
+                            text: 'No se encontraron datos para la búsqueda.'
+                        });
+                    }
+
                 },
 
 
