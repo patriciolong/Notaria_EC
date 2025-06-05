@@ -28,7 +28,7 @@ if ($varsesion==null || $varsesion=='') {
     <body>
         <nav class="custom-navbar navbar navbar-expand-lg">
             <div class="container px-lg-5">
-                <a class="navbar-brand" href="http://localhost/Notaria_EC/public_html/menu.php">
+                <a class="navbar-brand" href="http://localhost/NotariaEc/Notaria_EC/public_html/menu.php">
                     <img src="img\logo.png" alt="logo"> </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -122,6 +122,30 @@ if ($varsesion==null || $varsesion=='') {
                             <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
                             <a href="dashboard_plantillas.php" class="feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4"><i class="bi bi-file-text"></i></a>
                                 <h2 class="fs-4 fw-bold">Plantillas</h2>
+
+                                <p class="mb-0"></p>
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-xxl-4 mb-5">
+                        <div class="card bg-light border-0 h-100">
+                            <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
+                            <a href="creacion_usuarios.php" class="feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4"><i class="bi bi-file-text"></i></a>
+                                <h2 class="fs-4 fw-bold">Registro Usuarios</h2>
+
+                                <p class="mb-0"></p>
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-xxl-4 mb-5">
+                        <div class="card bg-light border-0 h-100">
+                            <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
+                            <a href="listado_usuarios.php" class="feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4"><i class="bi bi-file-text"></i></a>
+                                <h2 class="fs-4 fw-bold">Listado Usuarios</h2>
 
                                 <p class="mb-0"></p>
 

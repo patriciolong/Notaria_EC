@@ -1,4 +1,16 @@
 <?php
+//seguridad de paginacion
+session_start();
+error_reporting(0);
+$varsesion =$_SESSION['usuario'];
+$variable_ses = $varsesion;
+if ($varsesion==null || $varsesion=='') {
+    header("location:index.php");
+    die;
+}
+
+?>
+<?php
 // Reportar errores para depuración (QUÍTALE ESTO EN PRODUCCIÓN)
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
