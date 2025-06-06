@@ -1,13 +1,14 @@
 <?php
+include("conexionbd.php");
 if (!empty($_POST["btn_registro"])) {
     if (empty($_POST["identificacion"])) {
         echo 'Esta vacio';
         # code...
     }else{
-        $id_cliente = $_POST["cliente"];
+        
         $identificacion = $_POST["identificacion"];
-        $nombre = $_POST["nombres"];
-        $apellido = $_POST["apellidos"];
+        $nombre = $_POST["nombre"];
+        $apellido = $_POST["apellido"];
         $telefono = $_POST["telefono"];
         $edad = $_POST["edad"];
         $direccion = $_POST["direccion"];

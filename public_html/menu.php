@@ -28,7 +28,7 @@ if ($varsesion==null || $varsesion=='') {
     <body>
         <nav class="custom-navbar navbar navbar-expand-lg">
             <div class="container px-lg-5">
-                <a class="navbar-brand" href="http://localhost/Notaria_EC/public_html/menu.php">
+                <a class="navbar-brand" href="menu.php">
                     <img src="img\logo.png" alt="logo"> </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
