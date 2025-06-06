@@ -150,7 +150,7 @@ if ($varsesion==null || $varsesion=='') {
 
     <div class="container">
         <h2 class="form-title">Registrar Cliente</h2>
-        <form class="fs-form" action="registrar.php" method="POST">
+        <form class="fs-form" action="register_controler.php" method="POST">
             <fieldset>
                 <div class="fs-field">
                     <label class="fs-label" for="">Nombre</label>
@@ -159,6 +159,10 @@ if ($varsesion==null || $varsesion=='') {
                 <div class="fs-field">
                     <label class="fs-label" for="">Apellido</label>
                     <input class="fs-input" name="apellido" />
+                </div>
+                <div class="fs-field">
+                    <label class="fs-label" for="">Edad</label>
+                    <input class="fs-input" name="edad" />
                 </div>
                 <div class="fs-field">
                     <label class="fs-label" for="">Identificacion</label>
