@@ -2,11 +2,24 @@
 session_start();
 error_reporting(0);
 $varsesion = $_SESSION['usuario'];
+$user_rol = $_SESSION['rol'] ?? '';
+
 if ($varsesion == null || $varsesion == '') {
     header("location:index.php");
-    die;
+    die();
 }
 
+// Check if the user has the 'Administrador' or 'Notario' role to access this page
+if ($user_rol != 'Administrador') {
+    // Redirect to an unauthorized page or menu.php with an error message
+    header("location:menu.php?error=acceso_denegado");
+    die();
+}
+
+// Rest of your creacion_usuarios.php code
+// ...
+?>
+<?php
 include 'conexionbd.php'; // Include your database connection file
 
 $user = null; // Inicializa $user a null

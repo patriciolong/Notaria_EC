@@ -1,16 +1,21 @@
 <?php
 //seguridad de paginacion
-session_start();
+session_start(); // <--- MUY IMPORTANTE QUE ESTÉ AL PRINCIPIO
 error_reporting(0);
 $varsesion =$_SESSION['usuario'];
 $variable_ses = $varsesion;
+$user_rol = $_SESSION['rol'] ?? ''; // <-- Aquí se obtiene el rol
+
+// *** DEPURACIÓN EN MENU.PHP: Muestra el rol aquí ***
+//echo "DEBUG MENU - Rol de la sesión: '" . $user_rol . "'<br>";
+//echo "DEBUG MENU - Usuario de la sesión: " . $variable_ses . "<br>";
+
 if ($varsesion==null || $varsesion=='') {
     header("location:index.php");
     die;
 }
 
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -105,6 +110,7 @@ if ($varsesion==null || $varsesion=='') {
                             </div>
                         </div>
                     </div>
+                    <?php if ($user_rol == 'Administrador'): ?>
                     <div class="col-lg-6 col-xxl-4 mb-5">
                         <div class="card bg-light border-0 h-100">
                             <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
@@ -117,6 +123,7 @@ if ($varsesion==null || $varsesion=='') {
                             </div>
                         </div>
                     </div>
+                     <?php endif; ?>
                     <div class="col-lg-6 col-xxl-4 mb-5">
                         <div class="card bg-light border-0 h-100">
                             <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
@@ -129,6 +136,7 @@ if ($varsesion==null || $varsesion=='') {
                             </div>
                         </div>
                     </div>
+                    <?php if ($user_rol == 'Administrador'): ?>
                     <div class="col-lg-6 col-xxl-4 mb-5">
                         <div class="card bg-light border-0 h-100">
                             <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
@@ -141,6 +149,8 @@ if ($varsesion==null || $varsesion=='') {
                             </div>
                         </div>
                     </div>
+                    <?php endif; ?>
+                    <?php if ($user_rol == 'Administrador'): ?>
                     <div class="col-lg-6 col-xxl-4 mb-5">
                         <div class="card bg-light border-0 h-100">
                             <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
@@ -153,6 +163,7 @@ if ($varsesion==null || $varsesion=='') {
                             </div>
                         </div>
                     </div>
+                    <?php endif; ?>
                 </div>
             </div>
         </section>
