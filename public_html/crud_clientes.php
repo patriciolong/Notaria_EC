@@ -23,9 +23,7 @@ if ($varsesion==null || $varsesion=='') {
     <title>Registro Clientes</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet" />
     <link href="css/styles.css" rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <link href="css/register.css" rel="stylesheet" /> <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
 
     <style>
         /* Importar fuente Lato para el Navbar */
@@ -124,66 +122,6 @@ if ($varsesion==null || $varsesion=='') {
         .custom-navbar .navbar-toggler-icon {
             background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important; /* Icono blanco puro para contraste */
         }
-
-        /* Custom styles for the form */
-        .form-section {
-            background-color: #f8f9fa; /* Light background for the form area */
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-            margin-top: 30px;
-            margin-bottom: 30px;
-        }
-
-        .form-section h2 {
-            color: var(--primary-color);
-            margin-bottom: 25px;
-            font-weight: 700;
-            text-align: center;
-        }
-
-        .form-group label {
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: #333;
-        }
-
-        .form-control, .form-select {
-            border-radius: 5px;
-            border: 1px solid #ced4da;
-            padding: 10px 15px;
-            font-size: 1rem;
-        }
-
-        .form-control:focus, .form-select:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 0.25rem rgba(0, 64, 128, 0.25);
-        }
-
-        .btn-submit-custom {
-            background-color: var(--primary-color);
-            border-color: var(--primary-color);
-            color: var(--text-light);
-            padding: 12px 30px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            border-radius: 8px;
-            transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
-            width: 100%; /* Full width for the button */
-        }
-
-        .btn-submit-custom:hover {
-            background-color: #003366; /* Slightly darker blue on hover */
-            border-color: #003366;
-            transform: translateY(-2px); /* Slight lift effect */
-            color: var(--text-light);
-        }
-
-        /* Adjust button container for alignment */
-        .button-container {
-            text-align: center;
-            margin-top: 30px;
-        }
     </style>
 </head>
 
@@ -210,101 +148,65 @@ if ($varsesion==null || $varsesion=='') {
         </div>
     </nav>
 
-    <div class="container form-section">
+    <div class="container">
         <h2 class="form-title">Registrar Cliente</h2>
-        <form action="register_controler.php" method="POST">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label for="nombre" class="form-label">Nombre</label>
-                        <input type="text" class="form-control" name="nombre" />
-                    </div>
-                    <div class="mb-3">
-                        <label for="apellido" class="form-label">Apellido</label>
-                        <input type="text" class="form-control" name="apellido" />
-                    </div>
-                    <div class="mb-3">
-                        <label for="edad" class="form-label">Edad</label>
-                        <input type="number" class="form-control" name="edad" />
-                    </div>
-                    <div class="mb-3">
-                        <label for="identificacion" class="form-label">Identificación</label>
-                        <input type="text" class="form-control" name="identificacion" />
-                    </div>
-                    <div class="mb-3">
-                        <label for="telefono" class="form-label">Teléfono</label>
-                        <input type="text" class="form-control" name="telefono" />
-                    </div>
-                    <div class="mb-3">
-                        <label for="direccion" class="form-label">Dirección</label>
-                        <input type="text" class="form-control" name="direccion" />
-                    </div>
+        <form class="fs-form" action="registrar.php" method="POST">
+            <fieldset>
+                <div class="fs-field">
+                    <label class="fs-label" for="">Nombre</label>
+                    <input class="fs-input" name="nombre" />
                 </div>
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label for="pais" class="form-label">País</label>
-                        <input type="text" class="form-control" name="pais" />
-                    </div>
-                    <div class="mb-3">
-                        <label for="estado" class="form-label">Estado</label>
-                        <input type="text" class="form-control" name="estado" />
-                    </div>
-                    <div class="mb-3">
-                        <label for="ciudad" class="form-label">Ciudad</label>
-                        <input type="text" class="form-control" name="ciudad" />
-                    </div>
-                    <div class="mb-3">
-                        <label for="postal" class="form-label">Código Postal</label>
-                        <input type="text" class="form-control" name="postal" />
-                    </div>
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" name="email" />
-                    </div>
-                    <div class="mb-3">
-                        <label for="departamento" class="form-label">N° Departamento</label>
-                        <input type="text" class="form-control" name="departamento" />
-                    </div>
+                <div class="fs-field">
+                    <label class="fs-label" for="">Apellido</label>
+                    <input class="fs-input" name="apellido" />
                 </div>
-            </div>
+                <div class="fs-field">
+                    <label class="fs-label" for="">Identificacion</label>
+                    <input class="fs-input" name="identificacion" />
+                </div>
+                <div class="fs-field">
+                    <label class="fs-label" for="">Telefono</label>
+                    <input class="fs-input" name="telefono" />
+                </div>
+                <div class="fs-field">
+                    <label class="fs-label" for="">Direccion</label>
+                    <input class="fs-input" name="direccion" />
+                </div>
+                <div class="fs-field">
+                    <label class="fs-label" for="">Pais</label>
+                    <input class="fs-input"  name="pais" />
+                </div>
+                <div class="fs-field">
+                    <label class="fs-label" for="">Estado</label>
+                    <input class="fs-input"  name="estado" />
+                </div>
+                <div class="fs-field">
+                    <label class="fs-label" for="">Ciudad</label>
+                    <input class="fs-input"  name="ciudad" />
+                </div>
+                <div class="fs-field">
+                    <label class="fs-label" for="">Codigo Postal</label>
+                    <input class="fs-input"  name="postal" />
+                </div>
+                <div class="fs-field">
+                    <label class="fs-label" for="">Email</label>
+                    <input class="fs-input"  name="email" />
+                </div>
+                <div class="fs-field">
+                    <label class="fs-label" for="">N° Departamento</label>
+                    <input class="fs-input"  name="departamento" />
+                </div>
+            </fieldset>
 
-            <div class="button-container">
-                <button type="submit" class="btn btn-submit-custom" name="btn_registro">Registrar Cliente</button>
-            </div>
+                <div class="fs-button-group">
+    <input class="fs-button" type="submit" name="btn_registro" >
+  </div>
+
         </form>
-    </div>
 
+
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/scripts.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
-
-    <script>
-        // JavaScript para mostrar el popup con SweetAlert2
-        document.addEventListener('DOMContentLoaded', function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const status = urlParams.get('status');
-            const message = urlParams.get('message');
-
-            if (status && message) {
-                if (status === 'success') {
-                    Swal.fire({
-                        icon: 'success',
-                        title: '¡Éxito!',
-                        text: message,
-                        confirmButtonText: 'Aceptar'
-                    });
-                } else if (status === 'error') {
-                    Swal.fire({
-                        icon: 'error',
-                        title: '¡Error!',
-                        text: message,
-                        confirmButtonText: 'Aceptar'
-                    });
-                }
-                // Limpiar los parámetros de la URL después de mostrar el mensaje
-                window.history.replaceState(null, '', window.location.pathname);
-            }
-        });
-    </script>
 </body>
 </html>

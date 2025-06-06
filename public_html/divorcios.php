@@ -19,10 +19,8 @@ if ($varsesion == null || $varsesion == '') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Divorcios</title>
     <link href="css/styles.css" rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="js/scripts.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="css/tram_varis.css" rel="stylesheet" /> <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/scripts.js"></script> <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
         <style>
@@ -62,6 +60,9 @@ if ($varsesion == null || $varsesion == '') {
             /* Mantiene los colores originales del logo */
             width: 180px; /* Tamaño adaptado del logo */
             height: auto;
+            /* Si el logo sigue perdiéndose, intente quitar el comentario de la siguiente línea
+               o ajuste el valor de 'brightness' si su logo es muy oscuro */
+            /* filter: brightness(1.2); */ /* Un ligero aumento de brillo si es necesario */
             transition: transform 0.3s ease;
         }
 
@@ -120,65 +121,6 @@ if ($varsesion == null || $varsesion == '') {
         .custom-navbar .navbar-toggler-icon {
             background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important; /* Icono blanco puro para contraste */
         }
-
-        /* Custom styles for the form */
-        .form-section {
-            background-color: #f8f9fa; /* Light background for the form area */
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-            margin-top: 30px;
-            margin-bottom: 30px;
-        }
-
-        .form-section h3 {
-            color: var(--primary-color);
-            margin-bottom: 25px;
-            font-weight: 700;
-        }
-
-        .form-group label {
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: #333;
-        }
-
-        .form-control, .form-select {
-            border-radius: 5px;
-            border: 1px solid #ced4da;
-            padding: 10px 15px;
-            font-size: 1rem;
-        }
-
-        .form-control:focus, .form-select:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 0.25rem rgba(0, 64, 128, 0.25);
-        }
-
-        .btn-submit-custom {
-            background-color: var(--primary-color);
-            border-color: var(--primary-color);
-            color: var(--text-light);
-            padding: 12px 30px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            border-radius: 8px;
-            transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
-            width: 100%; /* Full width for the button */
-        }
-
-        .btn-submit-custom:hover {
-            background-color: #003366; /* Slightly darker blue on hover */
-            border-color: #003366;
-            transform: translateY(-2px); /* Slight lift effect */
-            color: var(--text-light);
-        }
-
-        /* Adjust button container for alignment */
-        .button-container {
-            text-align: center;
-            margin-top: 30px;
-        }
     </style>
 </head>
 <body>
@@ -205,240 +147,299 @@ if ($varsesion == null || $varsesion == '') {
     </div>
 </nav>
 
-<div class="container text-center mt-4">
-    <h2 class="fs-2 fw-bold text-primary">Divorcios</h2>
-</div>
+    <div style="width: 100px; margin:0 auto;text-align: center">
+        <p class="fs-2">Divorcios</p>
+    </div>
 
-<nav class="navbar bg-light mb-4">
-    <div class="container-fluid">
-        <form class="d-flex w-100" role="search">
-            <input class="form-control me-2" type="search" placeholder="Nombre o Identificación"
-                aria-label="Nombre o Identificación" id="buscador" name="buscador">
-            <input class="btn btn-primary" type="button" onclick="buscar_datos()" value="Buscar"></input>
+    <nav class="navbar bg-body-tertiary">
+        <div class="container-fluid">
+            <form class="d-flex" role="search">
+                <input class="form-control me-2" type="search" placeholder="Nombre o Identificación"
+                    aria-label="Nombre o Identificación" id="buscador" name="buscador">
+                <input class="btn btn-outline-success" type="button" onclick="buscar_datos()" value="Buscar"></input>
+            </form>
+        </div>
+    </nav>
+
+    <div class="container">
+        <form class="fs-form fs-layout__2-column" method="POST" action="" id="formDivorcios">
+            <?php
+            // Incluimos la conexión a la base de datos
+            include("conexionbd.php");
+            ?>
+            <fieldset>
+                <div class="fs-field">
+                    <div class="">
+                        <h3 class="" for="">1. Datos del Solicitante (Usted):</h3>
+                    </div>
+                    <input class="fs-input" type="hidden" id="id_usuario" name="id_usuario" value="<?php echo $user_id; ?>" />
+                    <input class="fs-input" type="hidden" id="id_cliente" name="id_cliente" />
+                    
+                    <label class="fs-label" for="identificacion">Identificación</label>
+                    <input class="fs-input form-control" id="identificacion" name="identificacion" placeholder="identificación" required />
+                    
+                    <div class="fs-field">
+                        <label class="fs-label" for="nombre">Nombres</label>
+                        <input class="fs-input form-control" id="nombre" name="nombre" required />
+                    </div>
+                    <div class="fs-field">
+                        <label class="fs-label" for="apellido">Apellidos</label>
+                        <input class="fs-input form-control" id="apellido" name="apellido" required />
+                    </div>
+                    <div class="fs-field">
+                        <label class="fs-label" for="telefono">Teléfono</label>
+                        <input class="fs-input form-control" name="telefono" id="telefono" />
+                    </div>
+                    <div class="fs-field">
+                        <label class="fs-label" for="direccion">Dirección</label>
+                        <input class="fs-input form-control" name="direccion" id="direccion" />
+                    </div>
+                    <div class="fs-field">
+                        <label class="fs-label" for="estado">Estado</label>
+                        <input class="fs-input form-control" name="estado" id="estado" />
+                    </div>
+                    <div class="fs-field">
+                        <label class="fs-label" for="ciudad">Ciudad</label>
+                        <input class="fs-input form-control" name="ciudad" id="ciudad" />
+                    </div>
+                    <div class="fs-field">
+                        <label class="fs-label" for="postal">Código Postal</label>
+                        <input class="fs-input form-control" name="postal" id="postal" />
+                    </div>
+                    <div class="fs-field">
+                        <label class="fs-label" for="email">Email</label>
+                        <input class="fs-input form-control" name="email" id="email" />
+                    </div>
+                    <div class="fs-field">
+                        <label class="fs-label" for="departamento">N° Departamento</label>
+                        <input class="fs-input form-control" name="departamento" id="departamento" />
+                    </div>
+                </div>
+
+                <div class="fs-field">
+                    <div class="">
+                        <h3 class="" for="">2. Datos del Trámite de Divorcio:</h3>
+                    </div>
+                    <div class="fs-field">
+                        <label class="fs-label" for="tipo_divorcio_group">Tipo de Divorcio:</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="tipo_divorcio" id="tipo_divorcio_controv" value="Controvertido" required>
+                            <label class="form-check-label" for="tipo_divorcio_controv">
+                                Controvertido
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="tipo_divorcio" id="tipo_divorcio_consens" value="Consensual" required>
+                            <label class="form-check-label" for="tipo_divorcio_consens">
+                                Consensual
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="fs-field">
+                        <label class="fs-label" for="nombre_conyugue">Nombre del Cónyuge</label>
+                        <input class="fs-input form-control" name="nombre_conyugue" id="nombre_conyugue" required />
+                    </div>
+                    <div class="fs-field">
+                        <label class="fs-label" for="identificacion_conyugue">Identificación del Cónyuge</label>
+                        <input class="fs-input form-control" name="identificacion_conyugue" id="identificacion_conyugue" />
+                    </div>
+                    <div class="fs-field">
+                        <label class="fs-label" for="direccion_conyugue">Dirección del Cónyuge</label>
+                        <input class="fs-input form-control" name="direccion_conyugue" id="direccion_conyugue" />
+                    </div>
+                    <div class="fs-field">
+                        <label class="fs-label" for="apartamento_conyugue">Apartamento del Cónyuge</label>
+                        <input class="fs-input form-control" name="apartamento_conyugue" id="apartamento_conyugue" />
+                    </div>
+                    <div class="fs-field">
+                        <label class="fs-label" for="ciudad_conyugue">Ciudad del Cónyuge</label>
+                        <input class="fs-input form-control" name="ciudad_conyugue" id="ciudad_conyugue" />
+                    </div>
+                    <div class="fs-field">
+                        <label class="fs-label" for="estado_conyugue">Estado del Cónyuge</label>
+                        <input class="fs-input form-control" name="estado_conyugue" id="estado_conyugue" />
+                    </div>
+                    <div class="fs-field">
+                        <label class="fs-label" for="postal_conyugue">Código Postal del Cónyuge</label>
+                        <input class="fs-input form-control" name="postal_conyugue" id="postal_conyugue" />
+                    </div>
+                    <div class="fs-field">
+                        <label class="fs-label" for="telefono_conyugue">Teléfono del Cónyuge</label>
+                        <input class="fs-input form-control" name="telefono_conyugue" id="telefono_conyugue" />
+                    </div>
+
+                    <div class="fs-field">
+                        <label class="fs-label" for="lugar_matrimonio">Lugar de Matrimonio</label>
+                        <input class="fs-input form-control" name="lugar_matrimonio" id="lugar_matrimonio" />
+                    </div>
+                    <div class="fs-field">
+                        <label class="fs-label" for="fecha_matrimonio">Fecha de Matrimonio</label>
+                        <input class="fs-input form-control" type="date" name="fecha_matrimonio" id="fecha_matrimonio" />
+                    </div>
+
+                    <div class="fs-field">
+                        <label class="fs-label">¿Está separado de su cónyuge?</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="esta_separado" id="separado_si" value="1">
+                            <label class="form-check-label" for="separado_si">
+                                Sí
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="esta_separado" id="separado_no" value="0" checked>
+                            <label class="form-check-label" for="separado_no">
+                                No
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="fs-field">
+                        <label class="fs-label" for="tiempo_separacion">Tiempo de Separación (si aplica)</label>
+                        <input class="fs-input form-control" name="tiempo_separacion" id="tiempo_separacion" placeholder="Ej: 2 años, 6 meses" />
+                    </div>
+
+                    <div class="fs-field">
+                        <label class="fs-label">¿Posee los siguientes documentos?</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="posee_partida_matrimonio" id="posee_partida_matrimonio" value="1">
+                            <label class="form-check-label" for="posee_partida_matrimonio">
+                                Partida de Matrimonio
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="posee_partida_nacimiento_menores" id="posee_partida_nacimiento_menores" value="1">
+                            <label class="form-check-label" for="posee_partida_nacimiento_menores">
+                                Partida de Nacimiento de los menores
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="fs-field">
+                        <label class="fs-label" for="contacto_ecuador">Contacto en Ecuador</label>
+                        <input class="fs-input form-control" name="contacto_ecuador" id="contacto_ecuador" />
+                    </div>
+                    <div class="fs-field">
+                        <label class="fs-label" for="telefono_contacto_ecuador">Teléfono del Contacto en Ecuador</label>
+                        <input class="fs-input form-control" name="telefono_contacto_ecuador" id="telefono_contacto_ecuador" />
+                    </div>
+                    <div class="fs-field">
+                        <label class="fs-label" for="observaciones">Observaciones</label>
+                        <textarea class="fs-input form-control" name="observaciones" id="observaciones" rows="3"></textarea>
+                    </div>
+
+                    <div class="fs-field">
+                        <label class="fs-label" for="honorarios">Honorarios ($)</label>
+                        <input class="fs-input form-control" type="number" name="honorarios" min="0" step="0.01" id="honorarios" required />
+                    </div>
+                    <div class="fs-field">
+                        <label class="fs-label" for="abono">Abono ($)</label>
+                        <input class="fs-input form-control" type="number" name="abono" min="0" step="0.01" id="abono" />
+                    </div>
+                </div>
+            </fieldset>
+
+            <div class="fs-button-group">
+                <input class="fs-button btn btn-primary" type="submit" name="btn_registro_divorcio" value="Registrar Divorcio">
+            </div>
         </form>
-    </div>
-</nav>
 
-<div class="container form-section">
-    <h3 class="mb-4">Registro de Divorcio</h3>
-    <form method="POST" action="divorcio_controller.php" id="formDivorcio">
-        <?php
-        include("conexionbd.php");
-        ?>
-        <input type="hidden" id="id_usuario" name="id_usuario" />
-        <input type="hidden" id="id_cliente" name="id_cliente" />
-
-        <div class="row">
-            <div class="col-md-6">
-                <h4 class="mb-3">Información del Solicitante:</h4>
-                <div class="mb-3">
-                    <label for="identificacion" class="form-label">Identificación</label>
-                    <input type="text" class="form-control" id="identificacion" name="identificacion" placeholder="Identificación" />
-                </div>
-                <div class="mb-3">
-                    <label for="nombre" class="form-label">Nombres</label>
-                    <input type="text" class="form-control" id="nombre" name="nombre" />
-                </div>
-                <div class="mb-3">
-                    <label for="apellido" class="form-label">Apellidos</label>
-                    <input type="text" class="form-control" id="apellido" name="apellido" />
-                </div>
-                <div class="mb-3">
-                    <label for="telefono" class="form-label">Teléfono</label>
-                    <input type="text" class="form-control" name="telefono" id="telefono" />
-                </div>
-                <div class="mb-3">
-                    <label for="direccion" class="form-label">Dirección</label>
-                    <input type="text" class="form-control" name="direccion" id="direccion" />
-                </div>
-                <div class="mb-3">
-                    <label for="estado" class="form-label">Estado</label>
-                    <input type="text" class="form-control" name="estado" id="estado" />
-                </div>
-                <div class="mb-3">
-                    <label for="ciudad" class="form-label">Ciudad</label>
-                    <input type="text" class="form-control" name="ciudad" id="ciudad" />
-                </div>
-                <div class="mb-3">
-                    <label for="postal" class="form-label">Código Postal</label>
-                    <input type="text" class="form-control" name="postal" id="postal" />
-                </div>
-                <div class="mb-3">
-                    <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control" name="email" id="email" />
-                </div>
-                <div class="mb-3">
-                    <label for="departamento" class="form-label">N° Departamento</label>
-                    <input type="text" class="form-control" name="departamento" id="departamento" />
-                </div>
-                <div class="mb-3">
-                    <label for="fecha" class="form-label">Fecha de Solicitud</label>
-                    <input type="date" class="form-control" name="fecha" id="fecha" />
-                </div>
-            </div>
-
-            <div class="col-md-6">
-                <h4 class="mb-3">Información del Cónyuge:</h4>
-                <div class="mb-3">
-                    <label for="nombre_conyuge" class="form-label">Nombre del Cónyuge</label>
-                    <input type="text" class="form-control" name="nombre_conyuge" id="nombre_conyuge" />
-                </div>
-                <div class="mb-3">
-                    <label for="apellido_conyuge" class="form-label">Apellido del Cónyuge</label>
-                    <input type="text" class="form-control" name="apellido_conyuge" id="apellido_conyuge" />
-                </div>
-                <div class="mb-3">
-                    <label for="identificacion_conyuge" class="form-label">Identificación del Cónyuge (si sabe)</label>
-                    <input type="text" class="form-control" name="identificacion_conyuge" id="identificacion_conyuge" />
-                </div>
-                <div class="mb-3">
-                    <label for="direccion_conyuge" class="form-label">Última Dirección Conocida del Cónyuge</label>
-                    <input type="text" class="form-control" name="direccion_conyuge" id="direccion_conyuge" />
-                </div>
-                <div class="mb-3">
-                    <label for="fecha_matrimonio" class="form-label">Fecha de Matrimonio</label>
-                    <input type="date" class="form-control" name="fecha_matrimonio" id="fecha_matrimonio" />
-                </div>
-                <div class="mb-3">
-                    <label for="lugar_matrimonio" class="form-label">Lugar de Matrimonio</label>
-                    <input type="text" class="form-control" name="lugar_matrimonio" id="lugar_matrimonio" />
-                </div>
-                <div class="mb-3">
-                    <label for="hijos" class="form-label">¿Hay hijos menores de 18 años?</label>
-                    <select class="form-select" name="hijos" id="hijos">
-                        <option value="">Seleccionar</option>
-                        <option value="si">Sí</option>
-                        <option value="no">No</option>
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <label for="acuerdos_hijos" class="form-label">Acuerdos sobre hijos (custodia, manutención, visitas)</label>
-                    <textarea class="form-control" name="acuerdos_hijos" id="acuerdos_hijos" rows="3"></textarea>
-                </div>
-                <div class="mb-3">
-                    <label for="bienes" class="form-label">¿Hay bienes en común?</label>
-                    <select class="form-select" name="bienes" id="bienes">
-                        <option value="">Seleccionar</option>
-                        <option value="si">Sí</option>
-                        <option value="no">No</option>
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <label for="acuerdos_bienes" class="form-label">Acuerdos sobre bienes (división de propiedades, deudas)</label>
-                    <textarea class="form-control" name="acuerdos_bienes" id="acuerdos_bienes" rows="3"></textarea>
-                </div>
-                <div class="mb-3">
-                    <label for="valor_divorcio" class="form-label">Valor del Divorcio ($)</label>
-                    <input type="number" class="form-control" name="valor_divorcio" id="valor_divorcio" min="0" step="0.01" />
-                </div>
-                <div class="mb-3">
-                    <label for="abono_divorcio" class="form-label">Abono ($)</label>
-                    <input type="number" class="form-control" name="abono_divorcio" id="abono_divorcio" min="0" step="0.01" />
-                </div>
-                <div class="mb-3">
-                    <label for="observaciones" class="form-label">Observaciones Adicionales</label>
-                    <textarea class="form-control" name="observaciones" id="observaciones" rows="3"></textarea>
-                </div>
-            </div>
+        <div id="printButtonContainer" style="display: none; text-align: center; margin-top: 20px;">
+            <button class="btn btn-info" id="printRecordBtn">Imprimir Registro de Divorcio</button>
         </div>
-
-        <div class="button-container">
-            <button type="submit" class="btn btn-submit-custom" name="btn_registro_divorcio">Registrar Divorcio</button>
-        </div>
-    </form>
-
-    <div id="printButtonContainer" style="display: none; text-align: center; margin-top: 20px;">
-        <button class="btn btn-success" id="printRecordBtn">Imprimir Registro</button>
     </div>
-</div>
 
-<script>
-    document.getElementById('formDivorcio').addEventListener('submit', function (e) {
-        e.preventDefault();
+    <script>
+        // Script para el envío del formulario de Divorcios
+        document.getElementById('formDivorcios').addEventListener('submit', function(e) {
+            e.preventDefault(); // Evitar el envío normal del formulario
 
-        const formData = new FormData(this);
-        formData.append("btn_registro_divorcio", "1"); // Ensure the button name is sent
+            const formData = new FormData(this);
+            formData.append("btn_registro_divorcio", "1"); // Indicador para el controlador
 
-        fetch('divorcio_controller.php', { // Ensure this points to your controller
-            method: 'POST',
-            body: formData
-        })
-        .then(res => {
-            if (!res.ok) {
-                return res.text().then(text => { throw new Error(text); });
-            }
-            return res.json();
-        })
-        .then(data => {
-            console.log('Respuesta del servidor:', data);
-            if (data.status === "success") {
-                Swal.fire({
-                    icon: 'success',
-                    title: '¡Éxito!',
-                    text: data.message,
-                    timer: 3000,
-                    showConfirmButton: false
+            // Deshabilitar el botón para evitar envíos dobles
+            const submitButton = document.querySelector('input[name="btn_registro_divorcio"]');
+            submitButton.disabled = true;
+
+            fetch('divorcios_controller.php', { // Apunta al nuevo controlador
+                    method: 'POST',
+                    body: formData
+                })
+                .then(res => res.json())
+                .then(data => {
+                    console.log('Respuesta del servidor:', data);
+                    if (data.status == "success") {
+                        Swal.fire({
+                            icon: 'success',
+                            title: '¡Éxito!',
+                            text: data.message,
+                            timer: 3000,
+                            showConfirmButton: false
+                            
+                        });
+                        this.reset(); // Limpiar el formulario
+                        document.getElementById('printButtonContainer').style.display = 'block';
+                        document.getElementById('printRecordBtn').setAttribute('data-record-id', data.id);
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: data.message
+                        });
+                        document.getElementById('printButtonContainer').style.display = 'none'; // Ocultar si hay error
+                    }
+                })
+                .catch(error => {
+                    console.error('Error en la solicitud:', error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error de red',
+                        text: 'No se pudo enviar el formulario. Intenta más tarde.'
+                    });
+                    document.getElementById('printButtonContainer').style.display = 'none'; // Ocultar si hay error
+                })
+                .finally(() => {
+                    submitButton.disabled = false; // Habilitar el botón de nuevo
                 });
-                this.reset();
-                document.getElementById('printButtonContainer').style.display = 'block';
-                document.getElementById('printRecordBtn').setAttribute('data-record-id', data.id);
+        });
 
+        // Event listener para el botón de imprimir
+        document.getElementById('printRecordBtn').addEventListener('click', function() {
+            const recordId = this.getAttribute('data-record-id'); // Obtener el ID que guardamos
+            if (recordId) {
+                // Abrir la nueva página de impresión en una nueva pestaña
+                window.open('generar_pdf_divorcio.php?id=' + recordId, '_blank'); // Asume un imprimir_divorcio.php
             } else {
                 Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: data.message
+                    icon: 'warning',
+                    title: 'Atención',
+                    text: 'No se pudo obtener el ID del registro para imprimir. Por favor, intente guardar de nuevo.'
                 });
-                document.getElementById('printButtonContainer').style.display = 'none';
             }
-        })
-        .catch(error => {
-            console.error('Error en la solicitud:', error);
-            Swal.fire({
-                icon: 'error',
-                title: 'Error de red',
-                text: 'No se pudo enviar el formulario. Intenta más tarde.'
-            });
-            document.getElementById('printButtonContainer').style.display = 'none';
         });
-    });
+    </script>
 
-    document.getElementById('printRecordBtn').addEventListener('click', function() {
-        const recordId = this.getAttribute('data-record-id');
-        if (recordId) {
-            window.open('imprimir_divorcio.php?id=' + recordId, '_blank'); // Ensure this points to your print file
-        } else {
-            Swal.fire({
-                icon: 'warning',
-                title: 'Atención',
-                text: 'No se pudo obtener el ID del registro para imprimir. Por favor, intente guardar de nuevo.'
-            });
-        }
-    });
-
-    function buscar_datos() {
-        buscador = $("#buscador").val();
-        var parametros =
-        {
-            "buscar": "1",
-            "buscador": buscador
-        };
-        $.ajax(
-            {
+    <script type="text/javascript">
+        function buscar_datos() {
+            buscador = $("#buscador").val();
+            var parametros = {
+                "buscar": "1",
+                "buscador": buscador
+            };
+            $.ajax({
                 data: parametros,
                 dataType: 'json',
-                url: 'declaracion_impu_controller.php', // Assuming you're using the same client search controller
+                url: 'poderes_controller.php', // O el controlador que uses para buscar clientes genéricos
                 type: 'post',
-                error: function (jqXHR, textStatus, errorThrown) {
-                    console.error("AJAX Error: " + textStatus, errorThrown);
+                error: function() {
                     Swal.fire({
-                            icon: 'error',
-                            title: 'Error de búsqueda',
-                            text: 'Hubo un problema al buscar los datos. Intenta nuevamente.'
-                        });
+                        icon: 'error',
+                        title: 'Error de búsqueda',
+                        text: 'No se pudo conectar para buscar el cliente.'
+                    });
                 },
-                success: function (valores) {
-                    if (valores) {
+                success: function(valores) {
+                    if (valores.existe === "1") {
                         $("#nombre").val(valores.nombre);
                         $("#apellido").val(valores.apellido);
                         $("#identificacion").val(valores.identificacion);
