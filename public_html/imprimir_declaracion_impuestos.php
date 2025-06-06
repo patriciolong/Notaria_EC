@@ -1,4 +1,22 @@
 <?php
+//seguridad de paginacion
+session_start(); // <--- MUY IMPORTANTE QUE ESTÉ AL PRINCIPIO
+error_reporting(0);
+$varsesion =$_SESSION['usuario'];
+$variable_ses = $varsesion;
+$user_rol = $_SESSION['rol'] ?? ''; // <-- Aquí se obtiene el rol
+
+// *** DEPURACIÓN EN MENU.PHP: Muestra el rol aquí ***
+//echo "DEBUG MENU - Rol de la sesión: '" . $user_rol . "'<br>";
+//echo "DEBUG MENU - Usuario de la sesión: " . $variable_ses . "<br>";
+
+if ($varsesion==null || $varsesion=='') {
+    header("location:index.php");
+    die;
+}
+
+?>
+<?php
 // Reportar todos los errores para depuración (quitar en producción)
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
