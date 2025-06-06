@@ -1,38 +1,96 @@
 <?php
-//seguridad de paginacion
 session_start();
 error_reporting(0);
-$varsesion =$_SESSION['usuario'];
-$variable_ses = $varsesion;
-if ($varsesion==null || $varsesion='') {
+$varsesion = $_SESSION['usuario'];
+if ($varsesion == null || $varsesion == '') {
     header("location:index.php");
     die;
 }
 
+include 'conexionbd.php'; // Include your database connection file
+
+$user = null; // Inicializa $user a null
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Si la solicitud es POST, obtenemos el ID del formulario POST
+    $id = $_POST['id_usuario'] ?? null;
+    $nombre = $_POST['u_nombre'];
+    $apellido = $_POST['u_apellido'];
+    $usuario = $_POST['u_usuario'];
+    $rol = $_POST['u_rol'];
+    $estado = $_POST['u_estado'];
+    $contrasena = $_POST['u_contrasena']; // Get password, will need to hash if not already
+
+    if ($id === null) {
+        // Esto no debería pasar si el input hidden está siempre ahí, pero es una buena práctica de seguridad
+        echo "<script>alert('Error: ID de usuario no proporcionado para la actualización.'); window.location.href='listado_usuarios.php';</script>";
+        exit;
+    }
+
+    // Update user data
+    $stmt = null; // Initialize $stmt to null
+
+    if (!empty($contrasena)) {
+        // Si se proporciona una nueva contraseña, hashearla y actualizarla
+        // ¡¡RECOMENDADO!!: Hashear la contraseña antes de almacenarla.
+       // $hashed_password = password_hash($contrasena, PASSWORD_DEFAULT); // Always hash passwords!
+
+        $stmt = $conexion->prepare("UPDATE usuario SET u_nombre = ?, u_apellido = ?, u_usuario = ?, u_rol = ?, u_estado = ?, u_contrasena = ? WHERE id_usuario = ?");
+        // 'ssssssi' assuming u_nombre, u_apellido, u_usuario, u_rol, u_estado, u_contrasena are strings and id_usuario is integer
+        // Adjust 's' or 'i' for u_rol and u_estado based on their actual data types in your DB
+        $stmt->bind_param("ssssssi", $nombre, $apellido, $usuario, $rol, $estado, $contrasena, $id);
+
+    } else {
+        // Si la contraseña está vacía, no se actualiza la contraseña
+        $stmt = $conexion->prepare("UPDATE usuario SET u_nombre = ?, u_apellido = ?, u_usuario = ?, u_rol = ?, u_estado = ? WHERE id_usuario = ?");
+        // 'sssssi' assuming u_nombre, u_apellido, u_usuario, u_rol, u_estado are strings and id_usuario is integer
+        // Adjust 's' or 'i' for u_rol and u_estado based on their actual data types in your DB
+        $stmt->bind_param("sssssi", $nombre, $apellido, $usuario, $rol, $estado, $id);
+    }
+
+    if ($stmt && $stmt->execute()) { // Check if $stmt is not null before executing
+        echo "<script>alert('Usuario actualizado exitosamente.'); window.location.href='listado_usuarios.php';</script>";
+    } else {
+        echo "<script>alert('Error al actualizar el usuario: " . ($stmt ? $stmt->error : "Statement not prepared") . "');</script>";
+    }
+    if ($stmt) {
+        $stmt->close();
+    }
+
+} else {
+    // Si la solicitud es GET (carga inicial de la página), obtenemos el ID de la URL
+    $user_id = $_GET['id'] ?? null;
+
+    if ($user_id) {
+        // Fetch user data
+        $stmt = $conexion->prepare("SELECT id_usuario, u_nombre, u_apellido, u_usuario, u_contrasena, u_rol, u_estado FROM usuario WHERE id_usuario = ?");
+        $stmt->bind_param("i", $user_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $user = $result->fetch_assoc();
+        $stmt->close();
+
+        if (!$user) {
+            echo "Usuario no encontrado.";
+            exit;
+        }
+    } else {
+        echo "ID de usuario no proporcionado.";
+        exit;
+    }
+}
+
+$conexion->close();
 ?>
 
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reporte de usuarios</title>
+    <title>Editar Usuario</title>
     <link href="css/styles.css" rel="stylesheet" />
     <link href="css/tram_varis.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="js/scripts.js"></script>
-    <script src="js/scripts.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
-        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js"
-        integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT"
-        crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <style>
         table {
             border-collapse: collapse;
@@ -199,7 +257,7 @@ if ($varsesion==null || $varsesion='') {
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle user-name" href="#" id="navbarDropdownUser" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <?php echo $variable_ses;?>
+                    <?php echo $varsesion;?>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownUser">
                         <li><a class="dropdown-item" href="cerrar_sesion.php">Cerrar Sesión</a></li>
@@ -210,172 +268,58 @@ if ($varsesion==null || $varsesion='') {
     </div>
 </nav>
 
-<h2 style="text-align:center;">Listado de Usuarios</h2>
-<div class="filtros">
+<div class="container">
+    <h2 class="my-4">Editar Usuario</h2>
+    <?php if ($user): ?>
+    <form action="editar_usuario.php" method="POST">
+        <input type="hidden" name="id_usuario" value="<?php echo htmlspecialchars($user['id_usuario']); ?>">
+
+        <div class="mb-3">
+            <label for="u_usuario" class="form-label">Usuario:</label>
+            <input type="text" class="form-control" id="u_usuario" name="u_usuario" value="<?php echo htmlspecialchars($user['u_usuario']); ?>" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="u_nombre" class="form-label">Nombre:</label>
+            <input type="text" class="form-control" id="u_nombre" name="u_nombre" value="<?php echo htmlspecialchars($user['u_nombre']); ?>" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="u_apellido" class="form-label">Apellido:</label>
+            <input type="text" class="form-control" id="u_apellido" name="u_apellido" value="<?php echo htmlspecialchars($user['u_apellido']); ?>" required>
+        </div>
+        <div class="mb-3">
+            <label for="u_rol" class="form-label">Rol:</label>
+            <select class="form-select" id="u_rol" name="u_rol" required> 
+                        <option><?php echo htmlspecialchars($user['u_rol']); ?></option>
+                        <option>Empleado</option>
+                        <option>Administrador</option>
+                    </select>
 
 
-    <label for="filtroUsuario">Filtrar por Usuario:</label>
-    <input type="text" id="filtroUsuario" placeholder="Escribe usuario">
+        </div>
+        <div class="mb-3">
+            <label for="u_estado" class="form-label">Estado:</label>
+            <select class="form-select" id="u_estado" name="u_estado" required> 
+                        <option>Activo</option>
+                        <option>Inactivo</option>
+                    </select>
 
-    <button id="btnLimpiarFiltros">Limpiar Filtros</button>
+
+        </div>
+        <div class="mb-3">
+            <label for="u_contrasena" class="form-label">Contraseña (dejar en blanco para mantener la actual):</label>
+            <input type="password" class="form-control" id="u_contrasena" name="u_contrasena" placeholder="********">
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center mt-4">
+            <a href="listado_usuarios.php" class="btn btn-secondary">Regresar</a>
+            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+        </div>
+    </form>
+    <?php else: ?>
+        <p class="alert alert-warning">No se pudieron cargar los datos del usuario para editar.</p>
+    <?php endif; ?>
 </div>
-
-<table id="tablaLogins">
-    <thead>
-        <tr>
-            <th>Usuario</th>
-            <th>Nombre</th>
-            <th>Apellido</th>
-            <th>Rol</th>
-            <th>Estado</th>
-            <th>Acciones</th> </tr>
-    </thead>
-    <tbody>
-        </tbody>
-</table>
-<div id="contadorRegistros" style="text-align:center; margin: 20px; font-weight: bold;">
-    Mostrando 0 registros
-</div>
-<div id="paginacion" style="text-align:center; margin: 20px;">
-    <button id="btnAnterior">Anterior</button>
-    <span id="numerosPaginas"></span>
-    <button id="btnSiguiente">Siguiente</button>
-</div>
-
-<script>
-let datosOriginales = [];
-let datosFiltrados = [];
-let registrosPorPagina = 10;
-let paginaActual = 1;
-
-document.addEventListener('DOMContentLoaded', function() {
-    fetch('obtener_usuarios.php')
-        .then(response => response.json())
-        .then(data => {
-            datosOriginales = data;
-            datosFiltrados = data;
-            mostrarDatos();
-        })
-        .catch(error => {
-            console.error('Error al cargar los datos:', error);
-        });
-
-    document.getElementById('filtroUsuario').addEventListener('input', filtrarDatos);
-    document.getElementById('btnLimpiarFiltros').addEventListener('click', limpiarFiltros);
-    document.getElementById('btnAnterior').addEventListener('click', paginaAnterior);
-    document.getElementById('btnSiguiente').addEventListener('click', paginaSiguiente);
-});
-
-function mostrarDatos() {
-    const tbody = document.querySelector('#tablaLogins tbody');
-    tbody.innerHTML = '';
-
-    let inicio = (paginaActual - 1) * registrosPorPagina;
-    let fin = inicio + registrosPorPagina;
-    let datosPagina = datosFiltrados.slice(inicio, fin);
-
-    if (datosPagina.length === 0) {
-        const tr = document.createElement('tr');
-        const td = document.createElement('td');
-        td.colSpan = 4; // Changed colspan to 4
-        td.textContent = 'No se encontraron resultados';
-        td.style.fontWeight = 'bold';
-        td.style.color = 'red';
-        tr.appendChild(td);
-        tbody.appendChild(tr);
-    } else {
-        datosPagina.forEach(row => {
-            const tr = document.createElement('tr');
-            tr.innerHTML = `
-                <td>${row.u_usuario}</td>
-                <td>${row.u_nombre}</td>
-                <td>${row.u_apellido}</td>
-                <td>${row.u_rol}</td>
-                <td>${row.u_estado}</td>
-                <td><a href="editar_usuario.php?id=${row.id_usuario}" class="btn btn-primary btn-sm">Editar</a></td>
-            `;
-            tbody.appendChild(tr);
-        });
-    }
-
-    // Actualizar contador
-    const contador = document.getElementById('contadorRegistros');
-    contador.textContent = `Mostrando ${datosFiltrados.length} registro${datosFiltrados.length !== 1 ? 's' : ''}`;
-
-    // Update page number (if you want to display it)
-    // You don't have an element with id 'paginaActual' in your HTML.
-    // If you want to display "Page X", you'll need to add a <span> with that ID.
-    // document.getElementById('paginaActual').textContent = `Página ${paginaActual}`;
-
-    // Desactivar botones de anterior/siguiente
-    document.getElementById('btnAnterior').disabled = (paginaActual === 1);
-    document.getElementById('btnSiguiente').disabled = (paginaActual >= Math.ceil(datosFiltrados.length / registrosPorPagina));
-
-    // CREAR NÚMEROS DE PÁGINAS
-    generarNumerosPaginas();
-}
-function generarNumerosPaginas() {
-    const contenedor = document.getElementById('numerosPaginas');
-    contenedor.innerHTML = '';
-
-    let totalPaginas = Math.ceil(datosFiltrados.length / registrosPorPagina);
-
-    for (let i = 1; i <= totalPaginas; i++) {
-        const btnPagina = document.createElement('button');
-        btnPagina.textContent = i;
-
-        if (i === paginaActual) {
-            btnPagina.classList.add('active');
-        }
-
-        btnPagina.addEventListener('click', function() {
-            paginaActual = i;
-            mostrarDatos();
-        });
-
-        contenedor.appendChild(btnPagina);
-    }
-}
-
-function filtrarDatos() {
-    const filtroUsuario = document.getElementById('filtroUsuario').value.toLowerCase();
-
-    datosFiltrados = datosOriginales.filter(row => {
-        let coincideUsuario = true;
-
-        if (filtroUsuario) {
-            coincideUsuario = row.u_usuario.toLowerCase().includes(filtroUsuario);
-        }
-
-        return coincideUsuario;
-    });
-
-    paginaActual = 1; // Reiniciar a la primera página
-    mostrarDatos();
-}
-
-function limpiarFiltros() {
-    document.getElementById('filtroUsuario').value = '';
-    datosFiltrados = datosOriginales;
-    paginaActual = 1;
-    mostrarDatos();
-}
-
-function paginaAnterior() {
-    if (paginaActual > 1) {
-        paginaActual--;
-        mostrarDatos();
-    }
-}
-
-function paginaSiguiente() {
-    if (paginaActual < Math.ceil(datosFiltrados.length / registrosPorPagina)) {
-        paginaActual++;
-        mostrarDatos();
-    }
-}
-
-</script>
-
 </body>
 </html>

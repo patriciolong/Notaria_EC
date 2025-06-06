@@ -5,10 +5,13 @@ header('Content-Type: application/json');
 
 include 'conexionbd.php';
 
-$sql = "SELECT 
-            usuario.u_usuario, 
-            usuario.u_nombre, 
-            usuario.u_apellido
+$sql = "SELECT
+            usuario.id_usuario,
+            usuario.u_usuario,
+            usuario.u_nombre,
+            usuario.u_apellido,
+            usuario.u_rol,
+            usuario.u_estado
         FROM usuario";
 
 $result = $conexion->query($sql);
@@ -21,7 +24,7 @@ if ($result && $result->num_rows > 0) {
     }
 }
 
-// Si hubo error en la consulta
+// If there was an error in the query
 if (!$result) {
     echo json_encode(["error" => $conexion->error]);
     exit;

@@ -172,6 +172,24 @@ if ($varsesion==null || $varsesion=='') {
                     <label class="fs-label" for="">Contraseña</label>
                     <input class="fs-input" name="pass" />
                 </div>
+                <div class="fs-field">
+            <label for="" class="form-label">Rol:</label>
+            <select class="form-select" name="rol"> 
+                        <option>Empleado</option>
+                        <option>Administrador</option>
+                    </select>
+
+
+        </div>
+                <div class="fs-field">
+            <label for="" class="form-label">Estado:</label>
+            <select class="form-select" name="estado"> 
+                        <option>Activo</option>
+                        <option>Inactivo</option>
+                    </select>
+
+
+        </div>
             </fieldset>
 
                 <div class="fs-button-group">
