@@ -2,8 +2,8 @@
 include("conexionbd.php");
 if (!empty($_POST["btn_registro"])) {
     if (empty($_POST["identificacion"])) {
-        echo 'Esta vacio';
-        # code...
+        echo json_encode(["status" => "error", "message" => "Todos los campos son necesarios"]);
+        exit;
     }else{
         
         $identificacion = $_POST["identificacion"];
@@ -20,14 +20,11 @@ if (!empty($_POST["btn_registro"])) {
         $departamento = $_POST["departamento"];
         $sql = $conexion->query("INSERT INTO cliente (c_identificacion,c_nombre,c_apellido,c_telefono,c_edad,c_direccion,c_pais,c_estado,c_ciudad,c_codpostal,c_email,c_napartamento) 
         VALUES ('$identificacion','$nombre','$apellido','$telefono','$edad','$direccion','$pais','$estado','$ciudad','$postal','$email','$departamento')");
-        if ($sql==1) {
-            echo '<div class="succes">REGISTRADO </div>';
-            header("Refresh:4 ;URL=menu.php");
-            exit;
-            # code...
-        }else{
-            echo "Error". $conexion->error;
-        }
+       if ($sql) {
+        echo json_encode(["status" => "success", "message" => "Registro insertado correctamente"]);
+    } else {
+        echo json_encode(["status" => "error", "message" => "Error al insertar el registro: " . $conexion->error]);
+    }
     }
 
 
