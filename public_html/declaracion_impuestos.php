@@ -134,6 +134,155 @@ if ($varsesion == null || $varsesion = '') {
         .custom-navbar .navbar-toggler-icon {
             background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important; /* Icono blanco puro para contraste */
         }
+        /* Estilos Personalizados del Formulario */
+.tax-declaration-form {
+    background-color: #f8f9fa; /* Fondo claro para el formulario */
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    margin-top: 30px;
+    margin-bottom: 50px;
+}
+
+.form-section {
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 25px;
+    margin-bottom: 30px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.section-title {
+    font-size: 1.75rem;
+    color: var(--primary-color);
+    margin-bottom: 25px;
+    text-align: center;
+    font-weight: 700;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 0;
+    width: 60px;
+    height: 3px;
+    background-color: var(--accent-color);
+    border-radius: 2px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.form-field {
+    margin-bottom: 15px; /* Ajustar el espaciado entre campos */
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--secondary-color);
+    font-size: 0.95rem;
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    font-size: 1rem;
+    color: #495057;
+    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    background-color: #fdfdfd;
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.25rem rgba(0, 64, 128, 0.25); /* Color primario con transparencia */
+    outline: none;
+}
+
+.form-textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+/* Estilos específicos para la casilla de verificación */
+.checkbox-field {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.checkbox-field .form-check-input {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0; /* Evitar que la casilla de verificación se encoja */
+    margin-top: 0; /* Restablecer el margen predeterminado */
+    border-radius: 4px; /* Esquinas ligeramente redondeadas para la casilla de verificación */
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.checkbox-field .form-check-input:checked {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.checkbox-field .form-check-label {
+    margin-bottom: 0; /* Eliminar el margen inferior para las etiquetas */
+    font-weight: 600;
+    color: var(--secondary-color);
+    font-size: 0.95rem;
+}
+
+/* Campo de ancho completo para notas */
+.form-field.full-width {
+    grid-column: 1 / -1; /* Ocupa todas las columnas en la cuadrícula */
+}
+
+.form-button-group {
+    text-align: center;
+    margin-top: 40px;
+}
+
+.submit-button {
+    background-color: var(--primary-color);
+    color: var(--text-light);
+    padding: 15px 35px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 10px rgba(0, 64, 128, 0.2);
+}
+
+.submit-button:hover {
+    background-color: #003366; /* Azul ligeramente más oscuro al pasar el ratón */
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 64, 128, 0.3);
+}
+
+/* Ajustes responsivos */
+@media (max-width: 768px) {
+    .form-grid {
+        grid-template-columns: 1fr; /* Diseño de una sola columna en pantallas más pequeñas */
+    }
+}
     </style>
 </head>
 <body>
@@ -160,154 +309,159 @@ if ($varsesion == null || $varsesion = '') {
     </div>
 </nav>
 
-    <div style="widht: 100px; margin:0 auto;text-align: center">
-        <p class="fs-2">Declaración de Impuestos</p>
+<div style="widht: 100px; margin:0 auto;text-align: center">
+    <p class="fs-2">Declaración de Impuestos</p>
+</div>
+
+<nav class="navbar bg-body-tertiary">
+    <div class="container-fluid">
+        <form class="d-flex" role="search">
+            <input class="form-control me-2" type="search" placeholder="Nombre o Identificación"
+                aria-label="Nombre o Identificación" id="buscador" name="buscador">
+            <input class="btn btn-outline-success" type="button" onclick="buscar_datos()" value="Buscar"></input>
+        </form>
     </div>
-
-    <!-- Barra de busqueda-->
-    <nav class="navbar bg-body-tertiary">
-        <div class="container-fluid">
-            <form class="d-flex" role="search">
-                <input class="form-control me-2" type="search" placeholder="Nombre o Identificación"
-                    aria-label="Nombre o Identificación" id="buscador" name="buscador">
-                <input class="btn btn-outline-success" type="button" onclick="buscar_datos()" value="Buscar"></input>
-            </form>
-        </div>
-    </nav>
+</nav>
 
 
 
-    </div>
-    <div class="container">
-        <form class="fs-form fs-layout__2-column" method="POST" action="" id="formPoderes">
-            <?php
-            include("conexionbd.php");
-            include("declaracion_impu_controller.php");
-            ?>
-            <fieldset>
-                <div class="fs-field">
-                    <input class="fs-input" type="hidden" id="id_usuario" name="id_usuario"
-                        placeholder="identificacion" />
-                    <input class="fs-input" type="hidden" id="id_cliente" name="id_cliente"
-                        placeholder="identificacion" />
-                    <label class="fs-label" for="">Identificacion</label>
-                    <input class="fs-input" id="identificacion" name="identificacion" placeholder="identificacion" />
-                    <div class="fs-field">
-                        <label class="fs-label" for="">Nombres</label>
-                        <input class="fs-input" id="nombre" name="nombre" />
-                    </div>
-                    <div class="fs-field">
-                        <label class="fs-label" for="">Apellidos</label>
-                        <input class="fs-input" id="apellido" name="apellido" />
-                    </div>
-                    <div class="fs-field">
-                        <label class="fs-label" for="">Telefono</label>
-                        <input class="fs-input" name="telefono" id="telefono" />
-                    </div>
-                    <div class="fs-field">
-                        <label class="fs-label" for="">Direccion</label>
-                        <input class="fs-input" name="direccion" id="direccion" />
-                    </div>
-                    <div class="fs-field">
-                        <label class="fs-label" for="">Estado</label>
-                        <input class="fs-input" name="estado" id="estado" />
-                    </div>
-                    <div class="fs-field">
-                        <label class="fs-label" for="">Ciudad</label>
-                        <input class="fs-input" name="ciudad" id="ciudad" />
-                    </div>
-                    <div class="fs-field">
-                        <label class="fs-label" for="">Codigo Postal</label>
-                        <input class="fs-input" name="postal" id="postal" />
-                    </div>
-                    <div class="fs-field">
-                        <label class="fs-label" for="">Email</label>
-                        <input class="fs-input" name="email" id="email" />
-                    </div>
-                    <div class="fs-field">
-                        <label class="fs-label" for="">N° Departamento</label>
-                        <input class="fs-input" name="departamento" id="departamento" />
-                    </div>
+</div>
+<div class="container">
+    <form class="tax-declaration-form" method="POST" action="" id="formPoderes">
+        <?php
+        include("conexionbd.php");
+        include("declaracion_impu_controller.php");
+        ?>
+        <fieldset class="form-section">
+            <legend class="section-title">Información Personal</legend>
+            <div class="form-grid">
+                <input class="form-input" type="hidden" id="id_usuario" name="id_usuario"
+                    placeholder="identificacion" />
+                <input class="form-input" type="hidden" id="id_cliente" name="id_cliente"
+                    placeholder="identificacion" />
 
-
+                <div class="form-field">
+                    <label class="form-label" for="identificacion">Identificación</label>
+                    <input class="form-input" id="identificacion" name="identificacion"
+                        placeholder="Identificación" />
                 </div>
-                <div class="fs-field">
-                    <div class="fs-field">
-                        <label class="fs-label" for="">Fecha</label>
-                        <input class="fs-input" type="date" name="fechaim" id="fechaim" />
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="hidden" id="check1" name="check1" value="0">
-                        
-                        <label class="form-check-label" style="text-decoration:solid;">Aplicación Itin</label>
-                            <input class="form-check-input" type="checkbox" id="check1" name="check1" value="1">
-                        </div>
-                        <div class="fs-field">
-                        <label class="fs-label" for="">Fecha de Ingreso a EEUU</label>
-                        <input class="fs-input" type="date" name="fechaeeuu" id="fechaeeuu" />
-                    </div>
-                    <div class="fs-field">
-                        <label class="fs-label" for="">Numero de Itin o Social</label>
-                        <input class="fs-input" name="numitin" id="numitin" />
-                    </div>
-                    <label class="fs-label" for="">Estado Civil</label>
+                <div class="form-field">
+                    <label class="form-label" for="nombre">Nombres</label>
+                    <input class="form-input" id="nombre" name="nombre" />
+                </div>
+                <div class="form-field">
+                    <label class="form-label" for="apellido">Apellidos</label>
+                    <input class="form-input" id="apellido" name="apellido" />
+                </div>
+                <div class="form-field">
+                    <label class="form-label" for="telefono">Teléfono</label>
+                    <input class="form-input" name="telefono" id="telefono" />
+                </div>
+                <div class="form-field">
+                    <label class="form-label" for="direccion">Dirección</label>
+                    <input class="form-input" name="direccion" id="direccion" />
+                </div>
+                <div class="form-field">
+                    <label class="form-label" for="estado">Estado</label>
+                    <input class="form-input" name="estado" id="estado" />
+                </div>
+                <div class="form-field">
+                    <label class="form-label" for="ciudad">Ciudad</label>
+                    <input class="form-input" name="ciudad" id="ciudad" />
+                </div>
+                <div class="form-field">
+                    <label class="form-label" for="postal">Código Postal</label>
+                    <input class="form-input" name="postal" id="postal" />
+                </div>
+                <div class="form-field">
+                    <label class="form-label" for="email">Email</label>
+                    <input class="form-input" name="email" id="email" />
+                </div>
+                <div class="form-field">
+                    <label class="form-label" for="departamento">N° Departamento</label>
+                    <input class="form-input" name="departamento" id="departamento" />
+                </div>
+            </div>
+        </fieldset>
+
+        <fieldset class="form-section">
+            <legend class="section-title">Detalles de la Declaración</legend>
+            <div class="form-grid">
+                <div class="form-field">
+                    <label class="form-label" for="fechaim">Fecha</label>
+                    <input class="form-input" type="date" name="fechaim" id="fechaim" />
+                </div>
+                <div class="form-field checkbox-field">
+                    <input class="form-check-input" type="hidden" id="check1" name="check1" value="0">
+                    <input class="form-check-input" type="checkbox" id="check1" name="check1" value="1">
+                    <label class="form-check-label" for="check1">Aplicación Itin</label>
+                </div>
+                <div class="form-field">
+                    <label class="form-label" for="fechaeeuu">Fecha de Ingreso a EEUU</label>
+                    <input class="form-input" type="date" name="fechaeeuu" id="fechaeeuu" />
+                </div>
+                <div class="form-field">
+                    <label class="form-label" for="numitin">Número de Itin o Social</label>
+                    <input class="form-input" name="numitin" id="numitin" />
+                </div>
+                <div class="form-field">
+                    <label class="form-label" for="estcivil">Estado Civil</label>
                     <select class="form-select" name="estcivil" id="estcivil">
                         <option>Elegir</option>
                         <option>Soltero(A)</option>
                         <option>Casados Juntos</option>
                         <option>Cabeza de Familia</option>
                         <option>Casados Separados</option>
-                        
                     </select>
-
-                    <div class="fs-field">
-                        <label class="fs-label" for="">Profesion</label>
-                        <input class="fs-input" name="profesion" id="profesion" />
-                    </div>
-                    <div class="fs-field">
-                        <label class="fs-label" for="">Numero Dependentes</label>
-                        <input class="fs-input" type="number" name="dependentes" id="dependentes" />
-                    </div>
-                    <label class="fs-label" for="">Metodo de Pago</label>
+                </div>
+                <div class="form-field">
+                    <label class="form-label" for="profesion">Profesión</label>
+                    <input class="form-input" name="profesion" id="profesion" />
+                </div>
+                <div class="form-field">
+                    <label class="form-label" for="dependentes">Número de Dependientes</label>
+                    <input class="form-input" type="number" name="dependentes" id="dependentes" />
+                </div>
+                <div class="form-field">
+                    <label class="form-label" for="metpago">Método de Pago</label>
                     <select class="form-select" name="metpago" id="metpago">
                         <option>Elegir</option>
                         <option>W2</option>
                         <option>1099</option>
-                        <option>CASH</option>  
+                        <option>CASH</option>
                     </select>
-                    <div class="fs-field">
-                        <label class="fs-label" for="">Banco</label>
-                        <input class="fs-input"  name="banco" id="banco" />
-                    </div>
-                    <div class="fs-field">
-                        <label class="fs-label" for="">Numero de Cuenta</label>
-                        <input class="fs-input" type="number" name="ncuenta" id="ncuenta" />
-                    </div>
-                    <div class="fs-field">
-                        <label class="fs-label" for="">Numero de Ruta</label>
-                        <input class="fs-input" type="number" name="nruta" id="nruta" />
-                    </div>
-                    <div class="fs-field">
-                        <label class="fs-label" for="">Notas</label>
-                        <textarea  style="border-style: solid; border-width: 1px;" name="notas" id="notas"></textarea>
-                    </div>
-
                 </div>
-            </fieldset>
-
-
-            <div class="fs-button-group">
-                <input class="fs-button" type="submit" name="btn_registro_imp">
+                <div class="form-field">
+                    <label class="form-label" for="banco">Banco</label>
+                    <input class="form-input" name="banco" id="banco" />
+                </div>
+                <div class="form-field">
+                    <label class="form-label" for="ncuenta">Número de Cuenta</label>
+                    <input class="form-input" type="number" name="ncuenta" id="ncuenta" />
+                </div>
+                <div class="form-field">
+                    <label class="form-label" for="nruta">Número de Ruta</label>
+                    <input class="form-input" type="number" name="nruta" id="nruta" />
+                </div>
+                <div class="form-field full-width">
+                    <label class="form-label" for="notas">Notas</label>
+                    <textarea class="form-textarea" name="notas" id="notas"></textarea>
+                </div>
             </div>
+        </fieldset>
 
-        </form>
-
-        <div id="printButtonContainer" style="display: none; text-align: center; margin-top: 20px;">
-            <button class="btn btn-primary" id="printRecordBtn">Imprimir Registro</button>
+        <div class="form-button-group">
+            <input class="submit-button" type="submit" name="btn_registro_imp" value="Guardar Declaración">
         </div>
 
+    </form>
 
+    <div id="printButtonContainer" style="display: none; text-align: center; margin-top: 20px;">
+        <button class="btn btn-primary" id="printRecordBtn">Imprimir Registro</button>
     </div>
+
+
+</div>
 
 
     <script>

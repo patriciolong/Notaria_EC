@@ -253,6 +253,144 @@ $conexion->close();
         .custom-navbar .navbar-toggler-icon {
             background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important; /* Icono blanco puro para contraste */
         }
+        /* Custom Form Styles for Register and similar forms */
+.tax-declaration-form { /* Renombramos para que sea más genérico si aplica a varios formularios */
+    background-color: #f8f9fa; /* Light background for the form */
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    margin-top: 30px;
+    margin-bottom: 50px;
+    max-width: 700px; /* Limita el ancho del formulario para mejor lectura */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.form-section {
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 25px;
+    margin-bottom: 30px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.section-title {
+    font-size: 1.75rem;
+    color: var(--primary-color);
+    margin-bottom: 25px;
+    text-align: center;
+    font-weight: 700;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 0;
+    width: 60px;
+    height: 3px;
+    background-color: var(--accent-color);
+    border-radius: 2px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.form-field {
+    margin-bottom: 15px; /* Adjust spacing between fields */
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--secondary-color);
+    font-size: 0.95rem;
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    font-size: 1rem;
+    color: #495057;
+    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    background-color: #fdfdfd;
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.25rem rgba(0, 64, 128, 0.25); /* Primary color with transparency */
+    outline: none;
+}
+
+.form-textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.form-button-group {
+    text-align: center;
+    margin-top: 40px;
+}
+
+.submit-button {
+    background-color: var(--primary-color);
+    color: var(--text-light);
+    padding: 15px 35px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 10px rgba(0, 64, 128, 0.2);
+}
+
+.submit-button:hover {
+    background-color: #003366; /* Slightly darker blue on hover */
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 64, 128, 0.3);
+}
+
+.secondary-button {
+    background-color: #6c757d; /* Gris para el botón de regresar */
+    color: var(--text-light);
+    padding: 15px 35px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.secondary-button:hover {
+    background-color: #5a6268; /* Gris más oscuro al pasar el ratón */
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .form-grid {
+        grid-template-columns: 1fr; /* Single column layout on smaller screens */
+    }
+}
     </style>
 
 
@@ -282,57 +420,51 @@ $conexion->close();
 </nav>
 
 <div class="container">
-    <h2 class="my-4">Editar Usuario</h2>
-    <?php if ($user): ?>
-    <form action="editar_usuario.php" method="POST">
-        <input type="hidden" name="id_usuario" value="<?php echo htmlspecialchars($user['id_usuario']); ?>">
+        <form class="tax-declaration-form" method="POST" action="">
+            <fieldset class="form-section">
+                <legend class="section-title">Información del Usuario</legend>
+                <div class="form-grid">
+                    <input type="hidden" name="id_usuario" value="<?php echo htmlspecialchars($user['id_usuario']); ?>">
+                    
+                    <div class="form-field">
+                        <label for="u_nombre" class="form-label">Nombre:</label>
+                        <input type="text" class="form-input" id="u_nombre" name="u_nombre" value="<?php echo htmlspecialchars($user['u_nombre']); ?>" required>
+                    </div>
+                    <div class="form-field">
+                        <label for="u_apellido" class="form-label">Apellido:</label>
+                        <input type="text" class="form-input" id="u_apellido" name="u_apellido" value="<?php echo htmlspecialchars($user['u_apellido']); ?>" required>
+                    </div>
+                    <div class="form-field">
+                        <label for="u_usuario" class="form-label">Usuario:</label>
+                        <input type="text" class="form-input" id="u_usuario" name="u_usuario" value="<?php echo htmlspecialchars($user['u_usuario']); ?>" required>
+                    </div>
+                    <div class="form-field">
+                        <label for="u_rol" class="form-label">Rol:</label>
+                        <select class="form-select" id="u_rol" name="u_rol" required> 
+                            <option value="<?php echo htmlspecialchars($user['u_rol']); ?>"><?php echo htmlspecialchars($user['u_rol']); ?></option>
+                            <option value="Empleado">Empleado</option>
+                            <option value="Administrador">Administrador</option>
+                        </select>
+                    </div>
+                    <div class="form-field">
+                        <label for="u_estado" class="form-label">Estado:</label>
+                        <select class="form-select" id="u_estado" name="u_estado" required> 
+                            <option value="Activo" <?php if($user['u_estado'] == 'Activo') echo 'selected'; ?>>Activo</option>
+                            <option value="Inactivo" <?php if($user['u_estado'] == 'Inactivo') echo 'selected'; ?>>Inactivo</option>
+                        </select>
+                    </div>
+                    <div class="form-field">
+                        <label for="u_contrasena" class="form-label">Contraseña (dejar en blanco para mantener la actual):</label>
+                        <input type="password" class="form-input" id="u_contrasena" name="u_contrasena" placeholder="********">
+                    </div>
+                </div>
+            </fieldset>
 
-        <div class="mb-3">
-            <label for="u_usuario" class="form-label">Usuario:</label>
-            <input type="text" class="form-control" id="u_usuario" name="u_usuario" value="<?php echo htmlspecialchars($user['u_usuario']); ?>" required>
-        </div>
-
-        <div class="mb-3">
-            <label for="u_nombre" class="form-label">Nombre:</label>
-            <input type="text" class="form-control" id="u_nombre" name="u_nombre" value="<?php echo htmlspecialchars($user['u_nombre']); ?>" required>
-        </div>
-
-        <div class="mb-3">
-            <label for="u_apellido" class="form-label">Apellido:</label>
-            <input type="text" class="form-control" id="u_apellido" name="u_apellido" value="<?php echo htmlspecialchars($user['u_apellido']); ?>" required>
-        </div>
-        <div class="mb-3">
-            <label for="u_rol" class="form-label">Rol:</label>
-            <select class="form-select" id="u_rol" name="u_rol" required> 
-                        <option><?php echo htmlspecialchars($user['u_rol']); ?></option>
-                        <option>Empleado</option>
-                        <option>Administrador</option>
-                    </select>
-
-
-        </div>
-        <div class="mb-3">
-            <label for="u_estado" class="form-label">Estado:</label>
-            <select class="form-select" id="u_estado" name="u_estado" required> 
-                        <option>Activo</option>
-                        <option>Inactivo</option>
-                    </select>
-
-
-        </div>
-        <div class="mb-3">
-            <label for="u_contrasena" class="form-label">Contraseña (dejar en blanco para mantener la actual):</label>
-            <input type="password" class="form-control" id="u_contrasena" name="u_contrasena" placeholder="********">
-        </div>
-
-        <div class="d-flex justify-content-between align-items-center mt-4">
-            <a href="listado_usuarios.php" class="btn btn-secondary">Regresar</a>
-            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-        </div>
-    </form>
-    <?php else: ?>
-        <p class="alert alert-warning">No se pudieron cargar los datos del usuario para editar.</p>
-    <?php endif; ?>
-</div>
+            <div class="form-button-group d-flex justify-content-between align-items-center mt-4">
+                <a href="listado_usuarios.php" class="secondary-button">Regresar</a>
+                <button type="submit" class="submit-button">Guardar Cambios</button>
+            </div>
+        </form>
+    </div>
 </body>
 </html>

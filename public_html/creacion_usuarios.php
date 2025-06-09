@@ -131,6 +131,124 @@ if ($user_rol != 'Administrador') {
         .custom-navbar .navbar-toggler-icon {
             background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important; /* Icono blanco puro para contraste */
         }
+        /* Custom Form Styles for Register and similar forms */
+.tax-declaration-form { /* Renombramos para que sea más genérico si aplica a varios formularios */
+    background-color: #f8f9fa; /* Light background for the form */
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    margin-top: 30px;
+    margin-bottom: 50px;
+    max-width: 700px; /* Limita el ancho del formulario para mejor lectura */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.form-section {
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 25px;
+    margin-bottom: 30px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.section-title {
+    font-size: 1.75rem;
+    color: var(--primary-color);
+    margin-bottom: 25px;
+    text-align: center;
+    font-weight: 700;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 0;
+    width: 60px;
+    height: 3px;
+    background-color: var(--accent-color);
+    border-radius: 2px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.form-field {
+    margin-bottom: 15px; /* Adjust spacing between fields */
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--secondary-color);
+    font-size: 0.95rem;
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    font-size: 1rem;
+    color: #495057;
+    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    background-color: #fdfdfd;
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.25rem rgba(0, 64, 128, 0.25); /* Primary color with transparency */
+    outline: none;
+}
+
+.form-textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.form-button-group {
+    text-align: center;
+    margin-top: 40px;
+}
+
+.submit-button {
+    background-color: var(--primary-color);
+    color: var(--text-light);
+    padding: 15px 35px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 10px rgba(0, 64, 128, 0.2);
+}
+
+.submit-button:hover {
+    background-color: #003366; /* Slightly darker blue on hover */
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 64, 128, 0.3);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .form-grid {
+        grid-template-columns: 1fr; /* Single column layout on smaller screens */
+    }
+}
     </style>
 </head>
 
@@ -157,57 +275,57 @@ if ($user_rol != 'Administrador') {
         </div>
     </nav>
 
+    <div style="widht: 100px; margin:0 auto;text-align: center">
+        <p class="fs-2">Registro de Usuarios</p>
+    </div>
+
     <div class="container">
-        <h2 class="form-title">Registrar Usuario</h2>
-        <form class="fs-form" action="register_usuarios_controler.php" method="POST" id="formusuarios">
-        <?php
+        <form class="tax-declaration-form" method="POST" action="" id="formusuarios">
+            <?php
             include("conexionbd.php");
             include("register_usuarios_controler.php");
             ?>
-            <fieldset>
-                <div class="fs-field">
-                    <label class="fs-label" for="">Nombre</label>
-                    <input class="fs-input" name="nombre" />
+            <fieldset class="form-section">
+                <legend class="section-title">Información del Usuario</legend>
+                <div class="form-grid">
+                    <div class="form-field">
+                        <label class="form-label" for="nombre">Nombre</label>
+                        <input class="form-input" id="nombre" name="nombre" type="text" required />
+                    </div>
+                    <div class="form-field">
+                        <label class="form-label" for="apellido">Apellido</label>
+                        <input class="form-input" id="apellido" name="apellido" type="text" required />
+                    </div>
+                    <div class="form-field">
+                        <label class="form-label" for="usuario">Usuario</label>
+                        <input class="form-input" id="usuario" name="usuario" type="text" required />
+                    </div>
+                    <div class="form-field">
+                        <label class="form-label" for="pass">Contraseña</label>
+                        <input class="form-input" id="pass" name="pass" type="text" required />
+                    </div>
+                    <div class="form-field">
+                        <label class="form-label" for="rol">Rol</label>
+                        <select class="form-select" id="rol" name="rol" required> 
+                            <option value="Empleado">Empleado</option>
+                            <option value="Administrador">Administrador</option>
+                        </select>
+                    </div>
+                    <div class="form-field">
+                        <label class="form-label" for="estado">Estado</label>
+                        <select class="form-select" id="estado" name="estado" required> 
+                            <option value="Activo">Activo</option>
+                            <option value="Inactivo">Inactivo</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="fs-field">
-                    <label class="fs-label" for="">Apellido</label>
-                    <input class="fs-input" name="apellido" />
-                </div>
-                <div class="fs-field">
-                    <label class="fs-label" for="">Usuario</label>
-                    <input class="fs-input" name="usuario" />
-                </div>
-                <div class="fs-field">
-                    <label class="fs-label" for="">Contraseña</label>
-                    <input class="fs-input" name="pass" />
-                </div>
-                <div class="fs-field">
-            <label for="" class="form-label">Rol:</label>
-            <select class="form-select" name="rol"> 
-                        <option>Empleado</option>
-                        <option>Administrador</option>
-                    </select>
-
-
-        </div>
-                <div class="fs-field">
-            <label for="" class="form-label">Estado:</label>
-            <select class="form-select" name="estado"> 
-                        <option>Activo</option>
-                        <option>Inactivo</option>
-                    </select>
-
-
-        </div>
             </fieldset>
 
-                <div class="fs-button-group">
-    <input class="fs-button" type="submit" name="btn_registro_user" >
-  </div>
+            <div class="form-button-group">
+                <input class="submit-button" type="submit" name="btn_registro_user" value="Registrar Usuario">
+            </div>
 
         </form>
-
-
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/scripts.js"></script>
