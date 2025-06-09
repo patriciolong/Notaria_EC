@@ -133,6 +133,160 @@ if ($varsesion == null || $varsesion = '') {
         .custom-navbar .navbar-toggler-icon {
             background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important; /* Icono blanco puro para contraste */
         }
+        /* Custom Form Styles */
+.tax-declaration-form {
+    background-color: #f8f9fa; /* Light background for the form */
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    margin-top: 30px;
+    margin-bottom: 50px;
+}
+
+.form-section {
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 25px;
+    margin-bottom: 30px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.section-title {
+    font-size: 1.75rem;
+    color: var(--primary-color);
+    margin-bottom: 25px;
+    text-align: center;
+    font-weight: 700;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 0;
+    width: 60px;
+    height: 3px;
+    background-color: var(--accent-color);
+    border-radius: 2px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.form-field {
+    margin-bottom: 15px; /* Adjust spacing between fields */
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--secondary-color);
+    font-size: 0.95rem;
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    font-size: 1rem;
+    color: #495057;
+    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    background-color: #fdfdfd;
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.25rem rgba(0, 64, 128, 0.25); /* Primary color with transparency */
+    outline: none;
+}
+
+.form-textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+/* Checkbox specific styles (though not explicitly used in this form) */
+.checkbox-field {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px; /* Reduced margin for checkboxes within a group */
+}
+
+.checkbox-field .form-check-input {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0; /* Prevent checkbox from shrinking */
+    margin-top: 0; /* Reset default margin */
+    border-radius: 4px; /* Slightly rounded corners for checkbox */
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.checkbox-field .form-check-input:checked {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.checkbox-field .form-check-label {
+    margin-bottom: 0; /* Remove bottom margin for labels */
+    font-weight: 600;
+    color: var(--secondary-color);
+    font-size: 0.95rem;
+}
+
+/* Grouping for multiple checkboxes */
+.checkbox-group {
+    padding-top: 5px; /* Add some padding above the group */
+}
+
+/* Full width field for notes (if applicable) */
+.form-field.full-width {
+    grid-column: 1 / -1; /* Spans across all columns in the grid */
+}
+
+.form-button-group {
+    text-align: center;
+    margin-top: 40px;
+}
+
+.submit-button {
+    background-color: var(--primary-color);
+    color: var(--text-light);
+    padding: 15px 35px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 10px rgba(0, 64, 128, 0.2);
+}
+
+.submit-button:hover {
+    background-color: #003366; /* Slightly darker blue on hover */
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 64, 128, 0.3);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .form-grid {
+        grid-template-columns: 1fr; /* Single column layout on smaller screens */
+    }
+}
     </style>
 </head>
 <body>
@@ -159,7 +313,7 @@ if ($varsesion == null || $varsesion = '') {
     </div>
 </nav>
 
-    <div style="widht: 100px; margin:0 auto;text-align: center">
+<div style="widht: 100px; margin:0 auto;text-align: center">
         <p class="fs-2">Poderes</p>
     </div>
 
@@ -177,142 +331,151 @@ if ($varsesion == null || $varsesion = '') {
 
     </div>
     <div class="container">
-        <form class="fs-form fs-layout__2-column" method="POST" action="" id="formPoderes">
+        <form class="tax-declaration-form" method="POST" action="" id="formPoderes">
             <?php
             include("conexionbd.php");
             include("poderes_controller.php");
             ?>
-            <fieldset>
-                <div class="fs-field">
-                <div class="">
-                        <h3 class="" for="">1. Persona que otorga el poder (Usted):</h3>
-                    </div>
-                    <input class="fs-input" type="hidden" id="id_usuario" name="id_usuario"
+            <fieldset class="form-section">
+                <legend class="section-title">1. Persona que otorga el poder (Usted)</legend>
+                <div class="form-grid">
+                    <input class="form-input" type="hidden" id="id_usuario" name="id_usuario"
                         placeholder="identificacion" />
-                    <input class="fs-input" type="hidden" id="id_cliente" name="id_cliente"
+                    <input class="form-input" type="hidden" id="id_cliente" name="id_cliente"
                         placeholder="identificacion" />
-                    <label class="fs-label" for="">Identificacion</label>
-                    <input class="fs-input" id="identificacion" name="identificacion" placeholder="identificacion" />
-                    <div class="fs-field">
-                        <label class="fs-label" for="">Nombres</label>
-                        <input class="fs-input" id="nombre" name="nombre" />
+                    <div class="form-field">
+                        <label class="form-label" for="identificacion">Identificacion</label>
+                        <input class="form-input" id="identificacion" name="identificacion" placeholder="identificacion" />
                     </div>
-                    <div class="fs-field">
-                        <label class="fs-label" for="">Apellidos</label>
-                        <input class="fs-input" id="apellido" name="apellido" />
+                    <div class="form-field">
+                        <label class="form-label" for="nombre">Nombres</label>
+                        <input class="form-input" id="nombre" name="nombre" />
                     </div>
-                    <div class="fs-field">
-                        <label class="fs-label" for="">Telefono</label>
-                        <input class="fs-input" name="telefono" id="telefono" />
+                    <div class="form-field">
+                        <label class="form-label" for="apellido">Apellidos</label>
+                        <input class="form-input" id="apellido" name="apellido" />
                     </div>
-                    <div class="fs-field">
-                        <label class="fs-label" for="">Direccion</label>
-                        <input class="fs-input" name="direccion" id="direccion" />
+                    <div class="form-field">
+                        <label class="form-label" for="telefono">Telefono</label>
+                        <input class="form-input" name="telefono" id="telefono" />
                     </div>
-                    <div class="fs-field">
-                        <label class="fs-label" for="">Estado</label>
-                        <input class="fs-input" name="estado" id="estado" />
+                    <div class="form-field">
+                        <label class="form-label" for="direccion">Direccion</label>
+                        <input class="form-input" name="direccion" id="direccion" />
                     </div>
-                    <div class="fs-field">
-                        <label class="fs-label" for="">Ciudad</label>
-                        <input class="fs-input" name="ciudad" id="ciudad" />
+                    <div class="form-field">
+                        <label class="form-label" for="estado">Estado</label>
+                        <input class="form-input" name="estado" id="estado" />
                     </div>
-                    <div class="fs-field">
-                        <label class="fs-label" for="">Codigo Postal</label>
-                        <input class="fs-input" name="postal" id="postal" />
+                    <div class="form-field">
+                        <label class="form-label" for="ciudad">Ciudad</label>
+                        <input class="form-input" name="ciudad" id="ciudad" />
                     </div>
-                    <div class="fs-field">
-                        <label class="fs-label" for="">Email</label>
-                        <input class="fs-input" name="email" id="email" />
+                    <div class="form-field">
+                        <label class="form-label" for="postal">Codigo Postal</label>
+                        <input class="form-input" name="postal" id="postal" />
                     </div>
-                    <div class="fs-field">
-                        <label class="fs-label" for="">N° Departamento</label>
-                        <input class="fs-input" name="departamento" id="departamento" />
-                        <label class="fs-label" for="">Estado Civil</label>
-                    <select class="form-select" name="estcivil" id="estcivil">
-                        <option>Elegir</option>
-                        <option>Soltero(A)</option>
-                        <option>Casados Juntos</option>
-                        <option>Cabeza de Familia</option>
-                        <option>Casados Separados</option>
-                        
-                    </select>
-                    <div class="fs-field">
-                        <label class="fs-label" for="">Fecha</label>
-                        <input class="fs-input" type="date" name="fecha" id="fecha" />
+                    <div class="form-field">
+                        <label class="form-label" for="email">Email</label>
+                        <input class="form-input" name="email" id="email" />
                     </div>
-                    <div class="fs-field">
-                        <label class="fs-label" for="">Oficina</label>
-                        <input class="fs-input" name="Oficina" id="Oficina" />
+                    <div class="form-field">
+                        <label class="form-label" for="departamento">N° Departamento</label>
+                        <input class="form-input" name="departamento" id="departamento" />
                     </div>
+                    <div class="form-field">
+                        <label class="form-label" for="estcivil">Estado Civil</label>
+                        <select class="form-select" name="estcivil" id="estcivil">
+                            <option>Elegir</option>
+                            <option>Soltero(A)</option>
+                            <option>Casados Juntos</option>
+                            <option>Cabeza de Familia</option>
+                            <option>Casados Separados</option>
+                        </select>
                     </div>
-
-
+                    <div class="form-field">
+                        <label class="form-label" for="fecha">Fecha</label>
+                        <input class="form-input" type="date" name="fecha" id="fecha" />
+                    </div>
+                    <div class="form-field">
+                        <label class="form-label" for="Oficina">Oficina</label>
+                        <input class="form-input" name="Oficina" id="Oficina" />
+                    </div>
                 </div>
-                <div class="fs-field">
-                    
+            </fieldset>
 
-                    <div class="">
-                        <h3 class="" for="">2. Persona a Favor de quien se otorga el poder</h3>
+            <fieldset class="form-section">
+                <legend class="section-title">2. Persona a Favor de quien se otorga el poder</legend>
+                <div class="form-grid">
+                    <div class="form-field">
+                        <label class="form-label" for="nombres_otorga">Nombres y Apellidos Completos</label>
+                        <input class="form-input" name="nombres_otorga" id="nombres_otorga" />
                     </div>
-                    <div class="fs-field">
-                        <label class="fs-label" for="">Nombres y Apellidos Completos</label>
-                        <input class="fs-input" name="nombres_otorga" id="nombres_otorga" />
+                    <div class="form-field">
+                        <label class="form-label" for="cedula_otorga">Numero de Cedula (Si la sabe)</label>
+                        <input class="form-input"  name="cedula_otorga" id="cedula_otorga" />
                     </div>
-                    <div class="fs-field">
-                        <label class="fs-label" for="">Numero de Cedula (Si la sabe)</label>
-                        <input class="fs-input"  name="cedula_otorga" id="cedula_otorga" />
-                    </div>
-                    <div class="">
-                        <h3 class="" for="">3. Razon del poder</h3>
-                    </div>
-                    <select class="form-select" name="razon_poder" id="razon_poder">
-                        <option>Elegir</option>
-                        <option>Especial ($160)</option>
-                        <option>General ($170)</option>
-                        <option>Minuta ($160/$90 c/u)</option>  
-                    </select>
-                    <div class="">
-                        <h3 class="" for="">4. Usted prefiere que el poder se le envie:</h3>
-                    </div>
-                    <select class="form-select" name="opcion_envio_poder" id="opcion_envio_poder">
-                        <option>Elegir</option>
-                        <option>Scan a un email o Whatsapp ($10)</option>
-                        <option>A su domicilio en EE.UU. ($20)</option>
-                        <option>Venirlo a retirar personalmente en la oficina:</option>  
-                        <option>Original al Ecuador Via Expres 3 dias laborables ($45)</option>  
-                    </select>
-                    <div class="fs-field">
-                        <label class="fs-label" for="">Valor</label>
-                        <input class="fs-input" type="number" name="valor" min="0" id="valor" />
-                    </div>
-                    <div class="fs-field">
-                        <label class="fs-label" for="">Abono</label>
-                        <input class="fs-input" type="number" name="abono" min="0" id="abono"/>
-                    </div>
-                    <div class="fs-field">
-                        <label class="fs-label" for="">Enviar a Ecuador a nombre de:</label>
-                        <input class="fs-input" name="remitente" id="remitente"/>
-                    </div>
-                    <div class="fs-field">
-                        <label class="fs-label" for="">Ciudad del remitente</label>
-                        <input class="fs-input" name="ciudad_r" id="ciudad_r"/>
-                    </div>
-                    <div class="fs-field">
-                        <label class="fs-label" for="">Provincia del remitente</label>
-                        <input class="fs-input" name="provincia_r" id="provincia_r"/>
-                    </div>
-                    <div class="fs-field">
-                        <label class="fs-label" for="">Telefono del remitente</label>
-                        <input class="fs-input" name="telefono_r" id="telefono_r"/>
-                    </div>
+                </div>
+            </fieldset>
 
+            <fieldset class="form-section">
+                <legend class="section-title">3. Razon del poder</legend>
+                <div class="form-grid">
+                    <div class="form-field">
+                        <label class="form-label" for="razon_poder"></label>
+                        <select class="form-select" name="razon_poder" id="razon_poder">
+                            <option>Elegir</option>
+                            <option>Especial ($160)</option>
+                            <option>General ($170)</option>
+                            <option>Minuta ($160/$90 c/u)</option>  
+                        </select>
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset class="form-section">
+                <legend class="section-title">4. Usted prefiere que el poder se le envie:</legend>
+                <div class="form-grid">
+                    <div class="form-field">
+                        <label class="form-label" for="opcion_envio_poder">Metodo de envio</label>
+                        <select class="form-select" name="opcion_envio_poder" id="opcion_envio_poder">
+                            <option>Elegir</option>
+                            <option>Scan a un email o Whatsapp ($10)</option>
+                            <option>A su domicilio en EE.UU. ($20)</option>
+                            <option>Venirlo a retirar personalmente en la oficina:</option>  
+                            <option>Original al Ecuador Via Expres 3 dias laborables ($45)</option>  
+                        </select>
+                    </div>
+                    <div class="form-field">
+                        <label class="form-label" for="valor">Valor</label>
+                        <input class="form-input" type="number" name="valor" min="0" id="valor" />
+                    </div>
+                    <div class="form-field">
+                        <label class="form-label" for="abono">Abono</label>
+                        <input class="form-input" type="number" name="abono" min="0" id="abono"/>
+                    </div>
+                    <div class="form-field">
+                        <label class="form-label" for="remitente">Enviar a Ecuador a nombre de:</label>
+                        <input class="form-input" name="remitente" id="remitente"/>
+                    </div>
+                    <div class="form-field">
+                        <label class="form-label" for="ciudad_r">Ciudad del remitente</label>
+                        <input class="form-input" name="ciudad_r" id="ciudad_r"/>
+                    </div>
+                    <div class="form-field">
+                        <label class="form-label" for="provincia_r">Provincia del remitente</label>
+                        <input class="form-input" name="provincia_r" id="provincia_r"/>
+                    </div>
+                    <div class="form-field">
+                        <label class="form-label" for="telefono_r">Telefono del remitente</label>
+                        <input class="form-input" name="telefono_r" id="telefono_r"/>
+                    </div>
                 </div>
             </fieldset>
 
 
-            <div class="fs-button-group">
-                <input class="fs-button" type="submit" name="btn_registro_imp">
+            <div class="form-button-group">
+                <input class="submit-button" type="submit" name="btn_registro_imp" value="Guardar Poder">
             </div>
 
         </form>
