@@ -401,6 +401,10 @@ if ($varsesion == null || $varsesion = '') {
                     <input class="form-input" type="date" name="fechaeeuu" id="fechaeeuu" />
                 </div>
                 <div class="form-field">
+                    <label class="form-label" for="anio_reporte">Año de Reporte</label>
+                    <input class="form-input" type="date" name="anio_reporte" id="anio_reporte" />
+                </div>
+                <div class="form-field">
                     <label class="form-label" for="numitin">Número de Itin o Social</label>
                     <input class="form-input" name="numitin" id="numitin" />
                 </div>

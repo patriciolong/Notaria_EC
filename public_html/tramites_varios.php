@@ -462,6 +462,10 @@ if ($varsesion==null || $varsesion='') {
                         <label class="form-label" for="telefono_r">Telefono del remitente</label>
                         <input class="form-input" name="telefono_r" id="telefono_r"/>
                     </div>
+                    <div class="form-field">
+                        <label class="form-label" for="telefono_r">Observaciones</label>
+                        <input class="form-input" name="observaciones_t" id="observaciones_t"/>
+                    </div>
                 </div>
             </fieldset>
 
@@ -532,7 +536,7 @@ document.getElementById('printRecordBtn').addEventListener('click', function() {
     const recordId = this.getAttribute('data-record-id'); // Obtener el ID que guardamos
     if (recordId) {
         // Abrir la nueva página de impresión en una nueva pestaña
-        window.open('imprimir_tramite.php?id=' + recordId, '_blank');
+        window.open('imprimir_tramite_varios.php?id=' + recordId, '_blank');
     } else {
         Swal.fire({
             icon: 'warning',

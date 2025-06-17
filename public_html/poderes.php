@@ -470,6 +470,10 @@ if ($varsesion == null || $varsesion = '') {
                         <label class="form-label" for="telefono_r">Telefono del remitente</label>
                         <input class="form-input" name="telefono_r" id="telefono_r"/>
                     </div>
+                    <div class="form-field">
+                        <label class="form-label" for="observaciones_p">Observaciones</label>
+                        <input class="form-input" name="observaciones_p" id="observaciones_p"/>
+                    </div>
                 </div>
             </fieldset>
 
