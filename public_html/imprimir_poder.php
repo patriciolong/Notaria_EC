@@ -38,6 +38,7 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) { // <-- AQUI COMIENZA EL BLO
                 tp.tp_cedulla_otorga_poder,
                 tp.tp_razon_otorga_poder,
                 tp.tp_opcion_envio_poder,
+                tp.tp_observaciones,
                 c.c_deuda,   -- <--- Añadido (si ya lo añadiste a la BD)
                 c.c_abonado,   -- <--- Añadido (si ya lo añadiste a la BD)
                 c.c_saldo,   -- <--- Añadido (si ya lo añadiste a la BD)
@@ -456,6 +457,12 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) { // <-- AQUI COMIENZA EL BLO
                     <div class="field half-width">
                         <span class="field-label">TELÉFONOS (011593):</span>
                         <span class="field-value"><?php echo htmlspecialchars($poder_data['tp_telefonos_enviar']); ?></span>
+                    </div>
+                </div>
+                <div class="field-row">
+                    <div class="field half-width">
+                        <span class="field-label">OBSERVACIONES:</span>
+                        <span class="field-value"><?php echo htmlspecialchars($poder_data['tp_observaciones']); ?></span>
                     </div>
                 </div>
 
