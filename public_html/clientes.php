@@ -181,7 +181,8 @@ $resultado = mysqli_query($conexion, $consulta);
                     <th>Abonado</th>
                     <th>Saldo Pendiente</th>
                     <th>Acciones</th>
-                    <th>Trámites</th>
+                    <th>Trámites</th>                    
+                    <th>Registrado por:</th>
                 </tr>
             </thead>
             <tbody>
@@ -193,7 +194,7 @@ $resultado = mysqli_query($conexion, $consulta);
                         <td><?= htmlspecialchars($row['c_telefono']) ?></td>
                         <td><?= htmlspecialchars($row['c_deuda']) ?></td>
                         <td><?= htmlspecialchars($row['c_abonado']) ?></td>
-                        <td><?= htmlspecialchars($row['c_saldo']) ?></td>
+                        <td><?= htmlspecialchars($row['c_saldo']) ?></td>                   
                         <td>
                             <div class="btn-group">
                                 <button class="btn btn-secondary btn-sm dropdown-toggle" data-bs-toggle="dropdown">Acciones</button>
@@ -206,6 +207,7 @@ $resultado = mysqli_query($conexion, $consulta);
                         <td>
                             <a href="ver_tramites.php?id_cliente=<?= $row['id_cliente'] ?>" target="_blank" class="btn btn-secondary btn-sm">Trámites</a>
                         </td>
+                        <td><?= htmlspecialchars($row['c_register']) ?></td>
                     </tr>
                 <?php endwhile; ?>
             </tbody>

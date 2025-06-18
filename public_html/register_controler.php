@@ -1,5 +1,14 @@
 <?php
+
+session_start();
+error_reporting(0);
+$varsesion =$_SESSION['usuario'];
+$variable_ses = $varsesion;
+
 include("conexionbd.php");
+
+
+
 if (!empty($_POST["btn_registro"])) {
     if (empty($_POST["identificacion"])) {
         echo json_encode(["status" => "error", "message" => "Todos los campos son necesarios"]);
@@ -18,8 +27,8 @@ if (!empty($_POST["btn_registro"])) {
         $postal = $_POST["postal"];
         $email = $_POST["email"];
         $departamento = $_POST["departamento"];
-        $sql = $conexion->query("INSERT INTO cliente (c_identificacion,c_nombre,c_apellido,c_telefono,c_edad,c_direccion,c_pais,c_estado,c_ciudad,c_codpostal,c_email,c_napartamento) 
-        VALUES ('$identificacion','$nombre','$apellido','$telefono','$edad','$direccion','$pais','$estado','$ciudad','$postal','$email','$departamento')");
+        $sql = $conexion->query("INSERT INTO cliente (c_identificacion,c_nombre,c_apellido,c_telefono,c_edad,c_direccion,c_pais,c_estado,c_ciudad,c_codpostal,c_email,c_napartamento, c_register) 
+        VALUES ('$identificacion','$nombre','$apellido','$telefono','$edad','$direccion','$pais','$estado','$ciudad','$postal','$email','$departamento', '$variable_ses')");
        if ($sql) {
         echo json_encode(["status" => "success", "message" => "Registro insertado correctamente"]);
     } else {

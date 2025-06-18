@@ -324,12 +324,15 @@ if ($varsesion == null || $varsesion == '') {
            <fieldset class="form-section">
            <legend class="section-title">1. Información Personal del Cliente</legend>
            <div class="form-grid">
+                    
                     <input class="fs-input" type="hidden" id="id_usuario" name="id_usuario" value="<?php echo $user_id; ?>" />
                     <input class="fs-input" type="hidden" id="id_cliente" name="id_cliente" />
                     
-                    <label class="fs-label" for="identificacion">Identificación</label>
-                    <input class="fs-input form-control" id="identificacion" name="identificacion" placeholder="identificación" required />
-                    
+                    <div class="fs-field">
+                        <label class="fs-label" for="identificacion">Identificación</label>
+                        <input class="fs-input form-control" id="identificacion" name="identificacion" placeholder="" required />
+                    </div>
+                        
                     <div class="fs-field">
                         <label class="fs-label" for="nombre">Nombres</label>
                         <input class="fs-input form-control" id="nombre" name="nombre" required />
@@ -375,13 +378,19 @@ if ($varsesion == null || $varsesion == '') {
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="tipo_divorcio" id="tipo_divorcio_controv" value="Controvertido" required>
                             <label class="form-check-label" for="tipo_divorcio_controv">
-                                Controvertido
+                                Causal
                             </label>
                         </div>
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="tipo_divorcio" id="tipo_divorcio_consens" value="Consensual" required>
                             <label class="form-check-label" for="tipo_divorcio_consens">
                                 Consensual
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="tipo_divorcio" id="tipo_divorcio_not" value="Notarial" required>
+                            <label class="form-check-label" for="tipo_divorcio_not">
+                                Notarial
                             </label>
                         </div>
                     </div>
@@ -447,6 +456,22 @@ if ($varsesion == null || $varsesion == '') {
                     <div class="fs-field">
                         <label class="fs-label" for="tiempo_separacion">Tiempo de Separación (si aplica)</label>
                         <input class="fs-input form-control" name="tiempo_separacion" id="tiempo_separacion" placeholder="Ej: 2 años, 6 meses" />
+                    </div>
+
+                    <div class="fs-field">
+                        <label class="fs-label">¿Existen Hijos Menores de Edad?</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="hijos" id="hijos_si" value="1">
+                            <label class="form-check-label" for="hijos_si">
+                                Sí
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="hijos" id="hijos_no" value="0" checked>
+                            <label class="form-check-label" for="hijos_no">
+                                No
+                            </label>
+                        </div>
                     </div>
 
                     <div class="fs-field">

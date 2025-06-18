@@ -33,9 +33,6 @@
                 "mostrar_columnas" =>  [
                     "tv_motivo" => "Motivo",
                     "tv_oenvio" => "Opcion de Envio",
-                    //"tv_valor" => "Valor",
-                    //"tv_abono" => "Abono",
-                    //"tv_saldo" => "Saldo",
                     "tv_nrecibo" => "Recibo",
                     "tv_nom_envio" => "Nombre del envio",
                     "tv_ciudad" => "Ciudad",
@@ -47,9 +44,6 @@
                 "titulo" => "Impuestos",
                 "mostrar_columnas" =>  [
                     "ti_fecha" => "Fecha",
-                    //"ti_valor" => "Valor",
-                    //"ti_abono" => "Abono",
-                    //"ti_saldo" => "Saldo",
                     "ti_itin" => "ITIN",
                     "ti_fechain" => "Fecha de ingreso a USA",
                     "ti_nitin" => "Numero de ITIN o social",
@@ -65,14 +59,8 @@
             "tramite_poderes" => [
                 "titulo" => "Poderes",
                 "mostrar_columnas" =>  [
-                    //"tp_nombre" => "Nombre",
-                    //"tp_cedula" => "Identificacion",
                     "tp_razon_otorga_poder" => "Razon del poder",
                     "tp_opcion_envio_poder" => "Opcion de envio",
-                    //"tp_valor" => "Valor",
-                    //"tp_abono" => "Abono",
-                    //"tp_saldo" => "Saldo",
-                    //"tp_nrecibo" => "Recibo",
                     "tp_enviar_nombrede" => "Nombre del envio",
                     "tp_ciudad_enviar" => "Ciudad",
                     "tp_provincia" => "Provincia",
@@ -82,7 +70,6 @@
             "tramite_divorcio" => [
                 "titulo" => "Divorcios",
                 "mostrar_columnas" =>  [
-                    //"td_tdivorcio" => "Nombre",
                     "td_identificacion_c" => "Identificacion",
                     "td_nombre_c" => "Nombre del conyugue",
                     "td_direccion_c" => "Direccion del conyugue",
@@ -96,6 +83,7 @@
                     "td_separados" => "Separados",
                     "td_noseparados" => "No Separados",
                     "td_tiempo_separacion" => "Tiempo de separacion",
+                    "td_hijos" => "Hijos",
                     "td_ep_matrimonio" => "Partida de matrimonio",
                     "td_ep_nacimiento" => "Partida de nacimiento",
                     "td_estado_contac_ecuador" => "Contacto en el Ecuador",
@@ -120,69 +108,78 @@
             $result = $stmt->get_result();
 
             if ($result->num_rows > 0) {
-                echo "<div class='table-responsive'>";
-                echo "<table class='table table-striped'>";
-                echo "<thead><tr>";
+                if ($result->num_rows > 0) {
+    if ($tabla === "tramite_divorcio") {
+        while ($row = $result->fetch_assoc()) {
+            echo "<div class='card mb-3 shadow-sm'>";
+            echo "<div class='card-body'>";
+            echo "<h5 class='card-title mb-3 text-primary'>Divorcio #" . $row['id_tram_div'] . "</h5>";
+            echo "<div class='row'>";
 
-                echo "<thead><tr>";
-                foreach ($config["mostrar_columnas"] as $nombre_col_db => $nombre_amigable) {
-                    echo "<th>" . htmlspecialchars($nombre_amigable) . "</th>";
-                }
-                echo "</tr></thead>";
-        
-                // 👇 FILAS
-                /*echo "<tbody>";
-                while ($row = $result->fetch_assoc()) {
-                    echo "<tr>";
-                    foreach ($config["mostrar_columnas"] as $nombre_col_db => $nombre_amigable) {
-                        echo "<td>" . htmlspecialchars($row[$nombre_col_db]) . "</td>";
-                    }
-                    echo "</tr>";
-                }
-                echo "</tbody>";*/
+            foreach ($config["mostrar_columnas"] as $nombre_col_db => $nombre_amigable) {
+                echo "<div class='col-md-6 mb-2'>
+                        <strong>" . htmlspecialchars($nombre_amigable) . ":</strong><br>" . htmlspecialchars($row[$nombre_col_db]) . "
+                      </div>";
+            }
 
-                echo "<tbody>";
-                while ($row = $result->fetch_assoc()) {
-                    echo "<tr>";
-                    foreach ($config["mostrar_columnas"] as $nombre_col_db => $nombre_amigable) {
-                        echo "<td>" . htmlspecialchars($row[$nombre_col_db]) . "</td>";
-                    }
+            echo "</div>"; // row
 
-                    // Agrega columna extra con botón PDF
-                    echo "<td>";
-                    
-                    // Determina el nombre del controlador según la tabla
-                    if ($tabla === "tramites_varios") {
-                        $id = $row['id_tramite_varios'];
-                        $archivo = "imprimir_tramite_varios.php.";
-                    } elseif ($tabla === "tramite_impuestos") {
-                        $id = $row['id_tram_impuestos'];
-                        $archivo = "imprimir_declaracion_impuestos.php";
-                    } elseif ($tabla === "tramite_poderes") {
-                        $id = $row['id_tram_poderes'];
-                        $archivo = "imprimir_poder.php";
-                    } elseif ($tabla === "tramite_divorcio") {
-                        $id = $row['id_tram_div'];
-                        $archivo = "generar_pdf_divorcio.php";
-                    } else {
-                        $id = null;
-                        $archivo = null;
-                    }
+            echo "<div class='mt-3'>";
+            echo "<a href='generar_pdf_divorcio.php?id=" . $row['id_tram_div'] . "' target='_blank' class='btn btn-danger btn-sm me-2'>📄 PDF</a>";
 
-                    if ($id && $archivo) {
-                        echo "<a href='{$archivo}?id={$id}' target='_blank' class='btn btn-danger btn-sm'>
-                                <i class='bi bi-file-earmark-pdf'></i> PDF
-                            </a>";
-                    }
+            // Formulario para editar observaciones
+            echo "<form action='actualizar_observaciones.php' method='post' class='d-inline-block'>";
+            echo "<input type='hidden' name='id_tram_div' value='" . $row['id_tram_div'] . "'>";
+            echo "<input type='text' name='td_observaciones' class='form-control form-control-sm d-inline-block me-1' style='width:auto; display:inline;' value='" . htmlspecialchars($row['td_observaciones']) . "'>";
+            echo "<button type='submit' class='btn btn-success btn-sm'>💾</button>";
+            echo "</form>";
 
-                    echo "</td>";
+            echo "</div>"; // botones
+            echo "</div>"; // card-body
+            echo "</div>"; // card
+        }
+    } else {
+        // El resto de las tablas sigue como antes con tabla normal
+        echo "<div class='table-responsive'>";
+        echo "<table class='table table-striped'>";
+        echo "<thead><tr>";
+        foreach ($config["mostrar_columnas"] as $nombre_col_db => $nombre_amigable) {
+            echo "<th>" . htmlspecialchars($nombre_amigable) . "</th>";
+        }
+        echo "</tr></thead>";
+        echo "<tbody>";
+        while ($row = $result->fetch_assoc()) {
+            echo "<tr>";
+            foreach ($config["mostrar_columnas"] as $nombre_col_db => $nombre_amigable) {
+                echo "<td>" . htmlspecialchars($row[$nombre_col_db]) . "</td>";
+            }
 
-                    echo "</tr>";
-                }
-                echo "</tbody>";
-        
-                echo "</table>";
-                echo "</div>"; // table-responsive
+            echo "<td>";
+            if ($tabla === "tramites_varios") {
+                $id = $row['id_tramite_varios'];
+                $archivo = "imprimir_tramite_varios.php.";
+            } elseif ($tabla === "tramite_impuestos") {
+                $id = $row['id_tram_impuestos'];
+                $archivo = "imprimir_declaracion_impuestos.php";
+            } elseif ($tabla === "tramite_poderes") {
+                $id = $row['id_tram_poderes'];
+                $archivo = "imprimir_poder.php";
+            }
+
+            if ($id && $archivo) {
+                echo "<a href='{$archivo}?id={$id}' target='_blank' class='btn btn-danger btn-sm'>
+                        <i class='bi bi-file-earmark-pdf'></i> PDF
+                    </a>";
+            }
+            echo "</td>";
+            echo "</tr>";
+        }
+        echo "</tbody>";
+        echo "</table>";
+        echo "</div>"; // table-responsive
+    }
+}
+
             } else {
                 echo "<p class='text-muted'>No hay trámites registrados para este cliente en esta categoría.</p>";
             }

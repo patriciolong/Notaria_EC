@@ -80,6 +80,7 @@ if (!empty($_POST["btn_registro_divorcio"])) {
     $id_cliente = $_POST["id_cliente"];
     $tipo_divorcio = $_POST["tipo_divorcio"]; // "Controvertido" o "Consensual"
     $nombre_conyugue = $_POST["nombre_conyugue"];
+    //$td_notarial = $_POST["td_notarial"];
     $identificacion_conyugue = $_POST["identificacion_conyugue"];
     $direccion_conyugue = $_POST["direccion_conyugue"];
     $apartamento_conyugue = $_POST["apartamento_conyugue"];
@@ -91,6 +92,7 @@ if (!empty($_POST["btn_registro_divorcio"])) {
     $fecha_matrimonio = $_POST["fecha_matrimonio"];
     $esta_separado = ($_POST["esta_separado"] == "1") ? 1 : 0; // tinyint(1)
     $tiempo_separacion = $_POST["tiempo_separacion"];
+    $hijos = ($_POST["hijos"] == "1") ? 1 : 0; // tinyint(1)
     $posee_partida_matrimonio = isset($_POST["posee_partida_matrimonio"]) ? 1 : 0; // tinyint(1)
     $posee_partida_nacimiento_menores = isset($_POST["posee_partida_nacimiento_menores"]) ? 1 : 0; // tinyint(1)
     $contacto_ecuador = $_POST["contacto_ecuador"];
@@ -102,10 +104,13 @@ if (!empty($_POST["btn_registro_divorcio"])) {
     // Determinar valores booleanos para td_controvertido y td_consensual
     $td_controvertido = ($tipo_divorcio === "Controvertido") ? 1 : 0;
     $td_consensual = ($tipo_divorcio === "Consensual") ? 1 : 0;
+    $td_notarial = ($tipo_divorcio === "Notarial") ? 1 : 0;
     
     // Asignar valores para td_separados y td_noseparados (tinyint(1))
     $td_separados = $esta_separado;
     $td_noseparados = ($esta_separado === 0) ? 1 : 0; // Si no está separado, td_noseparados es 1
+
+    $td_hijos = $hijos;
 
     // Calcular saldo
     $saldo = $honorarios - $abono;
@@ -141,13 +146,13 @@ if (!empty($_POST["btn_registro_divorcio"])) {
     // --- Inserción del nuevo trámite de divorcio ---
     // ¡AQUÍ ESTÁ EL CAMBIO CLAVE! Eliminamos 'id_hijos'
     $sql_insert_divorcio = "INSERT INTO tramite_divorcio (
-        id_cliente, td_controvertido, td_consensual, td_identificacion_c, td_nombre_c, 
+        id_cliente, td_controvertido, td_consensual, td_notarial, td_identificacion_c, td_nombre_c, 
         td_direccion_c, td_telefono_c, td_estado_c, td_ciudad_c, td_apt_c, td_cpostal_c, 
-        td_lugar_matrimonio, td_fecha_matrimonio, td_separados, td_noseparados, td_tiempo_separacion, 
+        td_lugar_matrimonio, td_fecha_matrimonio, td_separados, td_noseparados, td_tiempo_separacion, td_hijos,
         td_ep_matrimonio, td_ep_nacimiento, td_estado_contac_ecuador, td_tel_ecuador, td_observaciones, 
         td_valor, td_abono, td_saldo, id_usuario 
     ) VALUES (
-        ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
+        ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
     )";
 
     $stmt_insert = $conexion->prepare($sql_insert_divorcio);
@@ -157,10 +162,10 @@ if (!empty($_POST["btn_registro_divorcio"])) {
         // La cadena de tipos corregida es: i i i s s s s s s s s s s i i s i i s s s d d d i
         // Contemos: 3*i + 13*s + 3*d = 19 s's + 5 i's = 24
         $stmt_insert->bind_param(
-            "iiiissssssssssisiisssdddi", // <-- CADENA DE TIPOS CORREGIDA (24 caracteres)
-            $id_cliente, $td_controvertido, $td_consensual, $identificacion_conyugue, $nombre_conyugue, 
+            "iiiiissssssssssisiiisssdddi", // <-- CADENA DE TIPOS CORREGIDA (24 caracteres)
+            $id_cliente, $td_controvertido, $td_consensual, $td_notarial, $identificacion_conyugue, $nombre_conyugue, 
             $direccion_conyugue, $telefono_conyugue, $estado_conyugue, $ciudad_conyugue, $apartamento_conyugue, $postal_conyugue, 
-            $lugar_matrimonio, $fecha_matrimonio, $td_separados, $td_noseparados, $tiempo_separacion, 
+            $lugar_matrimonio, $fecha_matrimonio, $td_separados, $td_noseparados, $tiempo_separacion, $td_hijos,
             $posee_partida_matrimonio, $posee_partida_nacimiento_menores, $contacto_ecuador, $telefono_contacto_ecuador, $observaciones, 
             $honorarios, $abono, $saldo, $user_id 
         );
