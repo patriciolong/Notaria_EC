@@ -1,80 +1,62 @@
 <?php
-//seguridad de paginacion
-session_start(); // <--- MUY IMPORTANTE QUE ESTÉ AL PRINCIPIO
-error_reporting(0);
-$varsesion =$_SESSION['usuario'];
-$variable_ses = $varsesion;
-$user_rol = $_SESSION['rol'] ?? ''; // <-- Aquí se obtiene el rol
+// imprimir_tramite_varios.php
+session_start();
+error_reporting(0); // Para suprimir errores en producción, en desarrollo usar E_ALL
+$varsesion = $_SESSION['usuario'];
 
-// *** DEPURACIÓN EN MENU.PHP: Muestra el rol aquí ***
-//echo "DEBUG MENU - Rol de la sesión: '" . $user_rol . "'<br>";
-//echo "DEBUG MENU - Usuario de la sesión: " . $variable_ses . "<br>";
-
-if ($varsesion==null || $varsesion=='') {
+if ($varsesion == null || $varsesion == '') {
     header("location:index.php");
     die;
 }
 
-?>
-<?php
-// Reportar todos los errores para depuración (puedes quitarlo una vez que funcione)
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+include("conexionbd.php"); // Tu archivo de conexión a la base de datos
 
-// Incluye tu archivo de conexión a la base de datos
-include("conexionbd.php");
+// Verifica si se recibió un ID de trámite varios por GET
+if (isset($_GET['id']) && is_numeric($_GET['id'])) {
+    $id_tramite_varios = $_GET['id'];
 
-// Verifica si se recibió un ID de poder por GET
-if (isset($_GET['id']) && is_numeric($_GET['id'])) { // <-- AQUI COMIENZA EL BLOQUE DEL IF PRINCIPAL
-    $id_poder = $_GET['id'];
-
-    // Prepara la consulta SQL para obtener los datos del poder y del cliente
+    // Prepara la consulta SQL para obtener los datos del trámite y del cliente
     $query = "SELECT
-                tp.id_tram_poderes,
-                tp.tp_oficina,
-                tp.tp_fecha,
-                tp.tp_estado_civil,
-                tp.tp_nombres_otorga_poder,
-                tp.tp_cedulla_otorga_poder,
-                tp.tp_razon_otorga_poder,
-                tp.tp_opcion_envio_poder,
-                tp.tp_observaciones,
-                c.c_deuda,   -- <--- Añadido (si ya lo añadiste a la BD)
-                c.c_abonado,   -- <--- Añadido (si ya lo añadiste a la BD)
-                c.c_saldo,   -- <--- Añadido (si ya lo añadiste a la BD)
-                tp.tp_enviar_nombrede,
-                tp.tp_ciudad_enviar,
-                tp.tp_provincia,
-                tp.tp_telefonos_enviar,
-                c.c_identificacion,
-                c.c_nombre,
-                c.c_apellido,
-                c.c_telefono,
-                c.c_direccion,
-                c.c_estado,
-                c.c_ciudad,
-                c.c_codpostal,
-                c.c_email,
-                c.c_napartamento
-              FROM tramite_poderes tp
-              JOIN cliente c ON tp.id_cliente = c.id_cliente
-              WHERE tp.id_tram_poderes = ?";
+    tp.id_tram_poderes,
+    tp.tp_oficina,
+    tp.tp_fecha,
+    tp.tp_estado_civil,
+    tp.tp_nombres_otorga_poder,
+    tp.tp_cedulla_otorga_poder,
+    tp.tp_razon_otorga_poder,
+    tp.tp_opcion_envio_poder,
+    tp.tp_observaciones,
+    c.c_deuda,
+    c.c_abonado,
+    c.c_saldo,
+    tp.tp_enviar_nombrede,
+    tp.tp_ciudad_enviar,
+    tp.tp_provincia,
+    tp.tp_telefonos_enviar,
+    c.c_identificacion,
+    c.c_nombre,
+    c.c_apellido,
+    c.c_telefono,
+    c.c_direccion,
+    c.c_estado,
+    c.c_ciudad,
+    c.c_codpostal,
+    c.c_email,
+    c.c_napartamento
+  FROM tramite_poderes tp
+  JOIN cliente c ON tp.id_cliente = c.id_cliente
+  WHERE tp.id_tram_poderes = ?";
 
     $stmt = $conexion->prepare($query);
-
-    // Es crucial verificar si $stmt es false antes de intentar usar bind_param
     if ($stmt === false) {
-        // En caso de error en la preparación de la consulta
-        die("Error al preparar la consulta: " . $conexion->error);
+        die('Error en la preparación de la consulta: ' . $conexion->error);
     }
-
-    $stmt->bind_param("i", $id_poder); // "i" para indicar que es un entero
+    $stmt->bind_param("i", $id_tramite_varios);
     $stmt->execute();
     $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
         $poder_data = $result->fetch_assoc();
-        // Cierra el bloque PHP temporalmente para escribir HTML
         ?>
         <!DOCTYPE html>
         <html lang="es">
@@ -83,196 +65,219 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) { // <-- AQUI COMIENZA EL BLO
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>Poder - <?php echo $poder_data['id_tram_poderes']; ?></title>
             <style>
-                /* Estilos generales del documento impreso */
                 body {
-                    font-family: 'Times New Roman', serif;
+                    font-family: 'Times New Roman', Times, serif;
                     margin: 0;
                     padding: 0;
-                    box-sizing: border-box;
-                    color: #000;
-                    font-size: 11pt; /* Ajusta el tamaño de fuente general */
+                    background-color: #f4f4f4;
+                    color: #333;
+                    /* Added for better single-page control, but can be problematic if content is too long */
+                    height: 297mm; /* A4 height */
+                    overflow: hidden; /* Hide overflow to attempt fitting */
                 }
-
-                .document-container {
-                    width: 8.5in; /* Ancho de una hoja Carta */
-                    height: 11in; /* Alto de una hoja Carta */
-                    margin: 0; /* Sin márgenes en el cuerpo */
-                    padding: 0.5in 0.75in; /* Márgenes internos (top/bottom, left/right) */
+                .container {
+                    width: 210mm; /* A4 width */
+                    height: 297mm; /* A4 height */
+                    margin: 0 auto; /* Centered with no top/bottom margin for more space */
+                    background-color: #fff;
+                    border: 1px solid #ddd;
+                    box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
+                    padding: 15mm 15mm; /* Reduced padding for more content space */
                     box-sizing: border-box;
-                    position: relative; /* Para el posicionamiento del logo */
+                    display: flex; /* Use flexbox for better content distribution */
+                    flex-direction: column;
                 }
-
-                /* Encabezado */
                 .header {
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: flex-start;
-                    margin-bottom: 20px;
+                    text-align: center;
+                    margin-bottom: 20px; /* Reduced margin */
+                    border-bottom: 1px solid #eee;
+                    padding-bottom: 10px; /* Reduced padding */
                 }
-                .logo {
-                    width: 150px; /* Ajusta según el tamaño de tu logo */
-                    height: auto;
-                    position: absolute; /* Posicionamiento absoluto para el logo */
-                    top: 0.5in; /* Ajusta la posición superior */
-                    left: 0.75in; /* Ajusta la posición izquierda */
-                }
-                .header-info {
-                    text-align: right;
-                    margin-left: auto; /* Para que se alinee a la derecha */
-                }
-                .header-info p {
+                .header h1 {
                     margin: 0;
-                    font-size: 10pt;
+                    font-size: 22px; /* Slightly smaller */
+                    color: #222;
+                    text-transform: uppercase;
                 }
-                .office-date-box {
-                    border: 1px solid #000;
-                    padding: 5px 10px;
-                    margin-top: 5px;
-                    display: inline-block; /* Para que el borde envuelva el contenido */
+                .header p {
+                    margin: 2px 0; /* Reduced margin */
+                    font-size: 10px; /* Slightly smaller */
+                    color: #666;
                 }
-
-                /* Secciones */
-                .section-title {
+                .title {
+                    font-size: 18px; /* Slightly smaller */
                     font-weight: bold;
-                    margin-top: 15px;
-                    margin-bottom: 5px;
-                    font-size: 11pt;
+                    margin-bottom: 20px; /* Reduced margin */
+                    color: #333;
+                    text-align: center;
+                    text-transform: uppercase;
+                }
+                .section-title {
+                    font-size: 14px; /* Slightly smaller */
+                    font-weight: bold;
+                    margin-top: 18px; /* Reduced margin */
+                    margin-bottom: 8px; /* Reduced margin */
+                    color: #444;
+                    border-bottom: 1px solid #ddd;
+                    padding-bottom: 3px; /* Reduced padding */
                 }
                 .field-row {
                     display: flex;
-                    flex-wrap: wrap; /* Permite que los campos se envuelvan */
-                    margin-bottom: 5px;
-                    align-items: baseline; /* Alinea el texto en la base */
+                    flex-wrap: wrap;
+                    margin-bottom: 3px; /* Significantly reduced margin */
+                    font-size: 11px; /* Slightly smaller */
                 }
                 .field {
                     display: flex;
                     align-items: baseline;
-                    margin-right: 20px; /* Espacio entre campos */
-                    white-space: nowrap; /* Evita que el label y el valor se rompan */
+                    margin-right: 20px; /* Reduced space between fields */
+                    margin-bottom: 3px; /* Reduced margin for wrapped fields */
+                    white-space: nowrap;
                 }
                 .field-label {
-                    font-weight: normal; /* Labels de campo no tan negritas */
-                    margin-right: 5px;
-                    font-size: 11pt;
+                    font-weight: bold;
+                    margin-right: 5px; /* Closer to value */
+                    color: #555;
                 }
                 .field-value {
-                    border-bottom: 1px solid #000;
-                    min-width: 80px; /* Ancho mínimo para el campo */
-                    padding: 0 2px;
-                    font-style: italic; /* Opcional: para diferenciar los valores */
-                    font-size: 11pt;
-                    flex-grow: 1; /* Permite que el valor crezca para llenar espacio */
+                    flex-grow: 1;
+                    color: #222;
+                    border-bottom: 1px dotted #999;
+                    padding-bottom: 0px; /* Reduced padding */
+                    min-width: 40px; /* Smaller min-width */
                 }
                 .full-width {
                     width: 100%;
-                    margin-right: 0 !important; /* Elimina margen derecho para ocupar todo el ancho */
                 }
                 .half-width {
-                    width: calc(50% - 20px); /* Aproximadamente la mitad menos el margen */
+                    width: calc(50% - 10px); /* Adjusted for reduced margin-right */
                 }
                 .quarter-width {
-                    width: calc(25% - 20px); /* Aproximadamente un cuarto menos el margen */
+                    width: calc(25% - 10px); /* Adjusted for reduced margin-right */
                 }
 
-                /* Espaciado para el formulario */
-                .form-group {
-                    margin-bottom: 10px;
-                }
-
-                /* Estilo de la línea horizontal para "___" */
-                .underline {
-                    border-bottom: 1px solid #000;
-                    display: inline-block;
-                    min-width: 50px; /* Ancho mínimo de la línea */
-                }
-
-                /* Para checkboxes y radio buttons (se mantienen solo para Estado Civil) */
                 .checkbox-option {
                     display: flex;
                     align-items: center;
-                    margin-right: 20px;
-                    margin-bottom: 5px;
+                    margin-right: 10px; /* Reduced space between checkbox options */
+                    margin-bottom: 2px; /* Reduced margin */
                 }
                 .checkbox-box {
-                    border: 1px solid #000;
-                    width: 12px;
-                    height: 12px;
-                    margin-right: 5px;
-                    flex-shrink: 0; /* Evita que el checkbox se encoja */
+                    border: 1px solid #555;
+                    width: 11px; /* Slightly smaller checkbox */
+                    height: 11px; /* Slightly smaller checkbox */
+                    margin-right: 4px; /* Reduced margin */
+                    flex-shrink: 0;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
                 }
                 .checkbox-box.checked::before {
                     content: 'X';
                     display: block;
-                    text-align: center;
-                    line-height: 12px;
-                    font-size: 10px;
-                }
-
-                /* Pie de página para la firma */
-                .signature-section {
-                    margin-top: 50px;
-                    text-align: center;
-                }
-                .signature-line {
-                    border-bottom: 1px solid #000;
-                    width: 250px; /* Ancho de la línea de firma */
-                    margin: 0 auto 5px auto;
-                }
-                .signature-text {
-                    font-size: 10pt;
+                    font-size: 9px; /* Smaller 'X' */
+                    font-weight: bold;
+                    color: #000;
                 }
                 .disclaimer {
-                    font-size: 8pt;
-                    text-align: justify;
-                    margin-top: 30px;
+                    font-size: 9px; /* Smaller font */
+                    color: #777;
+                    margin-top: 20px; /* Reduced margin */
+                    text-align: center;
+                    padding-top: 8px; /* Reduced padding */
+                    border-top: 1px dashed #eee;
                 }
 
-                /* Ocultar elementos no deseados al imprimir */
+                .signature-section {
+                    margin-top: auto; /* Push to the bottom */
+                    padding-top: 10px; /* Reduced padding */
+                    text-align: center;
+                    flex-shrink: 0; /* Prevent it from shrinking */
+                }
+                .signature-block {
+                    width: 70%; /* Wider signature line */
+                    max-width: 350px; /* Increased max-width */
+                    margin: 0 auto; /* Center the block */
+                }
+                .signature-line {
+                    border-top: 1px solid #000;
+                    margin-bottom: 3px; /* Reduced margin */
+                    width: 100%;
+                }
+                .signature-text {
+                    font-size: 10px; /* Slightly smaller */
+                    color: #333;
+                    text-transform: uppercase;
+                }
+
+                .no-print {
+                    text-align: center;
+                    padding: 10px; /* Reduced padding */
+                    background-color: #f0f0f0;
+                    border-top: 1px solid #ddd;
+                    position: sticky;
+                    bottom: 0;
+                    z-index: 100;
+                    flex-shrink: 0; /* Prevent it from shrinking */
+                }
+                .no-print button {
+                    padding: 8px 20px; /* Reduced padding */
+                    font-size: 13px; /* Slightly smaller font */
+                    margin: 0 5px; /* Reduced margin */
+                }
+
                 @media print {
-                    .no-print {
-                        display: none !important;
-                    }
-                    body {
+                    html, body {
                         margin: 0;
                         padding: 0;
+                        height: 100%; /* Ensure full height on print */
+                        overflow: hidden; /* Crucial for single page */
                     }
-                    .document-container {
-                        width: 100%; /* Ocupa todo el ancho de la página impresa */
-                        height: auto; /* Altura automática para el contenido */
-                        padding: 0.5in 0.75in; /* Mantén los márgenes de impresión */
-                        box-shadow: none;
+                    .container {
+                        width: 100%;
+                        height: 100%; /* Make container fill the page */
                         border: none;
+                        box-shadow: none;
+                        padding: 10mm; /* Reduced padding for print */
+                        margin: 0;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: space-between; /* Distribute content */
                     }
-                    .logo {
-                        position: absolute; /* Mantener posición absoluta para el logo */
-                        top: 0.5in;
-                        left: 0.75in;
+                    .no-print {
+                        display: none;
+                    }
+                    .header, .title, .section-title, .field-label, .field-value, .checkbox-box, .signature-text {
+                        color: #000 !important;
                     }
                 }
             </style>
         </head>
         <body>
-            <div class="document-container">
-                <img src="img/logo.png" alt="Notaria Ecuador Logo" class="logo"> <div class="header">
-                    <div></div> <div class="header-info">
-                        <p>NOTARÍA ECUADOR</p>
-                        <p>New York - Notary Public</p>
-                        <div class="office-date-box">
-                            <div class="field-row">
-                                <div class="field">
-                                    <span class="field-label">Oficina</span>
-                                    <span class="field-value"><?php echo htmlspecialchars($poder_data['tp_oficina']); ?></span>
-                                </div>
-                            </div>
-                            <div class="field-row">
-                                <div class="field">
-                                    <span class="field-label">Fecha</span>
-                                    <span class="field-value"><?php echo htmlspecialchars($poder_data['tp_fecha']); ?></span>
-                                </div>
-                            </div>
+            <div class="container">
+                <div class="header">
+                    <h1>NOTARÍA PÚBLICA</h1>
+                    <p>Dirección: [Dirección de la Notaría]</p>
+                    <p>Teléfono: [Teléfono de la Notaría]</p>
+                    <p>RUC: [RUC de la Notaría]</p>
+                </div>
+
+                <div class="title">COMPROBANTE DE TRÁMITE DE PODER</div>
+                <div style="text-align: right; font-size: 11px; margin-bottom: 15px;">
+                    <div class="field-row" style="margin-bottom: 0;">
+                        <div class="field" style="justify-content: flex-end; width: 100%; margin-bottom: 0;">
+                            <span class="field-label">Oficina:</span>
+                            <span class="field-value" style="border-bottom: none;"><?php echo htmlspecialchars($poder_data['tp_oficina']); ?></span>
+                        </div>
+                    </div>
+                    <div class="field-row" style="margin-bottom: 0;">
+                        <div class="field" style="justify-content: flex-end; width: 100%; margin-bottom: 0;">
+                            <span class="field-label">Fecha:</span>
+                            <span class="field-value" style="border-bottom: none;"><?php echo htmlspecialchars($poder_data['tp_fecha']); ?></span>
                         </div>
                     </div>
                 </div>
+
 
                 <div class="section-title">1. PERSONA QUE OTORGA EL PODER (USTED):</div>
                 <div class="field-row">
@@ -281,25 +286,26 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) { // <-- AQUI COMIENZA EL BLO
                         <span class="field-value"><?php echo htmlspecialchars($poder_data['c_nombre'] . ' ' . $poder_data['c_apellido']); ?></span>
                     </div>
                 </div>
-
-                <div class="field-row">
-                    <div class="field half-width">
-                        <span class="field-label">SE IDENTIFICA CON:</span>
-                        <div class="checkbox-option">
-                            <div class="checkbox-box <?php echo (strpos($poder_data['c_identificacion'], '-') === false && strlen($poder_data['c_identificacion']) == 10) ? 'checked' : ''; ?>"></div>
-                            <span class="field-label">CEDULA</span>
-                        </div>
-                        <div class="checkbox-option">
-                            <div class="checkbox-box <?php echo (strpos($poder_data['c_identificacion'], '-') !== false) ? 'checked' : ''; ?>"></div>
-                            <span class="field-label">PASAPORTE</span>
-                        </div>
-                        <div class="checkbox-option">
-                            <div class="checkbox-box"></div>
-                            <span class="field-label">IDENTIFICACION CONSULAR</span>
-                        </div>
-                        <div class="checkbox-option">
-                            <div class="checkbox-box"></div>
-                            <span class="field-label">OTRO</span>
+                <div class="field-row" style="align-items: flex-start;">
+                    <div class="field full-width" style="flex-direction: column; align-items: flex-start; margin-right: 0;">
+                        <span class="field-label" style="margin-bottom: 3px;">SE IDENTIFICA CON:</span>
+                        <div style="display: flex; flex-wrap: wrap;">
+                            <div class="checkbox-option">
+                                <div class="checkbox-box <?php echo (strpos($poder_data['c_identificacion'], '-') === false && strlen($poder_data['c_identificacion']) == 10) ? 'checked' : ''; ?>"></div>
+                                <span class="field-label" style="font-weight: normal;">CÉDULA</span>
+                            </div>
+                            <div class="checkbox-option">
+                                <div class="checkbox-box <?php echo (strpos($poder_data['c_identificacion'], '-') !== false) ? 'checked' : ''; ?>"></div>
+                                <span class="field-label" style="font-weight: normal;">PASAPORTE</span>
+                            </div>
+                            <div class="checkbox-option">
+                                <div class="checkbox-box"></div>
+                                <span class="field-label" style="font-weight: normal;">IDENTIFICACIÓN CONSULAR</span>
+                            </div>
+                            <div class="checkbox-option">
+                                <div class="checkbox-box"></div>
+                                <span class="field-label" style="font-weight: normal;">OTRO</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -309,19 +315,17 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) { // <-- AQUI COMIENZA EL BLO
                         <span class="field-label">NÚMERO DE IDENTIFICACIÓN:</span>
                         <span class="field-value"><?php echo htmlspecialchars($poder_data['c_identificacion']); ?></span>
                     </div>
-                    <div class="field">
+                    <div class="field half-width">
                         <span class="field-label">AP. NO.</span>
                         <span class="field-value"><?php echo htmlspecialchars($poder_data['c_napartamento']); ?></span>
                     </div>
                 </div>
-
                 <div class="field-row">
                     <div class="field full-width">
                         <span class="field-label">DIRECCIÓN:</span>
                         <span class="field-value"><?php echo htmlspecialchars($poder_data['c_direccion']); ?></span>
                     </div>
                 </div>
-
                 <div class="field-row">
                     <div class="field quarter-width">
                         <span class="field-label">CIUDAD:</span>
@@ -336,51 +340,45 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) { // <-- AQUI COMIENZA EL BLO
                         <span class="field-value"><?php echo htmlspecialchars($poder_data['c_codpostal']); ?></span>
                     </div>
                 </div>
-
-                <div class="field-row">
-                    <div class="field half-width">
-                        <span class="field-label">ESTADO CIVIL:</span>
-                        <div class="checkbox-option">
-                            <div class="checkbox-box <?php echo (strtolower($poder_data['tp_estado_civil']) == 'casados juntos') ? 'checked' : ''; ?>"></div>
-                            <span class="field-label">CASADO(A)</span>
-                        </div>
-                        <div class="checkbox-option">
-                            <div class="checkbox-box <?php echo (strtolower($poder_data['tp_estado_civil']) == 'soltero(a)') ? 'checked' : ''; ?>"></div>
-                            <span class="field-label">SOLTERO(A)</span>
-                        </div>
-                        <div class="checkbox-option">
-                            <div class="checkbox-box <?php echo (strtolower($poder_data['tp_estado_civil']) == 'union libre') ? 'checked' : ''; ?>"></div>
-                            <span class="field-label">UNION LIBRE</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="field-row">
-                     <div class="field half-width">
-                        <div class="checkbox-option">
-                            <div class="checkbox-box <?php echo (strtolower($poder_data['tp_estado_civil']) == 'divorciado(a)') ? 'checked' : ''; ?>"></div>
-                            <span class="field-label">DIVORCIADO(A)</span>
-                        </div>
-                         <div class="checkbox-option">
-                            <div class="checkbox-box <?php echo (strtolower($poder_data['tp_estado_civil']) == 'viudo(a)') ? 'checked' : ''; ?>"></div>
-                            <span class="field-label">VIUDO(A)</span>
-                        </div>
-                        <div class="checkbox-option">
-                            <div class="checkbox-box <?php echo (!in_array(strtolower($poder_data['tp_estado_civil']), ['casados juntos', 'soltero(a)', 'union libre', 'divorciado(a)', 'viudo(a)'])) ? 'checked' : ''; ?>"></div>
-                            <span class="field-label">OTRO</span>
+                <div class="field-row" style="align-items: flex-start;">
+                    <div class="field full-width" style="flex-direction: column; align-items: flex-start; margin-right: 0;">
+                        <span class="field-label" style="margin-bottom: 3px;">ESTADO CIVIL:</span>
+                        <div style="display: flex; flex-wrap: wrap;">
+                            <div class="checkbox-option">
+                                <div class="checkbox-box <?php echo (strtolower($poder_data['tp_estado_civil']) == 'casados juntos') ? 'checked' : ''; ?>"></div>
+                                <span class="field-label" style="font-weight: normal;">CASADO(A)</span>
+                            </div>
+                            <div class="checkbox-option">
+                                <div class="checkbox-box <?php echo (strtolower($poder_data['tp_estado_civil']) == 'soltero(a)') ? 'checked' : ''; ?>"></div>
+                                <span class="field-label" style="font-weight: normal;">SOLTERO(A)</span>
+                            </div>
+                            <div class="checkbox-option">
+                                <div class="checkbox-box <?php echo (strtolower($poder_data['tp_estado_civil']) == 'union libre') ? 'checked' : ''; ?>"></div>
+                                <span class="field-label" style="font-weight: normal;">UNIÓN LIBRE</span>
+                            </div>
+                            <div class="checkbox-option">
+                                <div class="checkbox-box <?php echo (strtolower($poder_data['tp_estado_civil']) == 'divorciado(a)') ? 'checked' : ''; ?>"></div>
+                                <span class="field-label" style="font-weight: normal;">DIVORCIADO(A)</span>
+                            </div>
+                            <div class="checkbox-option">
+                                <div class="checkbox-box <?php echo (strtolower($poder_data['tp_estado_civil']) == 'viudo(a)') ? 'checked' : ''; ?>"></div>
+                                <span class="field-label" style="font-weight: normal;">VIUDO(A)</span>
+                            </div>
+                            <div class="checkbox-option">
+                                <div class="checkbox-box <?php echo (!in_array(strtolower($poder_data['tp_estado_civil']), ['casados juntos', 'soltero(a)', 'union libre', 'divorciado(a)', 'viudo(a)'])) ? 'checked' : ''; ?>"></div>
+                                <span class="field-label" style="font-weight: normal;">OTRO</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-
-
                 <div class="field-row">
                     <div class="field half-width">
-                        <span class="field-label">TELÉFONO: (</span>
-                        <span class="field-value" style="width: 150px;"><?php echo htmlspecialchars($poder_data['c_telefono']); ?></span>
-                        <span class="field-label">)</span>
+                        <span class="field-label">TELÉFONO:</span>
+                        <span class="field-value"><?php echo htmlspecialchars($poder_data['c_telefono']); ?></span>
                     </div>
                     <div class="field half-width">
-                        <span class="field-label">CELULAR: (</span>
-                        <span class="field-value" style="width: 150px;"><?php echo htmlspecialchars($poder_data['c_telefono']); ?></span> <span class="field-label">)</span>
+                        <span class="field-label">CELULAR:</span>
+                        <span class="field-value"><?php echo htmlspecialchars($poder_data['c_telefono']); ?></span>
                     </div>
                 </div>
                 <div class="field-row">
@@ -390,7 +388,7 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) { // <-- AQUI COMIENZA EL BLO
                     </div>
                 </div>
 
-                <div class="section-title">2. PERSONA A FAVOR DE QUIEN OTORGA EL PODER.-</div>
+                <div class="section-title">2. PERSONA A FAVOR DE QUIEN OTORGA EL PODER:</div>
                 <div class="field-row">
                     <div class="field full-width">
                         <span class="field-label">NOMBRE Y APELLIDOS COMPLETOS:</span>
@@ -399,48 +397,48 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) { // <-- AQUI COMIENZA EL BLO
                 </div>
                 <div class="field-row">
                     <div class="field full-width">
-                        <span class="field-label">NO.-DE CEDULA (SI LO SABE):-</span>
+                        <span class="field-label">NO. DE CÉDULA (SI LO SABE):</span>
                         <span class="field-value"><?php echo htmlspecialchars($poder_data['tp_cedulla_otorga_poder']); ?></span>
                     </div>
                 </div>
 
-                <div class="section-title">3. RAZON DEL PODER.-</div>
+                <div class="section-title">3. RAZÓN DEL PODER:</div>
                 <div class="field-row">
                     <div class="field full-width">
-                        <span class="field-value"><?php echo htmlspecialchars($poder_data['tp_razon_otorga_poder']); ?></span>
+                        <span class="field-value" style="min-height: 30px; border: 1px dashed #ccc; padding: 3px; box-sizing: border-box; width: 100%;"><?php echo htmlspecialchars($poder_data['tp_razon_otorga_poder']); ?></span>
                     </div>
                 </div>
 
-                <div class="section-title">4. USTED PREFIERE QUE EL PODER SE LE ENVIE:</div>
+                <div class="section-title">4. USTED PREFIERE QUE EL PODER SE LE ENVÍE:</div>
                 <div class="field-row">
                     <div class="field full-width">
-                        <span class="field-value"><?php echo htmlspecialchars($poder_data['tp_opcion_envio_poder']); ?></span>
+                        <span class="field-value" style="min-height: 18px; border: 1px dashed #ccc; padding: 3px; box-sizing: border-box; width: 100%;"><?php echo htmlspecialchars($poder_data['tp_opcion_envio_poder']); ?></span>
                     </div>
                 </div>
 
                 <div class="disclaimer">
-                    <p>NOTARÍA ECUADOR INC. ESTE DOCUMENTO SERÁ LEGALIZADO A TRAVES DE LA APOSTILLE</p>
+                    <p>NOTARÍA ECUADOR INC. ESTE DOCUMENTO SERÁ LEGALIZADO A TRAVÉS DE LA APOSTILLA.</p>
                 </div>
 
-                <div class="field-row" style="margin-top: 20px;">
+                <div class="section-title" style="margin-top: 20px;">DETALLES DE PAGO Y ENVÍO:</div>
+                <div class="field-row">
                     <div class="field quarter-width">
-                        <span class="field-label">VALOR $</span>
+                        <span class="field-label">VALOR: $</span>
                         <span class="field-value"><?php echo htmlspecialchars($poder_data['c_deuda'] ?? '__________'); ?></span>
                     </div>
                     <div class="field quarter-width">
-                        <span class="field-label">ABONO $</span>
+                        <span class="field-label">ABONO: $</span>
                         <span class="field-value"><?php echo htmlspecialchars($poder_data['c_abonado'] ?? '__________'); ?></span>
                     </div>
                     <div class="field quarter-width">
-                        <span class="field-label">SALDO $</span>
+                        <span class="field-label">SALDO: $</span>
                         <span class="field-value"><?php echo htmlspecialchars($poder_data['c_saldo'] ?? '__________'); ?></span>
                     </div>
                     <div class="field quarter-width">
-                        <span class="field-label">RECIBO #</span>
+                        <span class="field-label">RECIBO #:</span>
                         <span class="field-value"><?php //echo htmlspecialchars($poder_data['tp_recibo'] ?? '__________'); ?></span>
                     </div>
                 </div>
-
                 <div class="field-row">
                     <div class="field full-width">
                         <span class="field-label">ENVIAR A ECUADOR A NOMBRE DE:</span>
@@ -460,35 +458,33 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) { // <-- AQUI COMIENZA EL BLO
                     </div>
                 </div>
                 <div class="field-row">
-                    <div class="field half-width">
+                    <div class="field full-width">
                         <span class="field-label">OBSERVACIONES:</span>
-                        <span class="field-value"><?php echo htmlspecialchars($poder_data['tp_observaciones']); ?></span>
+                        <span class="field-value" style="min-height: 30px; border: 1px dashed #ccc; padding: 3px; box-sizing: border-box; width: 100%;"><?php echo htmlspecialchars($poder_data['tp_observaciones']); ?></span>
                     </div>
                 </div>
 
                 <div class="signature-section">
-                    <div class="signature-line"></div>
-                    <div class="signature-text">FIRMA DEL CLIENTE</div>
+                    <div class="signature-block">
+                        <div class="signature-line"></div>
+                        <div class="signature-text">FIRMA DEL CLIENTE</div>
+                    </div>
                 </div>
 
-                <div class="no-print" style="text-align: center; margin-top: 30px;">
-                    <button onclick="window.print()" style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">Imprimir este documento</button>
-                    <button onclick="window.close()" style="padding: 10px 20px; background-color: #6c757d; color: white; border: none; border-radius: 5px; cursor: pointer; margin-left: 10px;">Cerrar</button>
+                <div class="no-print">
+                    <button onclick="window.print()">Imprimir este documento</button>
+                    <button class="close" onclick="window.close()">Cerrar</button>
                 </div>
             </div>
         </body>
         </html>
         <?php
-        // Cierra el if ($result->num_rows > 0)
     } else {
-        echo "<p style='text-align: center; color: red;'>No se encontró el registro del poder con ID: " . htmlspecialchars($id_poder) . "</p>";
+        echo "<p style='text-align: center; color: red; margin-top: 50px;'>No se encontró el registro del trámite con ID: " . htmlspecialchars($id_tramite_varios) . "</p>";
     }
-    // Cierra el $stmt
     $stmt->close();
-} // <-- ¡Esta es la llave de cierre que faltaba para el IF principal!
-else {
-    echo "<p style='text-align: center; color: red;'>ID de poder no proporcionado o inválido.</p>";
+} else {
+    echo "<p style='text-align: center; color: red; margin-top: 50px;'>ID de trámite no especificado.</p>";
 }
-// Cierra la conexión a la base de datos
 $conexion->close();
 ?>
