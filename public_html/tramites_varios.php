@@ -387,6 +387,10 @@ if ($varsesion==null || $varsesion='') {
                         <label class="form-label" for="oficina">Oficina</label>
                         <input class="form-input" name="oficina" id="oficina"/>
                     </div>
+                    <div class="form-field">
+                        <label class="form-label" for="fecha">Fecha:</label>
+                        <input class="form-input" type="date" name="fecha" id="fecha"/>
+                    </div>
                 </div>
             </fieldset>
 

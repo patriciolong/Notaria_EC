@@ -548,7 +548,7 @@ document.getElementById('printRecordBtn').addEventListener('click', function() {
     const recordId = this.getAttribute('data-record-id'); // Obtener el ID que guardamos
     if (recordId) {
         // Abrir la nueva página de impresión en una nueva pestaña
-        window.open('imprimirr_poder.php?id=' + recordId, '_blank');
+        window.open('imprimir_poder.php?id=' + recordId, '_blank');
     } else {
         Swal.fire({
             icon: 'warning',

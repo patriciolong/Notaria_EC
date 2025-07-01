@@ -20,6 +20,7 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                 td.id_tram_div,
                 td.td_controvertido,
                 td.td_consensual,
+                td.td_notarial,
                 td.td_identificacion_c,
                 td.td_nombre_c,
                 td.td_direccion_c,
@@ -98,10 +99,23 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                     flex-direction: column;
                 }
                 .header {
-                    text-align: center;
+                    display: flex; /* Usamos flexbox para alinear los elementos */
+                    justify-content: space-between; /* Espacio entre el logo y la info de la notaría */
+                    align-items: flex-start; /* Alinea los elementos al inicio (arriba) */
                     margin-bottom: 20px; /* Reduced margin */
                     border-bottom: 1px solid #eee;
                     padding-bottom: 10px; /* Reduced padding */
+                }
+                .header-left {
+                    flex-shrink: 0; /* Evita que el logo se encoja */
+                }
+                .header-logo {
+                    max-width: 100px; /* Ajusta el tamaño del logo según sea necesario */
+                    height: auto;
+                }
+                .header-center {
+                    flex-grow: 1; /* Permite que el centro ocupe el espacio disponible */
+                    text-align: center; /* Centra el título principal */
                 }
                 .header h1 {
                     margin: 0;
@@ -113,6 +127,10 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                     margin: 2px 0; /* Reduced margin */
                     font-size: 10px; /* Slightly smaller */
                     color: #666;
+                }
+                .header-right {
+                    flex-shrink: 0; /* Evita que la info se encoja */
+                    text-align: right;
                 }
                 .title {
                     font-size: 18px; /* Slightly smaller */
@@ -266,132 +284,131 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
         <body>
             <div class="container">
                 <div class="header">
-                    <h1>NOTARÍA PÚBLICA</h1>
-                    <p>Dirección: [Dirección de la Notaría]</p>
-                    <p>Teléfono: [Teléfono de la Notaría]</p>
-                    <p>RUC: [RUC de la Notaría]</p>
+                    <div class="header-left">
+                        <img src="img/logo.png" alt="Logo de la Notaría" class="header-logo">
+                    </div>
+                    
+                    <div class="header-right">
+                        <div class="field-row" style="margin-bottom: 0;">
+                            <div class="field" style="justify-content: flex-end; width: 100%; margin-bottom: 0;">
+                                <span class="field-label">Oficina:</span>
+                                <span class="field-value" style="border-bottom: none;"><?php echo htmlspecialchars($divorcio_data['td_oficina']); ?></span>
+                            </div>
+                        </div>
+                        <div class="field-row" style="margin-bottom: 0;">
+                            <div class="field" style="justify-content: flex-end; width: 100%; margin-bottom: 0;">
+                                <span class="field-label">Fecha:</span>
+                                <span class="field-value" style="border-bottom: none;"><?php echo htmlspecialchars($divorcio_data['td_fecha']); ?></span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="title">COMPROBANTE DE TRÁMITE DE DIVORCIO</div>
-                <div style="text-align: right; font-size: 11px; margin-bottom: 15px;">
-                    <div class="field-row" style="margin-bottom: 0;">
-                        <div class="field" style="justify-content: flex-end; width: 100%; margin-bottom: 0;">
-                            <span class="field-label">Oficina:</span>
-                            <span class="field-value" style="border-bottom: none;"><?php echo htmlspecialchars($divorcio_data['td_oficina']); ?></span>
-                        </div>
-                    </div>
-                    <div class="field-row" style="margin-bottom: 0;">
-                        <div class="field" style="justify-content: flex-end; width: 100%; margin-bottom: 0;">
-                            <span class="field-label">Fecha:</span>
-                            <span class="field-value" style="border-bottom: none;"><?php echo htmlspecialchars($divorcio_data['td_fecha']); ?></span>
-                        </div>
-                    </div>
-                </div>
-
 
                 <div class="section-title">1. DATOS DEL CLIENTE (PERSONA QUE SOLICITA EL DIVORCIO):</div>
                 <div class="field-row">
                     <div class="field full-width">
                         <span class="field-label">NOMBRES Y APELLIDOS (COMPLETOS):</span>
-                        <span class="field-value"><?php echo htmlspecialchars($divorcio_data['c_nombre'] . ' ' . $divorcio_data['c_apellido']); ?></span>
+                        <span class="field-value"><?php echo htmlspecialchars(($divorcio_data['c_nombre'] ?? '') . ' ' . ($divorcio_data['c_apellido'] ?? '')); ?></span>
                     </div>
                 </div>
                 <div class="field-row">
                     <div class="field half-width">
                         <span class="field-label">NÚMERO DE IDENTIFICACIÓN:</span>
-                        <span class="field-value"><?php echo htmlspecialchars($divorcio_data['c_identificacion']); ?></span>
+                        <span class="field-value"><?php echo htmlspecialchars($divorcio_data['c_identificacion'] ?? '__________'); ?></span>
                     </div>
                     <div class="field">
                         <span class="field-label">AP. NO.</span>
-                        <span class="field-value"><?php echo htmlspecialchars($divorcio_data['c_napartamento']); ?></span>
+                        <span class="field-value"><?php echo htmlspecialchars($divorcio_data['c_napartamento'] ?? '__________'); ?></span>
                     </div>
                 </div>
 
                 <div class="field-row">
                     <div class="field full-width">
                         <span class="field-label">DIRECCIÓN:</span>
-                        <span class="field-value"><?php echo htmlspecialchars($divorcio_data['c_direccion']); ?></span>
+                        <span class="field-value"><?php echo htmlspecialchars($divorcio_data['c_direccion'] ?? '__________'); ?></span>
                     </div>
                 </div>
                 <div class="field-row">
                     <div class="field quarter-width">
                         <span class="field-label">CIUDAD:</span>
-                        <span class="field-value"><?php echo htmlspecialchars($divorcio_data['c_ciudad']); ?></span>
+                        <span class="field-value"><?php echo htmlspecialchars($divorcio_data['c_ciudad'] ?? '__________'); ?></span>
                     </div>
                     <div class="field quarter-width">
                         <span class="field-label">ESTADO:</span>
-                        <span class="field-value"><?php echo htmlspecialchars($divorcio_data['c_estado']); ?></span>
+                        <span class="field-value"><?php echo htmlspecialchars($divorcio_data['c_estado'] ?? '__________'); ?></span>
                     </div>
                     <div class="field quarter-width">
                         <span class="field-label">CÓDIGO POSTAL:</span>
-                        <span class="field-value"><?php echo htmlspecialchars($divorcio_data['c_codpostal']); ?></span>
+                        <span class="field-value"><?php echo htmlspecialchars($divorcio_data['c_codpostal'] ?? '__________'); ?></span>
                     </div>
                 </div>
                 <div class="field-row">
                     <div class="field half-width">
                         <span class="field-label">TELÉFONO: (</span>
-                        <span class="field-value" style="width: 150px;"><?php echo htmlspecialchars($divorcio_data['c_telefono']); ?></span>
+                        <span class="field-value" style="width: 150px;"><?php echo htmlspecialchars($divorcio_data['c_telefono'] ?? '__________'); ?></span>
                         <span class="field-label">)</span>
                     </div>
                     <div class="field half-width">
                         <span class="field-label">CELULAR: (</span>
-                        <span class="field-value" style="width: 150px;"><?php echo htmlspecialchars($divorcio_data['c_telefono']); ?></span> <span class="field-label">)</span>
+                        <span class="field-value" style="width: 150px;"><?php echo htmlspecialchars($divorcio_data['c_telefono'] ?? '__________'); ?></span> <span class="field-label">)</span>
                     </div>
                 </div>
                 <div class="field-row">
                     <div class="field full-width">
                         <span class="field-label">CORREO ELECTRÓNICO:</span>
-                        <span class="field-value"><?php echo htmlspecialchars($divorcio_data['c_email']); ?></span>
+                        <span class="field-value"><?php echo htmlspecialchars($divorcio_data['c_email'] ?? '__________'); ?></span>
                     </div>
                 </div>
                 <div class="section-title">2. DATOS DEL CÓNYUGE:</div>
                 <div class="field-row">
                     <div class="field full-width">
                         <span class="field-label">NOMBRES Y APELLIDOS (COMPLETOS):</span>
-                        <span class="field-value"><?php echo htmlspecialchars($divorcio_data['td_nombre_c']); ?></span>
+                        <span class="field-value"><?php echo htmlspecialchars($divorcio_data['td_nombre_c'] ?? '__________'); ?></span>
                     </div>
                 </div>
                 <div class="field-row">
                     <div class="field full-width">
                         <span class="field-label">CORREO ELECTRÓNICO:</span>
-                        <span class="field-value"><?php echo htmlspecialchars($poder_data['c_email']); ?></span>
+                        <span class="field-value"><?php echo htmlspecialchars($divorcio_data['c_email'] ?? '__________'); ?></span>
                     </div>
                 </div>
 
                 <div class="field-row">
                     <div class="field full-width">
                         <span class="field-label">NO.-DE IDENTIFICACIÓN:</span>
-                        <span class="field-value"><?php echo htmlspecialchars($divorcio_data['td_identificacion_c']); ?></span>
+                        <span class="field-value"><?php echo htmlspecialchars($divorcio_data['td_identificacion_c'] ?? '__________'); ?></span>
                     </div>
                 </div>
                 <div class="field-row">
                     <div class="field full-width">
                         <span class="field-label">DIRECCIÓN:</span>
-                        <span class="field-value"><?php echo htmlspecialchars($divorcio_data['td_direccion_c']); ?></span>
+                        <span class="field-value"><?php echo htmlspecialchars($divorcio_data['td_direccion_c'] ?? '__________'); ?></span>
                     </div>
                 </div>
                 <div class="field-row">
                     <div class="field quarter-width">
                         <span class="field-label">CIUDAD:</span>
-                        <span class="field-value"><?php echo htmlspecialchars($divorcio_data['td_ciudad_c']); ?></span>
+                        <span class="field-value"><?php echo htmlspecialchars($divorcio_data['td_ciudad_c'] ?? '__________'); ?></span>
                     </div>
                     <div class="field quarter-width">
                         <span class="field-label">ESTADO:</span>
-                        <span class="field-value"><?php echo htmlspecialchars($divorcio_data['td_estado_c']); ?></span>
+                        <span class="field-value"><?php echo htmlspecialchars($divorcio_data['td_estado_c'] ?? '__________'); ?></span>
                     </div>
                     <div class="field quarter-width">
                         <span class="field-label">CÓDIGO POSTAL:</span>
-                        <span class="field-value"><?php echo htmlspecialchars($divorcio_data['td_cpostal_c']); ?></span>
+                        <span class="field-value"><?php echo htmlspecialchars($divorcio_data['td_cpostal_c'] ?? '__________'); ?></span>
                     </div>
                     <div class="field quarter-width">
                         <span class="field-label">AP. NO.</span>
-                        <span class="field-value"><?php echo htmlspecialchars($divorcio_data['td_apt_c']); ?></span>
+                        <span class="field-value"><?php echo htmlspecialchars($divorcio_data['td_apt_c'] ?? '__________'); ?></span>
                     </div>
                 </div>
                 <div class="field-row">
                     <div class="field half-width">
                         <span class="field-label">TELÉFONO: (</span>
-                        <span class="field-value" style="width: 150px;"><?php echo htmlspecialchars($divorcio_data['td_telefono_c']); ?></span>
+                        <span class="field-value" style="width: 150px;"><?php echo htmlspecialchars($divorcio_data['td_telefono_c'] ?? '__________'); ?></span>
                         <span class="field-label">)</span>
                     </div>
                 </div>
@@ -407,18 +424,22 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                             <div class="checkbox-box <?php echo ($divorcio_data['td_consensual'] == '1') ? 'checked' : ''; ?>"></div>
                             <span class="field-label">CONSENSUAL</span>
                         </div>
+                        <div class="checkbox-option">
+                            <div class="checkbox-box <?php echo ($divorcio_data['td_notarial'] == '1') ? 'checked' : ''; ?>"></div>
+                            <span class="field-label">NOTARIAL</span>
+                        </div>
                     </div>
                 </div>
                 <div class="field-row">
                     <div class="field full-width">
                         <span class="field-label">LUGAR DE MATRIMONIO:</span>
-                        <span class="field-value"><?php echo htmlspecialchars($divorcio_data['td_lugar_matrimonio']); ?></span>
+                        <span class="field-value"><?php echo htmlspecialchars($divorcio_data['td_lugar_matrimonio'] ?? '__________'); ?></span>
                     </div>
                 </div>
                 <div class="field-row">
                     <div class="field half-width">
                         <span class="field-label">FECHA DE MATRIMONIO:</span>
-                        <span class="field-value"><?php echo htmlspecialchars($divorcio_data['td_fecha_matrimonio']); ?></span>
+                        <span class="field-value"><?php echo htmlspecialchars($divorcio_data['td_fecha_matrimonio'] ?? '__________'); ?></span>
                     </div>
                 </div>
                 <div class="field-row">
@@ -435,7 +456,7 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                     </div>
                     <div class="field half-width">
                         <span class="field-label">TIEMPO DE SEPARACIÓN:</span>
-                        <span class="field-value"><?php echo htmlspecialchars($divorcio_data['td_tiempo_separacion']); ?></span>
+                        <span class="field-value"><?php echo htmlspecialchars($divorcio_data['td_tiempo_separacion'] ?? '__________'); ?></span>
                     </div>
                 </div>
                 <div class="field-row">
@@ -466,34 +487,34 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                 <div class="field-row">
                     <div class="field full-width">
                         <span class="field-label">NOMBRE DEL CONTACTO:</span>
-                        <span class="field-value"><?php echo htmlspecialchars($divorcio_data['td_estado_contac_ecuador']); ?></span>
+                        <span class="field-value"><?php echo htmlspecialchars($divorcio_data['td_estado_contac_ecuador'] ?? '__________'); ?></span>
                     </div>
                 </div>
                 <div class="field-row">
                     <div class="field half-width">
                         <span class="field-label">TELÉFONO DEL CONTACTO:</span>
-                        <span class="field-value"><?php echo htmlspecialchars($divorcio_data['td_tel_ecuador']); ?></span>
+                        <span class="field-value"><?php echo htmlspecialchars($divorcio_data['td_tel_ecuador'] ?? '__________'); ?></span>
                     </div>
                 </div>
 
                 <div class="section-title">5. OBSERVACIONES:</div>
                 <div class="field-row">
                     <div class="field full-width">
-                        <span class="field-value" style="min-height: 50px;"><?php echo nl2br(htmlspecialchars($divorcio_data['td_observaciones'])); ?></span>
+                        <span class="field-value" style="min-height: 50px;"><?php echo nl2br(htmlspecialchars($divorcio_data['td_observaciones'] ?? '')); ?></span>
                     </div>
                 </div>
                 <div class="field-row" style="margin-top: 20px;">
                     <div class="field quarter-width">
                         <span class="field-label">VALOR $</span>
-                        <span class="field-value"><?php echo htmlspecialchars(number_format($divorcio_data['td_valor'], 2)); ?></span>
+                        <span class="field-value"><?php echo htmlspecialchars(number_format($divorcio_data['td_valor'] ?? 0, 2)); ?></span>
                     </div>
                     <div class="field quarter-width">
                         <span class="field-label">ABONO $</span>
-                        <span class="field-value"><?php echo htmlspecialchars(number_format($divorcio_data['td_abono'], 2)); ?></span>
+                        <span class="field-value"><?php echo htmlspecialchars(number_format($divorcio_data['td_abono'] ?? 0, 2)); ?></span>
                     </div>
                     <div class="field quarter-width">
                         <span class="field-label">SALDO $</span>
-                        <span class="field-value"><?php echo htmlspecialchars(number_format($divorcio_data['td_saldo'], 2)); ?></span>
+                        <span class="field-value"><?php echo htmlspecialchars(number_format($divorcio_data['td_saldo'] ?? 0, 2)); ?></span>
                     </div>
                     <div class="field quarter-width">
                         <span class="field-label">ID TRÁMITE #</span>
@@ -502,21 +523,15 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                 </div>
 
                 <div class="signature-section">
-                    <div class="signature-line"></div>
-                    <div class="signature-text">FIRMA DEL CLIENTE</div>
+                    <div class="signature-block">
+                        <div class="signature-line"></div>
+                        <div class="signature-text">FIRMA DEL CLIENTE</div>
+                    </div>
                 </div>
                 <div class="no-print">
                     <button onclick="window.print()">Imprimir este documento</button>
                     <button class="close" onclick="window.close()">Cerrar</button>
                 </div>
-
-
-
-
-
-
-
-               
             </div>
         </body>
         </html>

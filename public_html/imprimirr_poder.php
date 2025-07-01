@@ -253,8 +253,10 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) { // <-- AQUI COMIENZA EL BLO
         </head>
         <body>
             <div class="document-container">
-                <img src="img/logo.png" alt="Notaria Ecuador Logo" class="logo"> <div class="header">
-                    <div></div> <div class="header-info">
+                <img src="img/logo.png" alt="Notaria Ecuador Logo" class="logo"> 
+                <div class="header">
+                    <div></div> 
+                    <div class="header-info">
                         <p>NOTARÍA ECUADOR</p>
                         <p>New York - Notary Public</p>
                         <div class="office-date-box">

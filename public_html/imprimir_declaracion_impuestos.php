@@ -43,6 +43,7 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                 ti.ti_nruta,
                 ti.ti_observacion,
                 ti.ti_profesion,
+                ti.ti_oficina,
                 c.c_deuda,
                 c.c_abonado,
                 c.c_saldo,
@@ -110,25 +111,43 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
 
                 /* Cabecera del documento */
                 .header {
-                    text-align: center;
+                    display: flex; /* Usamos flexbox para alinear los elementos */
+                    justify-content: space-between; /* Espacio entre el logo y la info */
+                    align-items: flex-start; /* Alinea los elementos al inicio (arriba) */
                     margin-bottom: 25px;
                     border-bottom: 1px solid #ccc;
                     padding-bottom: 10px;
                 }
-                .header img {
-                    max-width: 200px; /* Ajusta el tamaño de tu logo */
-                    height: auto;
-                    margin-bottom: 10px;
+                .header-left {
+                    flex-shrink: 0; /* Evita que el logo se encoja */
                 }
-                .header h1 {
+                .header-logo {
+                    max-width: 100px; /* Ajusta el tamaño del logo según sea necesario */
+                    height: auto;
+                    margin-bottom: 0px; /* Reducido para ajustarse */
+                }
+                .header-center {
+                    flex-grow: 1; /* Permite que el centro ocupe el espacio disponible */
+                    text-align: center; /* Centra el título principal */
+                }
+                .header-center h1 {
                     font-size: 1.6em; /* Un poco más pequeño */
                     color: #2c3e50;
                     margin: 5px 0;
                 }
-                .header p {
+                .header-center p {
                     font-size: 0.9em; /* Más pequeño para detalles */
                     color: #555;
                     margin: 0;
+                }
+                .header-right {
+                    flex-shrink: 0; /* Evita que la info se encoja */
+                    text-align: right;
+                    font-size: 0.9em;
+                    color: #555;
+                }
+                .header-right p {
+                    margin: 2px 0;
                 }
 
                 /* Secciones de información (Datos del Cliente, Detalles, Pagos) */
@@ -326,14 +345,19 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
         <body>
             <div class="document-container">
                 <div class="header">
-                    <h1>ESTUDIO JURÍDICO ABOGADOS</h1>
-                    <p>DIRECCIÓN: Tu Dirección Aquí, Tu Ciudad, Tu País</p>
-                    <p>TELÉFONO: (XXX) XXX-XXXX | EMAIL: info@tuemail.com</p>
-                    <hr style="border-top: 1px solid #ddd; margin-top: 15px;">
-                    <h2>DECLARACIÓN DE IMPUESTOS</h2>
-                    <p>No. de Trámite: <strong><?php echo htmlspecialchars($declaracion_data['id_tram_impuestos']); ?></strong></p>
+                    <div class="header-left">
+                        <img src="img/logo.png" alt="Logo de la Empresa" class="header-logo">
+                    </div>
+                    <div class="header-center">
+                        <h2>DECLARACIÓN DE IMPUESTOS</h2>
+                    </div>
+                    <div class="header-right">
+                        <p>Fecha: <?php echo htmlspecialchars(($declaracion_data['ti_fecha'] ?? '')); ?></p>
+                        <p>Oficina: <?php echo htmlspecialchars(($declaracion_data['ti_oficina'] ?? '')); ?></p>
+                    </div>
                 </div>
 
+                
                 <div class="info-block">
                     <h3>DATOS DEL CLIENTE</h3>
                     <div class="field-row">
