@@ -1,21 +1,45 @@
 <?php
-// imprimir_tramite_varios.php
-session_start();
-error_reporting(0); // Para suprimir errores en producción, en desarrollo usar E_ALL
-$varsesion = $_SESSION['usuario'];
+//seguridad de paginacion
+session_start(); // <--- MUY IMPORTANTE QUE ESTÉ AL PRINCIPIO
+error_reporting(0);
+$varsesion =$_SESSION['usuario'];
+$variable_ses = $varsesion;
+$user_rol = $_SESSION['rol'] ?? ''; // <-- Aquí se obtiene el rol
 
-if ($varsesion == null || $varsesion == '') {
+// *** DEPURACIÓN EN MENU.PHP: Muestra el rol aquí ***
+//echo "DEBUG MENU - Rol de la sesión: '" . $user_rol . "'<br>";
+//echo "DEBUG MENU - Usuario de la sesión: " . $variable_ses . "<br>";
+
+if ($varsesion==null || $varsesion=='') {
     header("location:index.php");
     die;
 }
 
-include("conexionbd.php"); // Tu archivo de conexión a la base de datos
+?>
+<?php
+// Reportar errores para depuración (QUÍTALE ESTO EN PRODUCCIÓN)
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
-// Verifica si se recibió un ID de trámite varios por GET
+// Carga el autoloader de Composer si usaste Composer
+require_once __DIR__ . '/vendor/autoload.php';
+
+// Si descargaste Dompdf manualmente, ajusta la ruta a tu carpeta dompdf
+// require_once 'lib/dompdf/autoload.inc.php'; // Ejemplo si lo pusiste en public_html/lib/dompdf
+
+use Dompdf\Dompdf;
+use Dompdf\Options;
+
+// Incluye tu archivo de conexión a la base de datos
+include("conexionbd.php");
+
+// 1. Obtener el ID del trámite de divorcio
+// Asume que el ID del trámite de divorcio se pasa por la URL (GET)
+// Por ejemplo: generar_pdf_divorcio.php?id=123
 if (isset($_GET['id']) && is_numeric($_GET['id'])) {
-    $id_tramite_varios = $_GET['id'];
+    $id_divorcio = $_GET['id'];
 
-    // Prepara la consulta SQL para obtener los datos del trámite y del cliente
+    // 2. Prepara la consulta SQL para obtener los datos del divorcio y del cliente
     $query = "SELECT
                 td.id_tram_div,
                 td.td_controvertido,
@@ -30,7 +54,6 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                 td.td_cpostal_c,
                 td.td_lugar_matrimonio,
                 td.td_fecha_matrimonio,
-                td.td_fecha,
                 td.td_separados,
                 td.td_noseparados,
                 td.td_tiempo_separacion,
@@ -42,7 +65,6 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                 td.td_valor,
                 td.td_abono,
                 td.td_saldo,
-                td.td_oficina,
                 c.c_nombre,
                 c.c_apellido,
                 c.c_identificacion,
@@ -58,15 +80,25 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
               WHERE td.id_tram_div = ?";
 
     $stmt = $conexion->prepare($query);
+
     if ($stmt === false) {
-        die('Error en la preparación de la consulta: ' . $conexion->error);
+        // Manejo de errores en la preparación de la consulta
+        error_log("Error al preparar la consulta de divorcio: " . $conexion->error);
+        die("Error al preparar la consulta de divorcio.");
     }
-    $stmt->bind_param("i", $id_tramite_varios);
+
+    $stmt->bind_param("i", $id_divorcio); // "i" para indicar que es un entero
     $stmt->execute();
     $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
         $divorcio_data = $result->fetch_assoc();
+        $stmt->close();
+        $conexion->close(); // Cierra la conexión después de obtener los datos
+
+        // 3. Generar el HTML para el PDF
+        // Usa un buffer de salida para capturar el HTML
+        ob_start();
         ?>
         <!DOCTYPE html>
         <html lang="es">
@@ -75,219 +107,192 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>Trámite de Divorcio - <?php echo htmlspecialchars($divorcio_data['id_tram_div']); ?></title>
             <style>
+                /* Estilos generales del documento impreso */
                 body {
-                    font-family: 'Times New Roman', Times, serif;
+                    font-family: 'Times New Roman', serif;
                     margin: 0;
                     padding: 0;
-                    background-color: #f4f4f4;
-                    color: #333;
-                    /* Added for better single-page control, but can be problematic if content is too long */
-                    height: 297mm; /* A4 height */
-                    overflow: hidden; /* Hide overflow to attempt fitting */
-                }
-                .container {
-                    width: 210mm; /* A4 width */
-                    height: 297mm; /* A4 height */
-                    margin: 0 auto; /* Centered with no top/bottom margin for more space */
-                    background-color: #fff;
-                    border: 1px solid #ddd;
-                    box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
-                    padding: 15mm 15mm; /* Reduced padding for more content space */
                     box-sizing: border-box;
-                    display: flex; /* Use flexbox for better content distribution */
-                    flex-direction: column;
+                    color: #000;
+                    font-size: 11pt; /* Ajusta el tamaño de fuente general */
                 }
+
+                .document-container {
+                    width: 8.5in; /* Ancho de una hoja Carta */
+                    height: 11in; /* Alto de una hoja Carta */
+                    margin: 0; /* Sin márgenes en el cuerpo */
+                    padding: 0.5in 0.75in; /* Márgenes internos (top/bottom, left/right) */
+                    box-sizing: border-box;
+                    position: relative; /* Para el posicionamiento del logo */
+                }
+
+                /* Encabezado */
                 .header {
-                    text-align: center;
-                    margin-bottom: 20px; /* Reduced margin */
-                    border-bottom: 1px solid #eee;
-                    padding-bottom: 10px; /* Reduced padding */
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: flex-start;
+                    margin-bottom: 20px;
                 }
-                .header h1 {
+                .logo {
+                    width: 150px; /* Ajusta según el tamaño de tu logo */
+                    height: auto;
+                    position: absolute; /* Posicionamiento absoluto para el logo */
+                    top: 0.5in; /* Ajusta la posición superior */
+                    left: 0.75in; /* Ajusta la posición izquierda */
+                }
+                .header-info {
+                    text-align: right;
+                    margin-left: auto; /* Para que se alinee a la derecha */
+                }
+                .header-info p {
                     margin: 0;
-                    font-size: 22px; /* Slightly smaller */
-                    color: #222;
-                    text-transform: uppercase;
+                    font-size: 10pt;
                 }
-                .header p {
-                    margin: 2px 0; /* Reduced margin */
-                    font-size: 10px; /* Slightly smaller */
-                    color: #666;
+                .office-date-box {
+                    border: 1px solid #000;
+                    padding: 5px 10px;
+                    margin-top: 5px;
+                    display: inline-block; /* Para que el borde envuelva el contenido */
                 }
-                .title {
-                    font-size: 18px; /* Slightly smaller */
-                    font-weight: bold;
-                    margin-bottom: 20px; /* Reduced margin */
-                    color: #333;
-                    text-align: center;
-                    text-transform: uppercase;
-                }
+
+                /* Secciones */
                 .section-title {
-                    font-size: 14px; /* Slightly smaller */
                     font-weight: bold;
-                    margin-top: 18px; /* Reduced margin */
-                    margin-bottom: 8px; /* Reduced margin */
-                    color: #444;
-                    border-bottom: 1px solid #ddd;
-                    padding-bottom: 3px; /* Reduced padding */
+                    margin-top: 15px;
+                    margin-bottom: 5px;
+                    font-size: 11pt;
                 }
                 .field-row {
                     display: flex;
-                    flex-wrap: wrap;
-                    margin-bottom: 3px; /* Significantly reduced margin */
-                    font-size: 11px; /* Slightly smaller */
+                    flex-wrap: wrap; /* Permite que los campos se envuelvan */
+                    margin-bottom: 5px;
+                    align-items: baseline; /* Alinea el texto en la base */
                 }
                 .field {
                     display: flex;
                     align-items: baseline;
-                    margin-right: 20px; /* Reduced space between fields */
-                    margin-bottom: 3px; /* Reduced margin for wrapped fields */
-                    white-space: nowrap;
+                    margin-right: 20px; /* Espacio entre campos */
+                    white-space: nowrap; /* Evita que el label y el valor se rompan */
                 }
                 .field-label {
-                    font-weight: bold;
-                    margin-right: 5px; /* Closer to value */
-                    color: #555;
+                    font-weight: normal; /* Labels de campo no tan negritas */
+                    margin-right: 5px;
+                    font-size: 11pt;
                 }
                 .field-value {
-                    flex-grow: 1;
-                    color: #222;
-                    border-bottom: 1px dotted #999;
-                    padding-bottom: 0px; /* Reduced padding */
-                    min-width: 40px; /* Smaller min-width */
+                    border-bottom: 1px solid #000;
+                    min-width: 80px; /* Ancho mínimo para el campo */
+                    padding: 0 2px;
+                    font-style: italic; /* Opcional: para diferenciar los valores */
+                    font-size: 11pt;
+                    flex-grow: 1; /* Permite que el valor crezca para llenar espacio */
                 }
                 .full-width {
                     width: 100%;
+                    margin-right: 0 !important; /* Elimina margen derecho para ocupar todo el ancho */
                 }
                 .half-width {
-                    width: calc(50% - 10px); /* Adjusted for reduced margin-right */
+                    width: calc(50% - 20px); /* Aproximadamente la mitad menos el margen */
                 }
                 .quarter-width {
-                    width: calc(25% - 10px); /* Adjusted for reduced margin-right */
+                    width: calc(25% - 20px); /* Aproximadamente un cuarto menos el margen */
                 }
 
+                /* Espaciado para el formulario */
+                .form-group {
+                    margin-bottom: 10px;
+                }
+
+                /* Estilo de la línea horizontal para "___" */
+                .underline {
+                    border-bottom: 1px solid #000;
+                    display: inline-block;
+                    min-width: 50px; /* Ancho mínimo de la línea */
+                }
+
+                /* Para checkboxes y radio buttons */
                 .checkbox-option {
                     display: flex;
                     align-items: center;
-                    margin-right: 10px; /* Reduced space between checkbox options */
-                    margin-bottom: 2px; /* Reduced margin */
+                    margin-right: 20px;
+                    margin-bottom: 5px;
                 }
                 .checkbox-box {
-                    border: 1px solid #555;
-                    width: 11px; /* Slightly smaller checkbox */
-                    height: 11px; /* Slightly smaller checkbox */
-                    margin-right: 4px; /* Reduced margin */
-                    flex-shrink: 0;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
+                    border: 1px solid #000;
+                    width: 12px;
+                    height: 12px;
+                    margin-right: 5px;
+                    flex-shrink: 0; /* Evita que el checkbox se encoja */
                 }
                 .checkbox-box.checked::before {
                     content: 'X';
                     display: block;
-                    font-size: 9px; /* Smaller 'X' */
-                    font-weight: bold;
-                    color: #000;
-                }
-                .disclaimer {
-                    font-size: 9px; /* Smaller font */
-                    color: #777;
-                    margin-top: 20px; /* Reduced margin */
                     text-align: center;
-                    padding-top: 8px; /* Reduced padding */
-                    border-top: 1px dashed #eee;
+                    line-height: 12px;
+                    font-size: 10px;
                 }
 
+                /* Pie de página para la firma */
                 .signature-section {
-                    margin-top: auto; /* Push to the bottom */
-                    padding-top: 10px; /* Reduced padding */
+                    margin-top: 50px;
                     text-align: center;
-                    flex-shrink: 0; /* Prevent it from shrinking */
-                }
-                .signature-block {
-                    width: 70%; /* Wider signature line */
-                    max-width: 350px; /* Increased max-width */
-                    margin: 0 auto; /* Center the block */
                 }
                 .signature-line {
-                    border-top: 1px solid #000;
-                    margin-bottom: 3px; /* Reduced margin */
-                    width: 100%;
+                    border-bottom: 1px solid #000;
+                    width: 250px; /* Ancho de la línea de firma */
+                    margin: 0 auto 5px auto;
                 }
                 .signature-text {
-                    font-size: 10px; /* Slightly smaller */
-                    color: #333;
-                    text-transform: uppercase;
+                    font-size: 10pt;
+                }
+                .disclaimer {
+                    font-size: 8pt;
+                    text-align: justify;
+                    margin-top: 30px;
                 }
 
-                .no-print {
-                    text-align: center;
-                    padding: 10px; /* Reduced padding */
-                    background-color: #f0f0f0;
-                    border-top: 1px solid #ddd;
-                    position: sticky;
-                    bottom: 0;
-                    z-index: 100;
-                    flex-shrink: 0; /* Prevent it from shrinking */
-                }
-                .no-print button {
-                    padding: 8px 20px; /* Reduced padding */
-                    font-size: 13px; /* Slightly smaller font */
-                    margin: 0 5px; /* Reduced margin */
-                }
-
+                /* Ocultar elementos no deseados al imprimir */
                 @media print {
-                    html, body {
+                    .no-print {
+                        display: none !important;
+                    }
+                    body {
                         margin: 0;
                         padding: 0;
-                        height: 100%; /* Ensure full height on print */
-                        overflow: hidden; /* Crucial for single page */
                     }
-                    .container {
-                        width: 100%;
-                        height: 100%; /* Make container fill the page */
-                        border: none;
+                    .document-container {
+                        width: 100%; /* Ocupa todo el ancho de la página impresa */
+                        height: auto; /* Altura automática para el contenido */
+                        padding: 0.5in 0.75in; /* Mantén los márgenes de impresión */
                         box-shadow: none;
-                        padding: 10mm; /* Reduced padding for print */
-                        margin: 0;
-                        display: flex;
-                        flex-direction: column;
-                        justify-content: space-between; /* Distribute content */
+                        border: none;
                     }
-                    .no-print {
-                        display: none;
-                    }
-                    .header, .title, .section-title, .field-label, .field-value, .checkbox-box, .signature-text {
-                        color: #000 !important;
+                    .logo {
+                        position: absolute; /* Mantener posición absoluta para el logo */
+                        top: 0.5in;
+                        left: 0.75in;
                     }
                 }
             </style>
         </head>
         <body>
-            <div class="container">
+            <div class="document-container">
+                <img src="img/logo.png" alt="Notaria Ecuador Logo" class="logo">
                 <div class="header">
-                    <h1>NOTARÍA PÚBLICA</h1>
-                    <p>Dirección: [Dirección de la Notaría]</p>
-                    <p>Teléfono: [Teléfono de la Notaría]</p>
-                    <p>RUC: [RUC de la Notaría]</p>
-                </div>
-
-                <div class="title">COMPROBANTE DE TRÁMITE DE DIVORCIO</div>
-                <div style="text-align: right; font-size: 11px; margin-bottom: 15px;">
-                    <div class="field-row" style="margin-bottom: 0;">
-                        <div class="field" style="justify-content: flex-end; width: 100%; margin-bottom: 0;">
-                            <span class="field-label">Oficina:</span>
-                            <span class="field-value" style="border-bottom: none;"><?php echo htmlspecialchars($divorcio_data['td_oficina']); ?></span>
-                        </div>
-                    </div>
-                    <div class="field-row" style="margin-bottom: 0;">
-                        <div class="field" style="justify-content: flex-end; width: 100%; margin-bottom: 0;">
-                            <span class="field-label">Fecha:</span>
-                            <span class="field-value" style="border-bottom: none;"><?php echo htmlspecialchars($divorcio_data['td_fecha']); ?></span>
+                    <div></div>
+                    <div class="header-info">
+                        <p>NOTARÍA ECUADOR</p>
+                        <p>New York - Notary Public</p>
+                        <div class="office-date-box">
+                            <div class="field-row">
+                                <div class="field">
+                                    <span class="field-label">Fecha</span>
+                                    <span class="field-value"><?php echo htmlspecialchars($divorcio_data['td_controvertido']); ?></span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-
 
                 <div class="section-title">1. DATOS DEL CLIENTE (PERSONA QUE SOLICITA EL DIVORCIO):</div>
                 <div class="field-row">
@@ -306,7 +311,6 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                         <span class="field-value"><?php echo htmlspecialchars($divorcio_data['c_napartamento']); ?></span>
                     </div>
                 </div>
-
                 <div class="field-row">
                     <div class="field full-width">
                         <span class="field-label">DIRECCIÓN:</span>
@@ -344,6 +348,7 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                         <span class="field-value"><?php echo htmlspecialchars($divorcio_data['c_email']); ?></span>
                     </div>
                 </div>
+
                 <div class="section-title">2. DATOS DEL CÓNYUGE:</div>
                 <div class="field-row">
                     <div class="field full-width">
@@ -351,13 +356,6 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                         <span class="field-value"><?php echo htmlspecialchars($divorcio_data['td_nombre_c']); ?></span>
                     </div>
                 </div>
-                <div class="field-row">
-                    <div class="field full-width">
-                        <span class="field-label">CORREO ELECTRÓNICO:</span>
-                        <span class="field-value"><?php echo htmlspecialchars($poder_data['c_email']); ?></span>
-                    </div>
-                </div>
-
                 <div class="field-row">
                     <div class="field full-width">
                         <span class="field-label">NO.-DE IDENTIFICACIÓN:</span>
@@ -370,7 +368,7 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                         <span class="field-value"><?php echo htmlspecialchars($divorcio_data['td_direccion_c']); ?></span>
                     </div>
                 </div>
-                <div class="field-row">
+                 <div class="field-row">
                     <div class="field quarter-width">
                         <span class="field-label">CIUDAD:</span>
                         <span class="field-value"><?php echo htmlspecialchars($divorcio_data['td_ciudad_c']); ?></span>
@@ -395,16 +393,17 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                         <span class="field-label">)</span>
                     </div>
                 </div>
+
                 <div class="section-title">3. DETALLES DEL DIVORCIO:</div>
                 <div class="field-row">
                     <div class="field half-width">
                         <span class="field-label">TIPO DE DIVORCIO:</span>
                         <div class="checkbox-option">
-                            <div class="checkbox-box <?php echo ($divorcio_data['td_controvertido'] == '1') ? 'checked' : ''; ?>"></div>
+                            <div class="checkbox-box <?php echo ($divorcio_data['td_controvertido'] == 'Controvertido') ? 'checked' : ''; ?>"></div>
                             <span class="field-label">CONTROVERTIDO</span>
                         </div>
                         <div class="checkbox-option">
-                            <div class="checkbox-box <?php echo ($divorcio_data['td_consensual'] == '1') ? 'checked' : ''; ?>"></div>
+                            <div class="checkbox-box <?php echo ($divorcio_data['td_consensual'] == 'Consensual') ? 'checked' : ''; ?>"></div>
                             <span class="field-label">CONSENSUAL</span>
                         </div>
                     </div>
@@ -462,6 +461,7 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                         </div>
                     </div>
                 </div>
+
                 <div class="section-title">4. CONTACTO EN ECUADOR (SI APLICA):</div>
                 <div class="field-row">
                     <div class="field full-width">
@@ -482,6 +482,7 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                         <span class="field-value" style="min-height: 50px;"><?php echo nl2br(htmlspecialchars($divorcio_data['td_observaciones'])); ?></span>
                     </div>
                 </div>
+
                 <div class="field-row" style="margin-top: 20px;">
                     <div class="field quarter-width">
                         <span class="field-label">VALOR $</span>
@@ -505,28 +506,42 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                     <div class="signature-line"></div>
                     <div class="signature-text">FIRMA DEL CLIENTE</div>
                 </div>
-                <div class="no-print">
-                    <button onclick="window.print()">Imprimir este documento</button>
-                    <button class="close" onclick="window.close()">Cerrar</button>
-                </div>
-
-
-
-
-
-
-
-               
             </div>
         </body>
         </html>
         <?php
+        $html = ob_get_clean(); // 4. Capturar el HTML generado
+
+        // 5. Configurar Dompdf
+        $options = new Options();
+        $options->set('isHtml5ParserEnabled', true);
+        $options->set('isRemoteEnabled', true); // Necesario si usas imágenes externas o rutas relativas al logo
+        // Si Dompdf está teniendo problemas con las fuentes, puedes agregar:
+        // $options->set('defaultFont', 'Times New Roman');
+
+        $dompdf = new Dompdf($options);
+
+        // Cargar el HTML en Dompdf
+        $dompdf->loadHtml($html);
+
+        // Establecer el tamaño y la orientación del papel (ej. "Letter" para carta)
+        $dompdf->setPaper('Letter', 'portrait');
+
+        // Renderizar el HTML como PDF
+        $dompdf->render();
+
+        // 6. Enviar el PDF al navegador
+        $dompdf->stream("divorcio_tramite_" . $id_divorcio . ".pdf", array("Attachment" => false)); // "Attachment" => true para descarga
+        exit(0); // Terminar el script
     } else {
-        echo "<p style='text-align: center; color: red; margin-top: 50px;'>No se encontró el registro del trámite con ID: " . htmlspecialchars($id_tramite_varios) . "</p>";
+        echo "<p style='text-align: center; color: red;'>No se encontró el registro de divorcio con ID: " . htmlspecialchars($id_divorcio) . "</p>";
     }
-    $stmt->close();
 } else {
-    echo "<p style='text-align: center; color: red; margin-top: 50px;'>ID de trámite no especificado.</p>";
+    echo "<p style='text-align: center; color: red;'>ID de trámite de divorcio no proporcionado o inválido.</p>";
 }
-$conexion->close();
+
+// Asegúrate de que la conexión a la base de datos se cierre al final si no se cerró antes
+if ($conexion && $conexion->ping()) { // ping() verifica si la conexión sigue viva
+    $conexion->close();
+}
 ?>

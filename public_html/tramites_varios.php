@@ -383,6 +383,10 @@ if ($varsesion==null || $varsesion='') {
                         <label class="form-label" for="departamento">N° Departamento</label>
                         <input class="form-input" name="departamento" id="departamento"/>
                     </div>
+                    <div class="form-field">
+                        <label class="form-label" for="oficina">Oficina</label>
+                        <input class="form-input" name="oficina" id="oficina"/>
+                    </div>
                 </div>
             </fieldset>
 
