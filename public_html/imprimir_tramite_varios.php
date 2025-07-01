@@ -22,6 +22,8 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                 tv.tv_oenvio,
                 tv.tv_nrecibo,
                 tv.tv_nom_envio,
+                tv.tv_oficina,
+                tv.tv_fecha,
                 tv.tv_ciudad AS tv_ciudad_envio,
                 tv.tv_provincia AS tv_provincia_envio,
                 tv.tv_telefono AS tv_telefono_envio,
@@ -85,10 +87,23 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                     box-sizing: border-box; /* Include padding in width/height */
                 }
                 .header {
-                    text-align: center;
+                    display: flex; /* Usamos flexbox para alinear los elementos */
+                    justify-content: space-between; /* Espacio entre el logo y la info de la notaría */
+                    align-items: flex-start; /* Alinea los elementos al inicio (arriba) */
                     margin-bottom: 30px;
                     border-bottom: 1px solid #eee;
                     padding-bottom: 10px;
+                }
+                .header-left {
+                    flex-shrink: 0; /* Evita que el logo se encoja */
+                }
+                .header-logo {
+                    max-width: 100px; /* Ajusta el tamaño del logo según sea necesario */
+                    height: auto;
+                }
+                .header-center {
+                    flex-grow: 1; /* Permite que el centro ocupe el espacio disponible */
+                    text-align: center; /* Centra el título principal */
                 }
                 .header h1 {
                     margin: 0;
@@ -99,6 +114,15 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                     margin: 2px 0;
                     font-size: 12px;
                     color: #666;
+                }
+                .header-right {
+                    flex-shrink: 0; /* Evita que la info se encoja */
+                    text-align: right;
+                    font-size: 12px;
+                    color: #666;
+                }
+                .header-right p {
+                    margin: 2px 0;
                 }
                 .title {
                     font-size: 18px;
@@ -221,8 +245,15 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
         <body>
             <div class="container">
                 <div class="header">
-                    <h1>NOTARÍA PÚBLICA</h1>
-                    <p>Dirección: [Dirección de la Notaría]</p> <p>Teléfono: [Teléfono de la Notaría]</p> <p>RUC: [RUC de la Notaría]</p> </div>
+                    <div class="header-left">
+                        <img src="img/logo.png" alt="Logo de la Notaría" class="header-logo">
+                    </div>
+                    
+                    <div class="header-right">
+                    <p>Fecha: <?php echo htmlspecialchars(($tramite_data['tv_fecha'] ?? '')); ?></p>
+                        <p>Oficina: <?php echo htmlspecialchars(($tramite_data['tv_oficina'] ?? '')); ?></p>
+                    </div>
+                </div>
 
                 <div class="title">COMPROBANTE DE TRÁMITE VARIOS</div>
                 <div style="text-align: right; font-size: 12px; margin-bottom: 20px;">

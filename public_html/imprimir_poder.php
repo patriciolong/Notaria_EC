@@ -88,10 +88,23 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                     flex-direction: column;
                 }
                 .header {
-                    text-align: center;
+                    display: flex; /* Usamos flexbox para alinear los elementos */
+                    justify-content: space-between; /* Espacio entre el logo y la info de la notaría */
+                    align-items: flex-start; /* Alinea los elementos al inicio (arriba) */
                     margin-bottom: 20px; /* Reduced margin */
                     border-bottom: 1px solid #eee;
                     padding-bottom: 10px; /* Reduced padding */
+                }
+                .header-left {
+                    flex-shrink: 0; /* Evita que el logo se encoja */
+                }
+                .header-logo {
+                    max-width: 100px; /* Ajusta el tamaño del logo según sea necesario */
+                    height: auto;
+                }
+                .header-center {
+                    flex-grow: 1; /* Permite que el centro ocupe el espacio disponible */
+                    text-align: center; /* Centra el título principal */
                 }
                 .header h1 {
                     margin: 0;
@@ -103,6 +116,10 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                     margin: 2px 0; /* Reduced margin */
                     font-size: 10px; /* Slightly smaller */
                     color: #666;
+                }
+                .header-right {
+                    flex-shrink: 0; /* Evita que la info se encoja */
+                    text-align: right;
                 }
                 .title {
                     font-size: 18px; /* Slightly smaller */
@@ -256,27 +273,26 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
         <body>
             <div class="container">
                 <div class="header">
-                    <h1>NOTARÍA PÚBLICA</h1>
-                    <p>Dirección: [Dirección de la Notaría]</p>
-                    <p>Teléfono: [Teléfono de la Notaría]</p>
-                    <p>RUC: [RUC de la Notaría]</p>
+                    <div class="header-left">
+                        <img src="img/logo.png" alt="Logo de la Notaría" class="header-logo">
+                    </div>
+                    <div class="header-right">
+                        <div class="field-row" style="margin-bottom: 0;">
+                            <div class="field" style="justify-content: flex-end; width: 100%; margin-bottom: 0;">
+                                <span class="field-label">Oficina:</span>
+                                <span class="field-value" style="border-bottom: none;"><?php echo htmlspecialchars($poder_data['tp_oficina']); ?></span>
+                            </div>
+                        </div>
+                        <div class="field-row" style="margin-bottom: 0;">
+                            <div class="field" style="justify-content: flex-end; width: 100%; margin-bottom: 0;">
+                                <span class="field-label">Fecha:</span>
+                                <span class="field-value" style="border-bottom: none;"><?php echo htmlspecialchars($poder_data['tp_fecha']); ?></span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="title">COMPROBANTE DE TRÁMITE DE PODER</div>
-                <div style="text-align: right; font-size: 11px; margin-bottom: 15px;">
-                    <div class="field-row" style="margin-bottom: 0;">
-                        <div class="field" style="justify-content: flex-end; width: 100%; margin-bottom: 0;">
-                            <span class="field-label">Oficina:</span>
-                            <span class="field-value" style="border-bottom: none;"><?php echo htmlspecialchars($poder_data['tp_oficina']); ?></span>
-                        </div>
-                    </div>
-                    <div class="field-row" style="margin-bottom: 0;">
-                        <div class="field" style="justify-content: flex-end; width: 100%; margin-bottom: 0;">
-                            <span class="field-label">Fecha:</span>
-                            <span class="field-value" style="border-bottom: none;"><?php echo htmlspecialchars($poder_data['tp_fecha']); ?></span>
-                        </div>
-                    </div>
-                </div>
 
 
                 <div class="section-title">1. PERSONA QUE OTORGA EL PODER (USTED):</div>

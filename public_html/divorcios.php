@@ -373,6 +373,10 @@ if ($varsesion == null || $varsesion == '') {
                         <label class="form-label" for="oficina">Oficina</label>
                         <input class="form-input" name="oficina" id="oficina"/>
                     </div>
+                    <div class="fs-field">
+                        <label class="fs-label" for="fecha">Fecha</label>
+                        <input class="fs-input form-control" type="date" name="fecha" id="fecha" />
+                    </div>
                 </div>
                 
                 <legend class="section-title">2. Información del Cónyuge</legend>
