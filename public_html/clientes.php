@@ -38,6 +38,7 @@ $resultado = mysqli_query($conexion, $consulta);
 
         /* Definición de variables de color (copiadas de estilos_menu.css para consistencia) */
         :root {
+            --primary-color_menu: #f3f700;
             --primary-color: #004080; /* Azul oscuro y profesional */
             --secondary-color: #4A6572; /* Gris azulado complementario */
             --accent-color: #C0A16B; /* Dorado sutil para acentos */
@@ -46,7 +47,7 @@ $resultado = mysqli_query($conexion, $consulta);
 
         /* --- Estilos de la Barra de Navegación (Navbar) --- */
         .custom-navbar { /* Usamos la clase personalizada */
-            background-color: var(--primary-color) !important; /* Fondo azul oscuro */
+            background-color: var(--primary-color_menu) !important; /* Fondo azul oscuro */
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25); /* Sombra más prominente para profundidad */
             padding: 0.8rem 0; /* Espaciado vertical para una altura elegante */
         }

@@ -40,6 +40,8 @@ if ($user_rol != 'Administrador') {
 
         /* Definición de variables de color (copiadas de estilos_menu.css para consistencia) */
         :root {
+            --primary-color_menu: #f3f700; /* Azul oscuro y profesional para elementos principales */
+
             --primary-color: #004080; /* Azul oscuro y profesional */
             --secondary-color: #4A6572; /* Gris azulado complementario */
             --accent-color: #C0A16B; /* Dorado sutil para acentos */
@@ -50,7 +52,7 @@ if ($user_rol != 'Administrador') {
 
         /* --- Estilos de la Barra de Navegación (Navbar) --- */
         .custom-navbar { /* Usamos la clase personalizada */
-            background-color: var(--primary-color) !important; /* Fondo azul oscuro */
+            background-color: var(--primary-color_menu) !important; /* Fondo azul oscuro */
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25); /* Sombra más prominente para profundidad */
             padding: 0.8rem 0; /* Espaciado vertical para una altura elegante */
         }
@@ -82,14 +84,15 @@ if ($user_rol != 'Administrador') {
 
         /* Estilo para el nombre de usuario (texto en blanco) */
         .custom-navbar .user-name {
-            color: var(--text-light) !important; /* Texto blanco puro */
-            font-weight: 700; /* Negrita */
-            font-size: 1.15rem; /* Tamaño de fuente más grande */
-            margin-right: 15px; /* Espacio antes del icono de flecha/menú */
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.4); /* Sombra de texto para mayor contraste */
-            white-space: nowrap; /* Evita que el nombre de usuario se rompa en varias líneas */
-            font-family: 'Lato', sans-serif; /* Aplica la fuente Lato */
-        }
+    color: var(--text-light) !important; /* Texto blanco puro */
+    font-weight: 700; /* Negrita */
+    font-size: 1.15rem; /* Tamaño de fuente más grande */
+    margin-right: 15px; /* Espacio antes del icono de flecha/menú */
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.4); /* Sombra de texto para mayor contraste */
+    white-space: nowrap; /* Evita que el nombre de usuario se rompa en varias líneas */
+    background-color: var(--primary-color);
+    border-radius: 0.75rem;
+}
 
         /* Estilo del menú desplegable del usuario */
         .custom-navbar .dropdown-menu {
