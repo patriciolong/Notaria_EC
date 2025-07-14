@@ -36,6 +36,7 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                 ti.ti_fechain,
                 ti.ti_nitin,
                 ti.ti_ecivil,
+                ti.ti_anio_reporte,
                 ti.ti_dependientes,
                 ti.ti_mpago,
                 ti.ti_banco,
@@ -44,6 +45,8 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                 ti.ti_observacion,
                 ti.ti_profesion,
                 ti.ti_oficina,
+                ti.ti_costo_tramite,
+                ti.ti_abono_tramite,
                 c.c_deuda,
                 c.c_abonado,
                 c.c_saldo,
@@ -55,9 +58,12 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                 c.c_estado,
                 c.c_ciudad,
                 c.c_codpostal,
-                c.c_email
+                c.c_email,
+                u.u_usuario AS nombre_usuario
               FROM tramite_impuestos AS ti
               JOIN cliente AS c ON ti.id_cliente = c.id_cliente
+              JOIN
+                usuario u ON ti.id_usuario = u.id_usuario
               WHERE ti.id_tram_impuestos = ?";
 
     $stmt = $conexion->prepare($query);
@@ -80,6 +86,9 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
             ? date('d/m/Y', strtotime($declaracion_data['ti_fechain']))
             : '__________'; // Usar __________ para campos vacíos
 
+            $anio_reporte = isset($declaracion_data['ti_anio_reporte']) && $declaracion_data['ti_anio_reporte'] != '0000-00-00' && $declaracion_data['ti_anio_reporte'] != ''
+            ? date('d/m/Y', strtotime($declaracion_data['ti_anio_reporte']))
+            : '__________'; // Usar __________ para campos vacíos
         ?>
         <!DOCTYPE html>
         <html lang="es">
@@ -447,14 +456,32 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                         </div>
                     </div>
                     <div class="field-row">
+                    <div class="field third-width">
+                            <span class="field-label">AÑO DE REPORTE:</span>
+                            <span class="field-value"><?php echo htmlspecialchars($anio_reporte); ?></span>
+                        </div>
                         <div class="field half-width">
                             <span class="field-label">NÚMERO DE CUENTA:</span>
                             <span class="field-value"><?php echo htmlspecialchars($declaracion_data['ti_ncuenta'] ?? '__________'); ?></span>
                         </div>
+                        
                         <div class="field half-width">
                             <span class="field-label">NÚMERO DE RUTA:</span>
                             <span class="field-value"><?php echo htmlspecialchars($declaracion_data['ti_nruta'] ?? '__________'); ?></span>
                         </div>
+                        
+                    </div>
+                    <div class="field-row">
+                        <div class="field half-width">
+                            <span class="field-label">VALOR DEL TRAMITE:</span>
+                            <span class="field-value"><?php echo htmlspecialchars($declaracion_data['ti_costo_tramite'] ?? '__________'); ?>$</span>
+                        </div>
+                        
+                        <div class="field half-width">
+                            <span class="field-label">ABONO DEL TRAMITE:</span>
+                            <span class="field-value"><?php echo htmlspecialchars($declaracion_data['ti_abono_tramite'] ?? '__________'); ?>$</span>
+                        </div>
+                        
                     </div>
                     <div class="field-row">
                         <div class="field full-width">
@@ -463,21 +490,11 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                         </div>
                     </div>
                 </div>
-
-                <div class="info-block payment-section">
-                    <div class="payment-field">
-                        <span class="field-label">VALOR</span>
-                        <span class="field-value">$<?php echo number_format(htmlspecialchars($declaracion_data['c_abonado'] ?? 0), 2); ?></span>
-                    </div>
-                    <div class="payment-field">
-                        <span class="field-label">ABONO</span>
-                        <span class="field-value">$<?php echo number_format(htmlspecialchars($declaracion_data['c_deuda'] ?? 0), 2); ?></span>
-                    </div>
-                    <div class="payment-field">
-                        <span class="field-label">SALDO</span>
-                        <span class="field-value">$<?php echo number_format(htmlspecialchars($declaracion_data['c_saldo'] ?? 0), 2); ?></span>
-                    </div>
+                <div class="footer-info">
+                    <p>Atendido por: <?php echo htmlspecialchars($declaracion_data['nombre_usuario']); ?></p>
+                    <p>Fecha y Hora de Generación: <?php echo date('d/m/Y H:i:s'); ?></p>
                 </div>
+
 
                 <div class="signature-section">
                     <div class="signature-block">

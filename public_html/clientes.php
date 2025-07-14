@@ -202,7 +202,6 @@ $resultado = mysqli_query($conexion, $consulta);
                                 <button class="btn btn-secondary btn-sm dropdown-toggle" data-bs-toggle="dropdown">Acciones</button>
                                 <ul class="dropdown-menu">
                                     <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalabonar" data-clienteid="<?= $row['id_cliente'] ?>" data-abonado="<?= $row['c_abonado'] ?>" data-deuda="<?= $row['c_deuda'] ?>">Abonar a deuda</a></li>
-                                    <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalcancelardeuda">Cancelar deuda</a></li>
                                 </ul>
                             </div>
                         </td>

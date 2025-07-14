@@ -69,7 +69,9 @@ if (!empty($_POST["btn_registro_imp"])) {
         $razon_poder = $_POST["razon_poder"];
         $opcion_envio_poder = $_POST["opcion_envio_poder"];
         $valor = $_POST["valor"];
+        $costo_tramite = $_POST["valor"];
         $abono = $_POST["abono"];
+        $abono_tramite = $_POST["abono"];
         $remitente = $_POST["remitente"];
         $ciudad_r = $_POST["ciudad_r"];
         $provincia_r = $_POST["provincia_r"];
@@ -112,8 +114,8 @@ if (!empty($_POST["btn_registro_imp"])) {
             echo json_encode(["status" => "error", "message" => "El abono no puede ser mayor al valor del trámite"]);
             exit; // para cortar ejecución
         }else{
-            $sql = $conexion->query("INSERT INTO tramite_poderes (id_tram_poderes,id_cliente,tp_oficina,tp_fecha,tp_estado_civil,tp_nombres_otorga_poder,tp_cedulla_otorga_poder,tp_razon_otorga_poder,tp_opcion_envio_poder,tp_enviar_nombrede,tp_ciudad_enviar,tp_telefonos_enviar,id_usuario,tp_observaciones) 
-            VALUES ('','$id_cliente','$Oficina','$fecha','$estcivil','$nombres_otorga','$cedula_otorga','$razon_poder','$opcion_envio_poder','$remitente','$ciudad_r','$telefono_r','$user_id','$observaciones_p')");
+            $sql = $conexion->query("INSERT INTO tramite_poderes (id_tram_poderes,id_cliente,tp_oficina,tp_fecha,tp_estado_civil,tp_nombres_otorga_poder,tp_cedulla_otorga_poder,tp_razon_otorga_poder,tp_opcion_envio_poder,tp_enviar_nombrede,tp_ciudad_enviar,tp_telefonos_enviar,id_usuario,tp_observaciones,tp_costo_tramite,tp_abono_tramite) 
+            VALUES ('','$id_cliente','$Oficina','$fecha','$estcivil','$nombres_otorga','$cedula_otorga','$razon_poder','$opcion_envio_poder','$remitente','$ciudad_r','$telefono_r','$user_id','$observaciones_p','$costo_tramite','$abono_tramite')");
              //and $sql3 == 1
              if ($sql) {
                 // Obtener el ID del último registro insertado

@@ -55,9 +55,12 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                 c.c_ciudad,
                 c.c_codpostal,
                 c.c_email,
-                c.c_napartamento
+                c.c_napartamento,
+                u.u_usuario AS nombre_usuario
               FROM tramite_divorcio td
               JOIN cliente c ON td.id_cliente = c.id_cliente
+              JOIN
+                usuario u ON td.id_usuario = u.id_usuario
               WHERE td.id_tram_div = ?";
 
     $stmt = $conexion->prepare($query);
@@ -250,6 +253,12 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                     z-index: 100;
                     flex-shrink: 0; /* Prevent it from shrinking */
                 }
+                .footer-info {
+                    margin-top: 10px;
+                    font-size: 11px;
+                    color: #777;
+                    text-align: left;
+                }
                 .no-print button {
                     padding: 8px 20px; /* Reduced padding */
                     font-size: 13px; /* Slightly smaller font */
@@ -303,6 +312,13 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                                 <span class="field-value" style="border-bottom: none;"><?php echo htmlspecialchars($divorcio_data['td_fecha']); ?></span>
                             </div>
                         </div>
+                        <div class="field-row" style="margin-bottom: 0;">
+                            <div class="field" style="justify-content: flex-end; width: 100%; margin-bottom: 0;">
+                                <span class="field-label">Atendido por:</span>
+                                <span class="field-value" style="border-bottom: none;"><?php echo htmlspecialchars($divorcio_data['nombre_usuario']); ?></span>
+                            </div>
+                        </div>
+                        
                     </div>
                 </div>
 
@@ -368,12 +384,6 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                     <div class="field full-width">
                         <span class="field-label">NOMBRES Y APELLIDOS (COMPLETOS):</span>
                         <span class="field-value"><?php echo htmlspecialchars($divorcio_data['td_nombre_c'] ?? '__________'); ?></span>
-                    </div>
-                </div>
-                <div class="field-row">
-                    <div class="field full-width">
-                        <span class="field-label">CORREO ELECTRÓNICO:</span>
-                        <span class="field-value"><?php echo htmlspecialchars($divorcio_data['c_email'] ?? '__________'); ?></span>
                     </div>
                 </div>
 
@@ -521,16 +531,13 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                     <div class="field quarter-width">
                         <span class="field-label">ABONO $</span>
                         <span class="field-value"><?php echo htmlspecialchars(number_format($divorcio_data['td_abono'] ?? 0, 2)); ?></span>
+                        
                     </div>
-                    <div class="field quarter-width">
-                        <span class="field-label">SALDO $</span>
-                        <span class="field-value"><?php echo htmlspecialchars(number_format($divorcio_data['td_saldo'] ?? 0, 2)); ?></span>
-                    </div>
-                    <div class="field quarter-width">
-                        <span class="field-label">ID TRÁMITE #</span>
-                        <span class="field-value"><?php echo htmlspecialchars($divorcio_data['id_tram_div']); ?></span>
-                    </div>
+                    
+                    
+                    
                 </div>
+               
 
                 <div class="signature-section">
                     <div class="signature-block">
@@ -538,6 +545,7 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                         <div class="signature-text">FIRMA DEL CLIENTE</div>
                     </div>
                 </div>
+               
                 <div class="no-print">
                     <button onclick="window.print()">Imprimir este documento</button>
                     <button class="close" onclick="window.close()">Cerrar</button>
