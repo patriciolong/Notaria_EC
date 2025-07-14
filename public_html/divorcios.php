@@ -352,13 +352,21 @@ if ($varsesion == null || $varsesion == '') {
                         <input class="fs-input form-control" name="direccion" id="direccion" />
                     </div>
                     <div class="fs-field">
-                        <label class="fs-label" for="estado">Estado</label>
-                        <input class="fs-input form-control" name="estado" id="estado" />
+                        <label class="fs-label" for="departamento">N° Departamento</label>
+                        <input class="fs-input form-control" name="departamento" id="departamento" />
                     </div>
                     <div class="fs-field">
                         <label class="fs-label" for="ciudad">Ciudad</label>
                         <input class="fs-input form-control" name="ciudad" id="ciudad" />
                     </div>
+
+
+
+                    <div class="fs-field">
+                        <label class="fs-label" for="estado">Estado</label>
+                        <input class="fs-input form-control" name="estado" id="estado" />
+                    </div>
+                   
                     <div class="fs-field">
                         <label class="fs-label" for="postal">Código Postal</label>
                         <input class="fs-input form-control" name="postal" id="postal" />
@@ -367,10 +375,7 @@ if ($varsesion == null || $varsesion == '') {
                         <label class="fs-label" for="email">Email</label>
                         <input class="fs-input form-control" name="email" id="email" />
                     </div>
-                    <div class="fs-field">
-                        <label class="fs-label" for="departamento">N° Departamento</label>
-                        <input class="fs-input form-control" name="departamento" id="departamento" />
-                    </div>
+                    
                     <div class="form-field">
                         <label class="form-label" for="oficina">Oficina</label>
                         <input class="form-input" name="oficina" id="oficina"/>
@@ -401,6 +406,51 @@ if ($varsesion == null || $varsesion == '') {
                             <input class="form-check-input" type="radio" name="tipo_divorcio" id="tipo_divorcio_not" value="Notarial" required>
                             <label class="form-check-label" for="tipo_divorcio_not">
                                 Notarial
+                            </label>
+                        </div>
+                    </div>
+                    <div class="fs-field">
+                        <label class="fs-label">¿Está separado de su cónyuge?</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="esta_separado" id="separado_si" value="1">
+                            <label class="form-check-label" for="separado_si">
+                                Sí
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="esta_separado" id="separado_no" value="0" checked>
+                            <label class="form-check-label" for="separado_no">
+                                No
+                            </label>
+                        </div>
+                    </div>
+                    <div class="fs-field">
+                        <label class="fs-label">¿Existen Hijos Menores de Edad?</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="hijos" id="hijos_si" value="1">
+                            <label class="form-check-label" for="hijos_si">
+                                Sí
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="hijos" id="hijos_no" value="0" checked>
+                            <label class="form-check-label" for="hijos_no">
+                                No
+                            </label>
+                        </div>
+                    </div>
+                    <div class="fs-field">
+                        <label class="fs-label">¿Posee los siguientes documentos?</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="posee_partida_matrimonio" id="posee_partida_matrimonio" value="1">
+                            <label class="form-check-label" for="posee_partida_matrimonio">
+                                Partida de Matrimonio
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="posee_partida_nacimiento_menores" id="posee_partida_nacimiento_menores" value="1">
+                            <label class="form-check-label" for="posee_partida_nacimiento_menores">
+                                Partida de Nacimiento de los menores
                             </label>
                         </div>
                     </div>
@@ -447,58 +497,24 @@ if ($varsesion == null || $varsesion == '') {
                         <input class="fs-input form-control" type="date" name="fecha_matrimonio" id="fecha_matrimonio" />
                     </div>
 
-                    <div class="fs-field">
-                        <label class="fs-label">¿Está separado de su cónyuge?</label>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="esta_separado" id="separado_si" value="1">
-                            <label class="form-check-label" for="separado_si">
-                                Sí
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="esta_separado" id="separado_no" value="0" checked>
-                            <label class="form-check-label" for="separado_no">
-                                No
-                            </label>
-                        </div>
-                    </div>
+                   
                     
                     <div class="fs-field">
                         <label class="fs-label" for="tiempo_separacion">Tiempo de Separación (si aplica)</label>
                         <input class="fs-input form-control" name="tiempo_separacion" id="tiempo_separacion" placeholder="Ej: 2 años, 6 meses" />
                     </div>
 
+                    
                     <div class="fs-field">
-                        <label class="fs-label">¿Existen Hijos Menores de Edad?</label>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="hijos" id="hijos_si" value="1">
-                            <label class="form-check-label" for="hijos_si">
-                                Sí
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="hijos" id="hijos_no" value="0" checked>
-                            <label class="form-check-label" for="hijos_no">
-                                No
-                            </label>
-                        </div>
+                        <label class="fs-label" for="motivo">Registre el motivo del divorcio:</label>
+                        <textarea class="fs-input form-control" name="motivo" id="motivo" rows="3"></textarea>
+                    </div>
+                    <div class="fs-field">
+                        <label class="fs-label" for="con_quien_vive">Personas con las que vive</label>
+                        <textarea class="fs-input form-control" name="con_quien_vive" id="con_quien_vive" rows="3"></textarea>
                     </div>
 
-                    <div class="fs-field">
-                        <label class="fs-label">¿Posee los siguientes documentos?</label>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="posee_partida_matrimonio" id="posee_partida_matrimonio" value="1">
-                            <label class="form-check-label" for="posee_partida_matrimonio">
-                                Partida de Matrimonio
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="posee_partida_nacimiento_menores" id="posee_partida_nacimiento_menores" value="1">
-                            <label class="form-check-label" for="posee_partida_nacimiento_menores">
-                                Partida de Nacimiento de los menores
-                            </label>
-                        </div>
-                    </div>
+                    
 
                     <div class="fs-field">
                         <label class="fs-label" for="contacto_ecuador">Contacto en Ecuador</label>

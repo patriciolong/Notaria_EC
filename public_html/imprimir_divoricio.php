@@ -65,6 +65,8 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                 td.td_valor,
                 td.td_abono,
                 td.td_saldo,
+                td.td_motivo_divorcio,
+                td.td_con_quien_vive,
                 c.c_nombre,
                 c.c_apellido,
                 c.c_identificacion,
@@ -459,6 +461,14 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                             <div class="checkbox-box <?php echo ($divorcio_data['td_ep_nacimiento'] == 0) ? 'checked' : ''; ?>"></div>
                             <span class="field-label">NO</span>
                         </div>
+                    </div>
+                    <div class="field half-width">
+                        <span class="field-label">MOTIVO DEL DIVORCIO:</span>
+                        <span class="field-value"><?php echo htmlspecialchars($divorcio_data['td_motivo_divorcio']); ?></span>
+                    </div>
+                    <div class="field half-width">
+                        <span class="field-label">PERSONAS CON LAS QUE VIVE:</span>
+                        <span class="field-value"><?php echo htmlspecialchars($divorcio_data['td_con_quien_vive']); ?></span>
                     </div>
                 </div>
 

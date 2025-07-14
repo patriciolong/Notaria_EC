@@ -366,13 +366,21 @@ if ($varsesion == null || $varsesion = '') {
                         <input class="form-input" name="direccion" id="direccion" />
                     </div>
                     <div class="form-field">
-                        <label class="form-label" for="estado">Estado</label>
-                        <input class="form-input" name="estado" id="estado" />
+                        <label class="form-label" for="departamento">N° Departamento</label>
+                        <input class="form-input" name="departamento" id="departamento" />
                     </div>
                     <div class="form-field">
                         <label class="form-label" for="ciudad">Ciudad</label>
                         <input class="form-input" name="ciudad" id="ciudad" />
                     </div>
+                    <div class="form-field">
+                        <label class="form-label" for="estado">Estado</label>
+                        <input class="form-input" name="estado" id="estado" />
+                    </div>
+
+
+                    
+                    
                     <div class="form-field">
                         <label class="form-label" for="postal">Codigo Postal</label>
                         <input class="form-input" name="postal" id="postal" />
@@ -381,10 +389,7 @@ if ($varsesion == null || $varsesion = '') {
                         <label class="form-label" for="email">Email</label>
                         <input class="form-input" name="email" id="email" />
                     </div>
-                    <div class="form-field">
-                        <label class="form-label" for="departamento">N° Departamento</label>
-                        <input class="form-input" name="departamento" id="departamento" />
-                    </div>
+                    
                     <div class="form-field">
                         <label class="form-label" for="estcivil">Estado Civil</label>
                         <select class="form-select" name="estcivil" id="estcivil">

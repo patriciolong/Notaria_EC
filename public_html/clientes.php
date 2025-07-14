@@ -82,14 +82,15 @@ $resultado = mysqli_query($conexion, $consulta);
 
         /* Estilo para el nombre de usuario (texto en blanco) */
         .custom-navbar .user-name {
-            color: var(--text-light) !important; /* Texto blanco puro */
-            font-weight: 700; /* Negrita */
-            font-size: 1.15rem; /* Tamaño de fuente más grande */
-            margin-right: 15px; /* Espacio antes del icono de flecha/menú */
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.4); /* Sombra de texto para mayor contraste */
-            white-space: nowrap; /* Evita que el nombre de usuario se rompa en varias líneas */
-            font-family: 'Lato', sans-serif; /* Aplica la fuente Lato */
-        }
+    color: var(--text-light) !important; /* Texto blanco puro */
+    font-weight: 700; /* Negrita */
+    font-size: 1.15rem; /* Tamaño de fuente más grande */
+    margin-right: 15px; /* Espacio antes del icono de flecha/menú */
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.4); /* Sombra de texto para mayor contraste */
+    white-space: nowrap; /* Evita que el nombre de usuario se rompa en varias líneas */
+    background-color: var(--primary-color);
+    border-radius: 0.75rem;
+}
 
         /* Estilo del menú desplegable del usuario */
         .custom-navbar .dropdown-menu {
