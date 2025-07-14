@@ -36,6 +36,8 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                 tv.tv_observaciones,
                 c.c_identificacion,
                 c.c_nombre,
+                c.c_estado,
+                c.c_napartamento,
                 c.c_apellido,
                 c.c_telefono AS c_telefono_cliente,
                 c.c_direccion,
@@ -275,7 +277,11 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                 </div>
                 <div class="field-row">
                     <span class="field-label">Dirección:</span>
-                    <span class="field-value"><?php echo htmlspecialchars($tramite_data['c_direccion'] . ', ' . $tramite_data['c_ciudad_cliente']); ?></span>
+                    <span class="field-value"><?php echo htmlspecialchars($tramite_data['c_direccion'] . ', ' . $tramite_data['c_ciudad_cliente']. ', ' . $tramite_data['c_estado']); ?></span>
+                </div>
+                <div class="field-row">
+                    <span class="field-label">N° Apartamento:</span>
+                    <span class="field-value"><?php echo htmlspecialchars($tramite_data['c_napartamento']); ?></span>
                 </div>
                 <div class="field-row">
                     <span class="field-label">Email:</span>
