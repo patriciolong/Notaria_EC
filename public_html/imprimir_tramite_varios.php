@@ -33,6 +33,7 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                 tv.tv_certificacion,
                 tv.tv_apostilla,
                 tv.tv_valor_tramite,
+                tv.tv_abono_tramite,
                 tv.tv_observaciones,
                 c.c_identificacion,
                 c.c_nombre,
@@ -258,9 +259,7 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                 </div>
 
                 <div class="title">COMPROBANTE DE TRÁMITE VARIOS</div>
-                <div style="text-align: right; font-size: 12px; margin-bottom: 20px;">
-                    Folio N°: <span style="font-weight: bold;"><?php echo htmlspecialchars($tramite_data['id_tramite_varios']); ?></span>
-                </div>
+                
 
                 <div class="section-title">INFORMACIÓN DEL CLIENTE</div>
                 <div class="field-row">
@@ -353,7 +352,10 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
 
                 <div class="total-amount">
                     Valor del Trámite: $<?php echo number_format($tramite_data['tv_valor_tramite'], 2); ?>
+                    <br>
+                    Abono del Trámite: $<?php echo number_format($tramite_data['tv_abono_tramite'], 2); ?>
                 </div>
+               
 
                 <div class="footer-info">
                     <p>Atendido por: <?php echo htmlspecialchars($tramite_data['nombre_usuario']); ?></p>

@@ -26,6 +26,8 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
     tp.tp_razon_otorga_poder,
     tp.tp_opcion_envio_poder,
     tp.tp_observaciones,
+    tp.tp_costo_tramite,
+    tp.tp_abono_tramite,
     c.c_deuda,
     c.c_abonado,
     c.c_saldo,
@@ -302,30 +304,6 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                         <span class="field-value"><?php echo htmlspecialchars($poder_data['c_nombre'] . ' ' . $poder_data['c_apellido']); ?></span>
                     </div>
                 </div>
-                <div class="field-row" style="align-items: flex-start;">
-                    <div class="field full-width" style="flex-direction: column; align-items: flex-start; margin-right: 0;">
-                        <span class="field-label" style="margin-bottom: 3px;">SE IDENTIFICA CON:</span>
-                        <div style="display: flex; flex-wrap: wrap;">
-                            <div class="checkbox-option">
-                                <div class="checkbox-box <?php echo (strpos($poder_data['c_identificacion'], '-') === false && strlen($poder_data['c_identificacion']) == 10) ? 'checked' : ''; ?>"></div>
-                                <span class="field-label" style="font-weight: normal;">CÉDULA</span>
-                            </div>
-                            <div class="checkbox-option">
-                                <div class="checkbox-box <?php echo (strpos($poder_data['c_identificacion'], '-') !== false) ? 'checked' : ''; ?>"></div>
-                                <span class="field-label" style="font-weight: normal;">PASAPORTE</span>
-                            </div>
-                            <div class="checkbox-option">
-                                <div class="checkbox-box"></div>
-                                <span class="field-label" style="font-weight: normal;">IDENTIFICACIÓN CONSULAR</span>
-                            </div>
-                            <div class="checkbox-option">
-                                <div class="checkbox-box"></div>
-                                <span class="field-label" style="font-weight: normal;">OTRO</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
                 <div class="field-row">
                     <div class="field half-width">
                         <span class="field-label">NÚMERO DE IDENTIFICACIÓN:</span>
@@ -439,20 +417,12 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                 <div class="section-title" style="margin-top: 20px;">DETALLES DE PAGO Y ENVÍO:</div>
                 <div class="field-row">
                     <div class="field quarter-width">
-                        <span class="field-label">VALOR: $</span>
-                        <span class="field-value"><?php echo htmlspecialchars($poder_data['c_deuda'] ?? '__________'); ?></span>
+                        <span class="field-label">VALOR DEL TRAMITE: $</span>
+                        <span class="field-value"><?php echo htmlspecialchars($poder_data['tp_costo_tramite'] ?? '__________'); ?></span>
                     </div>
                     <div class="field quarter-width">
-                        <span class="field-label">ABONO: $</span>
-                        <span class="field-value"><?php echo htmlspecialchars($poder_data['c_abonado'] ?? '__________'); ?></span>
-                    </div>
-                    <div class="field quarter-width">
-                        <span class="field-label">SALDO: $</span>
-                        <span class="field-value"><?php echo htmlspecialchars($poder_data['c_saldo'] ?? '__________'); ?></span>
-                    </div>
-                    <div class="field quarter-width">
-                        <span class="field-label">RECIBO #:</span>
-                        <span class="field-value"><?php //echo htmlspecialchars($poder_data['tp_recibo'] ?? '__________'); ?></span>
+                        <span class="field-label">MONTO ABONADO: $</span>
+                        <span class="field-value"><?php echo htmlspecialchars($poder_data['tp_abono_tramite'] ?? '__________'); ?></span>
                     </div>
                 </div>
                 <div class="field-row">

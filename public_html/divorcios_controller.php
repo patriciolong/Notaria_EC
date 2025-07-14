@@ -167,7 +167,7 @@ if (!empty($_POST["btn_registro_divorcio"])) {
         // La cadena de tipos corregida es: i i i s s s s s s s s s s i i s i i s s s d d d i
         // Contemos: 3*i + 13*s + 3*d = 19 s's + 5 i's = 24
         $stmt_insert->bind_param(
-            "iiiiissssssssssisiiisssdddissss", // <-- CADENA DE TIPOS CORREGIDA (24 caracteres)
+            "iiiisssssssssssisiiisssdddissss", // <-- CADENA DE TIPOS CORREGIDA (24 caracteres)
             $id_cliente, $td_controvertido, $td_consensual, $td_notarial, $identificacion_conyugue, $nombre_conyugue, 
             $direccion_conyugue, $telefono_conyugue, $estado_conyugue, $ciudad_conyugue, $apartamento_conyugue, $postal_conyugue, 
             $lugar_matrimonio, $fecha_matrimonio, $td_separados, $td_noseparados, $tiempo_separacion, $td_hijos,

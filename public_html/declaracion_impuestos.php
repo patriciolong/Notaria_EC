@@ -460,6 +460,14 @@ if ($varsesion == null || $varsesion = '') {
                     <label class="form-label" for="nruta">Número de Ruta</label>
                     <input class="form-input" type="number" name="nruta" id="nruta" />
                 </div>
+                <div class="form-field">
+                    <label class="form-label" for="vtramite">Valor del Tramite</label>
+                    <input class="form-input" type="number" name="vtramite" id="vtramite" />
+                </div>
+                <div class="form-field">
+                    <label class="form-label" for="atramite">Abono del Tramite</label>
+                    <input class="form-input" type="number" name="atramite" id="atramite" />
+                </div>
                 <div class="form-field full-width">
                     <label class="form-label" for="notas">Notas</label>
                     <textarea class="form-textarea" name="notas" id="notas"></textarea>
