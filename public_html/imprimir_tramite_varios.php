@@ -34,6 +34,7 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                 tv.tv_apostilla,
                 tv.tv_valor_tramite,
                 tv.tv_abono_tramite,
+                tv.tv_saldo,
                 tv.tv_observaciones,
                 c.c_identificacion,
                 c.c_nombre,
@@ -249,7 +250,7 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
             <div class="container">
                 <div class="header">
                     <div class="header-left">
-                        <img src="img/logo.png" alt="Logo de la Notaría" class="header-logo">
+                        <img src="img/logo_impre.png" alt="Logo de la Notaría" class="header-logo">
                     </div>
                     
                     <div class="header-right">
@@ -350,6 +351,8 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                     Valor del Trámite: $<?php echo number_format($tramite_data['tv_valor_tramite'], 2); ?>
                     <br>
                     Abono del Trámite: $<?php echo number_format($tramite_data['tv_abono_tramite'], 2); ?>
+                    <br>
+                    Saldo del Trámite: $<?php echo number_format($tramite_data['tv_saldo'], 2); ?>
                 </div>
                
 

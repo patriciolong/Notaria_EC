@@ -47,6 +47,7 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                 ti.ti_oficina,
                 ti.ti_costo_tramite,
                 ti.ti_abono_tramite,
+                ti.ti_saldo,
                 c.c_deuda,
                 c.c_abonado,
                 c.c_saldo,
@@ -355,7 +356,7 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
             <div class="document-container">
                 <div class="header">
                     <div class="header-left">
-                        <img src="img/logo.png" alt="Logo de la Empresa" class="header-logo">
+                        <img src="img/logo_impre.png" alt="Logo de la Empresa" class="header-logo">
                     </div>
                     <div class="header-center">
                         <h2>DECLARACIÓN DE IMPUESTOS</h2>
@@ -480,6 +481,10 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                         <div class="field half-width">
                             <span class="field-label">ABONO DEL TRAMITE:</span>
                             <span class="field-value"><?php echo htmlspecialchars($declaracion_data['ti_abono_tramite'] ?? '__________'); ?>$</span>
+                        </div>
+                        <div class="field half-width">
+                            <span class="field-label">SALDO DEL TRAMITE:</span>
+                            <span class="field-value"><?php echo htmlspecialchars($declaracion_data['ti_saldo'] ?? '__________'); ?>$</span>
                         </div>
                         
                     </div>
