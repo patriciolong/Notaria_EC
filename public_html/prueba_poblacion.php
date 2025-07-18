@@ -106,6 +106,7 @@ if (!empty($_POST["btn_registro_imp"])) {
         $abonot = $id_cli_abo + $abono;
         $deudt = $id_cli_deu + $valor;
         $sald = $deudt - $abonot;
+        $saldo= $valor - $abono;
 
         if ($abono > $valor) {
 
@@ -113,8 +114,8 @@ if (!empty($_POST["btn_registro_imp"])) {
             echo json_encode(["status" => "error", "message" => "El abono no puede ser mayor al valor del trámite"]);
             exit; // para cortar ejecución
         }else{
-            $sql = $conexion->query("INSERT INTO tramites_varios (id_tramite_varios,id_cliente,tv_motivo,tv_oenvio,tv_nrecibo,tv_nom_envio,tv_ciudad,tv_provincia,tv_telefono,id_usuario,tv_tip_documento,tv_traducciones,tv_notarizacion,tv_certificacion,tv_apostilla,tv_valor_tramite,tv_observaciones,tv_oficina,tv_fecha,tv_abono_tramite) 
-            VALUES ('','$id_cliente','$motivo','$opc_envio','23131','$remitente','$ciudad_r','$provincia_r','$telefono_r','$user_id','$tipo_doc','$check1','$check2','$check3','$check4','$valor','$observaciones_t','$oficina','$fecha','$abono')");
+            $sql = $conexion->query("INSERT INTO tramites_varios (id_tramite_varios,id_cliente,tv_motivo,tv_oenvio,tv_nrecibo,tv_nom_envio,tv_ciudad,tv_provincia,tv_telefono,id_usuario,tv_tip_documento,tv_traducciones,tv_notarizacion,tv_certificacion,tv_apostilla,tv_valor_tramite,tv_observaciones,tv_oficina,tv_fecha,tv_abono_tramite, tv_saldo) 
+            VALUES ('','$id_cliente','$motivo','$opc_envio','23131','$remitente','$ciudad_r','$provincia_r','$telefono_r','$user_id','$tipo_doc','$check1','$check2','$check3','$check4','$valor','$observaciones_t','$oficina','$fecha','$abono','$saldo')");
               //$sql3 = $conexion->query("UPDATE cliente SET c_abonado='$abonot', c_deuda='$deudt', c_saldo='$sald' WHERE id_cliente='$id_cliente'");
               if ($sql) {
                 // Obtener el ID del último registro insertado

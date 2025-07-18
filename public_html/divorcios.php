@@ -29,7 +29,7 @@ if ($varsesion == null || $varsesion == '') {
 
         /* Definición de variables de color (copiadas de estilos_menu.css para consistencia) */
         :root {
-            --primary-color_menu: #f3f700; /* Azul oscuro y profesional para elementos principales */
+            --primary-color_menu: #004080; /* Azul oscuro y profesional para elementos principales */
             --primary-color: #004080; /* Azul oscuro y profesional */
             --secondary-color: #4A6572; /* Gris azulado complementario */
             --accent-color: #C0A16B; /* Dorado sutil para acentos */
@@ -73,13 +73,13 @@ if ($varsesion == null || $varsesion == '') {
 
         /* Estilo para el nombre de usuario (texto en blanco) */
         .custom-navbar .user-name {
-    color: var(--text-light) !important; /* Texto blanco puro */
+    color: var(--primary-color) !important; /* Texto blanco puro */
     font-weight: 700; /* Negrita */
     font-size: 1.15rem; /* Tamaño de fuente más grande */
     margin-right: 15px; /* Espacio antes del icono de flecha/menú */
     text-shadow: 1px 1px 3px rgba(0,0,0,0.4); /* Sombra de texto para mayor contraste */
     white-space: nowrap; /* Evita que el nombre de usuario se rompa en varias líneas */
-    background-color: var(--primary-color);
+    background-color: yellow;
     border-radius: 0.75rem;
 }
 
@@ -510,7 +510,7 @@ if ($varsesion == null || $varsesion == '') {
                         <textarea class="fs-input form-control" name="motivo" id="motivo" rows="3"></textarea>
                     </div>
                     <div class="fs-field">
-                        <label class="fs-label" for="con_quien_vive">Personas con las que vive</label>
+                        <label class="fs-label" for="con_quien_vive">Hijos a Cargo de:</label>
                         <textarea class="fs-input form-control" name="con_quien_vive" id="con_quien_vive" rows="3"></textarea>
                     </div>
 

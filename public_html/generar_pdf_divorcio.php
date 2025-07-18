@@ -179,6 +179,13 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                     padding-bottom: 0px; /* Reduced padding */
                     min-width: 40px; /* Smaller min-width */
                 }
+                .observ {
+                    flex-grow: 1;
+                    color: #222;
+                    border-bottom: 1px dotted #999;
+                    padding-bottom: 0px; /* Reduced padding */
+                    min-width: 50px; /* Smaller min-width */
+                }
                 .full-width {
                     width: 100%;
                 }
@@ -296,7 +303,7 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
             <div class="container">
                 <div class="header">
                     <div class="header-left">
-                        <img src="img/logo.png" alt="Logo de la Notaría" class="header-logo">
+                        <img src="img/logo_impre.png" alt="Logo de la Notaría" class="header-logo">
                     </div>
                     
                     <div class="header-right">
@@ -520,7 +527,7 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                 <div class="section-title">5. OBSERVACIONES:</div>
                 <div class="field-row">
                     <div class="field full-width">
-                        <span class="field-value" style="min-height: 50px;"><?php echo nl2br(htmlspecialchars($divorcio_data['td_observaciones'] ?? '')); ?></span>
+                        <span class="observ" style="min-height: 50px;"><?php echo nl2br(htmlspecialchars($divorcio_data['td_observaciones'] ?? '')); ?></span>
                     </div>
                 </div>
                 <div class="field-row" style="margin-top: 20px;">
@@ -531,6 +538,11 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                     <div class="field quarter-width">
                         <span class="field-label">ABONO $</span>
                         <span class="field-value"><?php echo htmlspecialchars(number_format($divorcio_data['td_abono'] ?? 0, 2)); ?></span>
+                        
+                    </div>
+                    <div class="field quarter-width">
+                        <span class="field-label">SALDO $</span>
+                        <span class="field-value"><?php echo htmlspecialchars(number_format($divorcio_data['td_saldo'] ?? 0, 2)); ?></span>
                         
                     </div>
                     

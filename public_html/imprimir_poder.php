@@ -28,6 +28,7 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
     tp.tp_observaciones,
     tp.tp_costo_tramite,
     tp.tp_abono_tramite,
+    tp.tp_saldo,
     c.c_deuda,
     c.c_abonado,
     c.c_saldo,
@@ -276,7 +277,7 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
             <div class="container">
                 <div class="header">
                     <div class="header-left">
-                        <img src="img/logo.png" alt="Logo de la Notaría" class="header-logo">
+                        <img src="img/logo_impre.png" alt="Logo de la Notaría" class="header-logo">
                     </div>
                     <div class="header-right">
                         <div class="field-row" style="margin-bottom: 0;">
@@ -423,6 +424,10 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                     <div class="field quarter-width">
                         <span class="field-label">MONTO ABONADO: $</span>
                         <span class="field-value"><?php echo htmlspecialchars($poder_data['tp_abono_tramite'] ?? '__________'); ?></span>
+                    </div>
+                    <div class="field quarter-width">
+                        <span class="field-label">SALDO: $</span>
+                        <span class="field-value"><?php echo htmlspecialchars($poder_data['tp_saldo'] ?? '__________'); ?></span>
                     </div>
                 </div>
                 <div class="field-row">
