@@ -329,10 +329,6 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                     <span class="field-value"><?php echo htmlspecialchars($tramite_data['tv_oenvio']); ?></span>
                 </div>
                 <div class="field-row">
-                    <span class="field-label">Número de Recibo:</span>
-                    <span class="field-value"><?php echo htmlspecialchars($tramite_data['tv_nrecibo']); ?></span>
-                </div>
-                <div class="field-row">
                     <span class="field-label">Nombre de Remitente:</span>
                     <span class="field-value"><?php echo htmlspecialchars($tramite_data['tv_nom_envio']); ?></span>
                 </div>
