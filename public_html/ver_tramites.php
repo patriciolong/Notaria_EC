@@ -157,7 +157,7 @@
             echo "<td>";
             if ($tabla === "tramites_varios") {
                 $id = $row['id_tramite_varios'];
-                $archivo = "imprimir_tramite_varios.php.";
+                $archivo = "imprimir_tramite_varios.php";
             } elseif ($tabla === "tramite_impuestos") {
                 $id = $row['id_tram_impuestos'];
                 $archivo = "imprimir_declaracion_impuestos.php";

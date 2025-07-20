@@ -316,19 +316,24 @@ if ($varsesion==null || $varsesion='') {
         </div>
     </div>
 </nav>
-<div style="widht: 100px; margin:0 auto;text-align: center">
-        <p class="fs-2">Tramites Varios</p>
+<div class="container mt-4">
+    <p class="display-4 fw-bold text-center" style="color: #004080;">Trámites Varios</p>
+</div>
+
+<!-- Título pequeño encima de la barra de búsqueda -->
+<div class="container mt-4">
+    <p class="text-center mb-2" style="font-size: 1.1rem; color: #004080; font-weight: 600;">Buscar clientes</p>
+</div>
+
+<nav class="navbar bg-body-tertiary">
+    <div class="container-fluid justify-content-center">
+        <form class="d-flex w-100" role="search" style="max-width:700px; margin:auto;">
+            <input class="form-control me-2 w-75" type="search" placeholder="Nombre Telefono o Identificación"
+                aria-label="Nombre o Identificación" id="buscador" name="buscador">
+            <input class="btn btn-outline-success" type="button" onclick="buscar_datos()" value="Buscar">
+        </form>
     </div>
-    <!-- Barra de busqueda-->
-    <nav class="navbar bg-body-tertiary">
-        <div class="container-fluid">
-            <form class="d-flex" role="search">
-                <input class="form-control me-2" type="search" placeholder="Nombre o Identificación"
-                    aria-label="Nombre o Identificación" id="buscador" name="buscador">
-                <input class="btn btn-outline-success" type="button" onclick="buscar_datos()" value="Buscar"></input>
-            </form>
-        </div>
-    </nav>
+</nav>
 
 
 

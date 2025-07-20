@@ -310,15 +310,16 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                         <span class="field-label">NÚMERO DE IDENTIFICACIÓN:</span>
                         <span class="field-value"><?php echo htmlspecialchars($poder_data['c_identificacion']); ?></span>
                     </div>
-                    <div class="field half-width">
-                        <span class="field-label">AP. NO.</span>
-                        <span class="field-value"><?php echo htmlspecialchars($poder_data['c_napartamento']); ?></span>
-                    </div>
+                    
                 </div>
                 <div class="field-row">
                     <div class="field full-width">
                         <span class="field-label">DIRECCIÓN:</span>
                         <span class="field-value"><?php echo htmlspecialchars($poder_data['c_direccion']); ?></span>
+                    </div>
+                    <div class="field half-width">
+                        <span class="field-label">AP. NO.</span>
+                        <span class="field-value"><?php echo htmlspecialchars($poder_data['c_napartamento']); ?></span>
                     </div>
                 </div>
                 <div class="field-row">

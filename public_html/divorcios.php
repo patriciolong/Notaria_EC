@@ -303,19 +303,24 @@ if ($varsesion == null || $varsesion == '') {
     </div>
 </nav>
 
-    <div style="width: 100px; margin:0 auto;text-align: center">
-        <p class="fs-2">Divorcios</p>
-    </div>
+<div class="container mt-4">
+    <p class="display-4 fw-bold text-center" style="color: #004080;">Divorcios</p>
+</div>
 
-    <nav class="navbar bg-body-tertiary">
-        <div class="container-fluid">
-            <form class="d-flex" role="search">
-                <input class="form-control me-2" type="search" placeholder="Nombre o Identificación"
-                    aria-label="Nombre o Identificación" id="buscador" name="buscador">
-                <input class="btn btn-outline-success" type="button" onclick="buscar_datos()" value="Buscar"></input>
-            </form>
-        </div>
-    </nav>
+<!-- Título pequeño encima de la barra de búsqueda -->
+<div class="container mt-4">
+    <p class="text-center mb-2" style="font-size: 1.1rem; color: #004080; font-weight: 600;">Buscar clientes</p>
+</div>
+
+<nav class="navbar bg-body-tertiary">
+    <div class="container-fluid justify-content-center">
+        <form class="d-flex w-100" role="search" style="max-width:700px; margin:auto;">
+            <input class="form-control me-2 w-75" type="search" placeholder="Nombre Telefono o Identificación"
+                aria-label="Nombre o Identificación" id="buscador" name="buscador">
+            <input class="btn btn-outline-success" type="button" onclick="buscar_datos()" value="Buscar">
+        </form>
+    </div>
+</nav>
 
     <div class="container">
     <form class="tax-declaration-form" method="POST" action="" id="formDivorcios">
@@ -652,11 +657,11 @@ if ($varsesion == null || $varsesion == '') {
                         $("#email").val(valores.email);
                         $("#departamento").val(valores.departamento);
                         $("#id_cliente").val(valores.id_cliente);
-                        Swal.fire({
+                        /*Swal.fire({
                             icon: 'info',
                             title: 'Cliente Encontrado',
                             text: 'Datos del cliente cargados exitosamente.'
-                        });
+                        });*/
                     } else {
                         Swal.fire({
                             icon: 'info',
