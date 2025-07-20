@@ -292,29 +292,33 @@ if ($varsesion==null || $varsesion=='') {
                 <input class="fs-input" name="direccion" id="direccion" />
             </div>
             <div class="fs-field">
-                <label class="fs-label" for="pais">Pais</label>
-                <input class="fs-input"  name="pais" id="pais" />
-            </div>
-            <div class="fs-field">
-                <label class="fs-label" for="estado">Estado</label>
-                <input class="fs-input"  name="estado" id="estado" />
+                <label class="fs-label" for="departamento">N° Departamento</label>
+                <input class="fs-input"  name="departamento" id="departamento" />
             </div>
             <div class="fs-field">
                 <label class="fs-label" for="ciudad">Ciudad</label>
                 <input class="fs-input"  name="ciudad" id="ciudad" />
             </div>
             <div class="fs-field">
+                <label class="fs-label" for="estado">Estado</label>
+                <input class="fs-input"  name="estado" id="estado" />
+            </div>
+            <div class="fs-field">
                 <label class="fs-label" for="postal">Codigo Postal</label>
                 <input class="fs-input"  name="postal" id="postal" />
             </div>
             <div class="fs-field">
+                <label class="fs-label" for="pais">Pais</label>
+                <input class="fs-input"  name="pais" id="pais" />
+            </div>
+            
+            
+            
+            <div class="fs-field">
                 <label class="fs-label" for="email">Email</label>
                 <input class="fs-input"  name="email" id="email" />
             </div>
-            <div class="fs-field">
-                <label class="fs-label" for="departamento">N° Departamento</label>
-                <input class="fs-input"  name="departamento" id="departamento" />
-            </div>
+            
 
             <div class="fs-button-group">
                 <input class="fs-button" type="submit" name="btn_registro" value="Registrar Cliente" >

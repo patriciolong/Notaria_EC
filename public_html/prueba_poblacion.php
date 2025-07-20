@@ -19,13 +19,13 @@ $stmt->close();
 
 if (isset($_POST['buscar'])) {
     $buscador = $_POST['buscador'];
-    $valores = array();
-    $valores['existe'] = "0";
-
-
-
-    $sql = mysqli_query($conexion, "Select * from cliente where c_identificacion = '$buscador'");
-    while ($consulta = mysqli_fetch_array($sql)) {
+    $sql = "SELECT * FROM cliente WHERE 
+        c_nombre LIKE '%$buscador%' 
+        OR c_identificacion LIKE '%$buscador%' 
+        OR c_telefono LIKE '%$buscador%'";
+    $resultado = mysqli_query($conexion, $sql);
+    $valores = [];
+    if ($consulta = mysqli_fetch_array($resultado)) {
         $valores['existe'] = "1";
         $valores['id_cliente'] = $consulta['id_cliente'];
         $valores['nombre'] = $consulta['c_nombre'];
@@ -38,10 +38,8 @@ if (isset($_POST['buscar'])) {
         $valores['postal'] = $consulta['c_codpostal'];
         $valores['email'] = $consulta['c_email'];
         $valores['departamento'] = $consulta['c_napartamento'];
-
     }
-    $valores = json_encode($valores);
-    echo $valores;
+    echo json_encode($valores);
 }
 
 

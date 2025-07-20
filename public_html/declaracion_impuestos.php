@@ -311,16 +311,21 @@ if ($varsesion == null || $varsesion = '') {
     </div>
 </nav>
 
-<div style="widht: 100px; margin:0 auto;text-align: center">
-    <p class="fs-2">Declaración de Impuestos</p>
+<div class="container mt-4">
+    <p class="display-4 fw-bold text-center" style="color: #004080;">Declaración de Impuestos</p>
+</div>
+
+<!-- Título pequeño encima de la barra de búsqueda -->
+<div class="container mt-4">
+    <p class="text-center mb-2" style="font-size: 1.1rem; color: #004080; font-weight: 600;">Buscar clientes</p>
 </div>
 
 <nav class="navbar bg-body-tertiary">
-    <div class="container-fluid">
-        <form class="d-flex" role="search">
-            <input class="form-control me-2" type="search" placeholder="Nombre o Identificación"
+    <div class="container-fluid justify-content-center">
+        <form class="d-flex w-100" role="search" style="max-width:700px; margin:auto;">
+            <input class="form-control me-2 w-75" type="search" placeholder="Nombre Telefono o Identificación"
                 aria-label="Nombre o Identificación" id="buscador" name="buscador">
-            <input class="btn btn-outline-success" type="button" onclick="buscar_datos()" value="Buscar"></input>
+            <input class="btn btn-outline-success" type="button" onclick="buscar_datos()" value="Buscar">
         </form>
     </div>
 </nav>
@@ -415,7 +420,16 @@ if ($varsesion == null || $varsesion = '') {
                 </div>
                 <div class="form-field">
                     <label class="form-label" for="anio_reporte">Año de Reporte</label>
-                    <input class="form-input" type="date" name="anio_reporte" id="anio_reporte" />
+                    <select class="form-select" name="anio_reporte" id="anio_reporte">
+                        <option value="">Elegir año</option>
+                        <?php
+                            $anio_actual = date("Y");
+                            for ($i = $anio_actual; $i >= 1950; $i--) {
+                                echo "<option value=\"$i\">$i</option>";
+                            }
+                        ?>
+                    </select>
+
                 </div>
                 <div class="form-field">
                     <label class="form-label" for="numitin">Número de Itin o Social</label>
@@ -425,10 +439,11 @@ if ($varsesion == null || $varsesion = '') {
                     <label class="form-label" for="estcivil">Estado Civil</label>
                     <select class="form-select" name="estcivil" id="estcivil">
                         <option>Elegir</option>
-                        <option>Soltero(A)</option>
+                        <option>Soltero(a)</option>
                         <option>Casados Juntos</option>
                         <option>Cabeza de Familia</option>
                         <option>Casados Separados</option>
+                        <option>Viudo(a)</option>
                     </select>
                 </div>
                 <div class="form-field">

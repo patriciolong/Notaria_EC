@@ -506,7 +506,7 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                         <span class="field-value"><?php echo htmlspecialchars($divorcio_data['td_motivo_divorcio']); ?></span>
                     </div>
                     <div class="field half-width">
-                        <span class="field-label">PERSONAS CON LAS QUE VIVE:</span>
+                        <span class="field-label">HIJOS A CARGO DE:</span>
                         <span class="field-value"><?php echo htmlspecialchars($divorcio_data['td_con_quien_vive']); ?></span>
                     </div>
                 </div>
