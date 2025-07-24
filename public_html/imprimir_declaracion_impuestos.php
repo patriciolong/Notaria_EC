@@ -87,9 +87,7 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
             ? date('d/m/Y', strtotime($declaracion_data['ti_fechain']))
             : '__________'; // Usar __________ para campos vacíos
 
-            $anio_reporte = isset($declaracion_data['ti_anio_reporte']) && $declaracion_data['ti_anio_reporte'] != '0000-00-00' && $declaracion_data['ti_anio_reporte'] != ''
-            ? date('d/m/Y', strtotime($declaracion_data['ti_anio_reporte']))
-            : '__________'; // Usar __________ para campos vacíos
+           
         ?>
         <!DOCTYPE html>
         <html lang="es">
@@ -459,7 +457,7 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                     <div class="field-row">
                     <div class="field third-width">
                             <span class="field-label">AÑO DE REPORTE:</span>
-                            <span class="field-value"><?php echo htmlspecialchars($anio_reporte); ?></span>
+                            <span class="field-value"><?php echo htmlspecialchars($declaracion_data['ti_anio_reporte']); ?></span>
                         </div>
                         <div class="field half-width">
                             <span class="field-label">NÚMERO DE CUENTA:</span>
