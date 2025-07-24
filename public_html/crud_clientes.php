@@ -4,6 +4,8 @@ session_start();
 error_reporting(0);
 $varsesion =$_SESSION['usuario'];
 $variable_ses = $varsesion;
+$user_oficina =$_SESSION['oficina_U'];
+
 if ($varsesion==null || $varsesion=='') {
     header("location:index.php");
     die;
@@ -318,6 +320,13 @@ if ($varsesion==null || $varsesion=='') {
                 <label class="fs-label" for="email">Email</label>
                 <input class="fs-input"  name="email" id="email" />
             </div>
+
+            <div class="fs-field">
+                <label class="fs-label" for="c_oficina">Oficina</label>
+                <input class="fs-input"  name="c_oficina" id="c_oficina" value=" <?php echo $user_oficina;?> " readonly/>
+
+            </div>
+
             
 
             <div class="fs-button-group">

@@ -3,8 +3,11 @@
 session_start(); // <--- MUY IMPORTANTE QUE ESTÉ AL PRINCIPIO
 error_reporting(0);
 $varsesion =$_SESSION['usuario'];
+$user_oficina =$_SESSION['oficina_U'];
 $variable_ses = $varsesion;
+$variable_ses_ofi = $varsesion_oficina;
 $user_rol = $_SESSION['rol'] ?? ''; // <-- Aquí se obtiene el rol
+
 
 // *** DEPURACIÓN EN MENU.PHP: Muestra el rol aquí ***
 //echo "DEBUG MENU - Rol de la sesión: '" . $user_rol . "'<br>";
@@ -42,8 +45,9 @@ if ($varsesion==null || $varsesion=='') {
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle user-name" href="#" id="navbarDropdownUser" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <?php echo $variable_ses;?>
+                                <?php echo "Usuario: ".$variable_ses;?> <br><?php echo "Oficina: ". $user_oficina;?> 
                             </a>
+                           
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownUser">
                                 <li><a class="dropdown-item" href="cerrar_sesion.php">Cerrar Sesión</a></li>
                             </ul>
