@@ -3,6 +3,8 @@
 session_start();
 error_reporting(0);
 $varsesion = $_SESSION['usuario'];
+$user_oficina =$_SESSION['oficina_U'];
+
 if ($varsesion == null || $varsesion == '') {
     header("location:index.php");
     die;
@@ -13,12 +15,18 @@ include("modales.php");
 
 // Búsqueda
 $busqueda = "";
+// Definimos la condición base para filtrar por oficina
+$condicion_oficina = "c_oficina_registro = '" . mysqli_real_escape_string($conexion, $user_oficina) . "'";
+
 if (isset($_GET['buscar'])) {
     $busqueda = mysqli_real_escape_string($conexion, $_GET['buscar']);
-    $consulta = "SELECT * FROM cliente WHERE c_nombre LIKE '%$busqueda%' OR c_apellido LIKE '%$busqueda%' OR c_identificacion LIKE '%$busqueda%' OR c_telefono LIKE '%$busqueda%'";
+    // Si hay búsqueda, combinamos la búsqueda con el filtro de oficina
+    $consulta = "SELECT * FROM cliente WHERE ($condicion_oficina) AND (c_nombre LIKE '%$busqueda%' OR c_apellido LIKE '%$busqueda%' OR c_identificacion LIKE '%$busqueda%' OR c_telefono LIKE '%$busqueda%')";
 } else {
-    $consulta = "SELECT * FROM cliente";
+    // Si no hay búsqueda, solo filtramos por oficina
+    $consulta = "SELECT * FROM cliente WHERE $condicion_oficina";
 }
+
 $resultado = mysqli_query($conexion, $consulta);
 ?>
 
@@ -179,9 +187,11 @@ $resultado = mysqli_query($conexion, $consulta);
                     <th>Nombres</th>
                     <th>Apellidos</th>
                     <th>Teléfono</th>
+                    <th>Oficina</th>
                     <th>Deuda Total</th>
                     <th>Abonado</th>
                     <th>Saldo Pendiente</th>
+                   
                     <th>Acciones</th>
                     <th>Trámites</th>                    
                     <th>Registrado por:</th>
@@ -194,9 +204,11 @@ $resultado = mysqli_query($conexion, $consulta);
                         <td><?= htmlspecialchars($row['c_nombre']) ?></td>
                         <td><?= htmlspecialchars($row['c_apellido']) ?></td>
                         <td><?= htmlspecialchars($row['c_telefono']) ?></td>
+                        <td><?= htmlspecialchars($row['c_oficina_registro']) ?></td>         
                         <td><?= htmlspecialchars($row['c_deuda']) ?></td>
                         <td><?= htmlspecialchars($row['c_abonado']) ?></td>
-                        <td><?= htmlspecialchars($row['c_saldo']) ?></td>                   
+                        <td><?= htmlspecialchars($row['c_saldo']) ?></td>                
+                               
                         <td>
                             <div class="btn-group">
                                 <button class="btn btn-secondary btn-sm dropdown-toggle" data-bs-toggle="dropdown">Acciones</button>
