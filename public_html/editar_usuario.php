@@ -50,7 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // ¡¡RECOMENDADO!!: Hashear la contraseña antes de almacenarla.
        // $hashed_password = password_hash($contrasena, PASSWORD_DEFAULT); // Always hash passwords!
 
-        $stmt = $conexion->prepare("UPDATE usuario SET u_nombre = ?, u_apellido = ?, u_usuario = ?, u_rol = ?, u_estado = ?, u_oficina = ?, u_contrasena = ? WHERE id_usuario = ?");
+        $stmt = $conexion->prepare("UPDATE usuario SET u_nombre = ?, u_apellido = ?, u_usuario = ?, u_rol = ?, u_estado = ?, u_oficina = ?  , u_contrasena = ? WHERE id_usuario = ?");
         // 'ssssssi' assuming u_nombre, u_apellido, u_usuario, u_rol, u_estado, u_contrasena are strings and id_usuario is integer
         // Adjust 's' or 'i' for u_rol and u_estado based on their actual data types in your DB
         $stmt->bind_param("sssssssi", $nombre, $apellido, $usuario, $rol, $estado, $ofi, $contrasena, $id);
@@ -460,8 +460,9 @@ $conexion->close();
                         <label for="u_oficina" class="form-label">Oficina:</label>
                         <select  class="form-select" id="u_oficina" name="u_oficina" >
                             <option value="Brooklyn">Brooklyn</option>
-                            <option value="Miami">Miami</option>
+                            <option value="Spring Valley">Spring Valley</option>
                             <option value="New Jersey">New Jersey</option>
+                            <option value="Ossining">Ossining</option>
                         </select>
                     </div>
                     <div class="form-field">
