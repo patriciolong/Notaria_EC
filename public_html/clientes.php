@@ -4,6 +4,7 @@ session_start();
 error_reporting(0);
 $varsesion = $_SESSION['usuario'];
 $user_oficina =$_SESSION['oficina_U'];
+$user_rol = $_SESSION['rol'] ?? '';
 
 if ($varsesion == null || $varsesion == '') {
     header("location:index.php");
@@ -15,20 +16,25 @@ include("modales.php");
 
 // Búsqueda
 $busqueda = "";
-// Definimos la condición base para filtrar por oficina
-$condicion_oficina = "c_oficina_registro = '" . mysqli_real_escape_string($conexion, $user_oficina) . "'";
+if ($user_rol === 'Administrador') {
+    $condicion_oficina = "1"; // Sin filtro, muestra todos
+} else {
+    $condicion_oficina = "c_oficina_registro = '" . mysqli_real_escape_string($conexion, $user_oficina) . "'";
+}
 
 if (isset($_GET['buscar'])) {
     $busqueda = mysqli_real_escape_string($conexion, $_GET['buscar']);
     // Si hay búsqueda, combinamos la búsqueda con el filtro de oficina
     $consulta = "SELECT * FROM cliente WHERE ($condicion_oficina) AND (c_nombre LIKE '%$busqueda%' OR c_apellido LIKE '%$busqueda%' OR c_identificacion LIKE '%$busqueda%' OR c_telefono LIKE '%$busqueda%')";
 } else {
-    // Si no hay búsqueda, solo filtramos por oficina
+    // Si no hay búsqueda, solo filtramos por oficina (o todos si es admin)
     $consulta = "SELECT * FROM cliente WHERE $condicion_oficina";
 }
 
 $resultado = mysqli_query($conexion, $consulta);
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="es">
