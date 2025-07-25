@@ -321,6 +321,14 @@ if ($user_rol != 'Administrador') {
                             <option value="Inactivo">Inactivo</option>
                         </select>
                     </div>
+                    <div class="form-field">
+                        <label class="form-label" for="ofi">Oficina</label>
+                        <select class="form-select" id="ofi" name="ofi" required> 
+                            <option value="Brooklyn">Brooklyn</option>
+                            <option value="Miami">Miami</option>
+                            <option value="New_Jersey">New Jersey</option>
+                        </select>
+                    </div>
                 </div>
             </fieldset>
 

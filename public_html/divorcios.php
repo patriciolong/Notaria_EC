@@ -3,6 +3,7 @@
 session_start();
 error_reporting(0); // Desactivar la visualización de errores en producción
 $varsesion = $_SESSION['usuario'];
+$user_oficina = $_SESSION['oficina_U']; // <-- Agrega esta línea
 $variable_ses = $varsesion;
 
 // Redirigir si la sesión no está activa
@@ -282,26 +283,27 @@ if ($varsesion == null || $varsesion == '') {
 <body>
 
 <nav class="custom-navbar navbar navbar-expand-lg">
-    <div class="container px-lg-5">
-        <a class="navbar-brand" href="menu.php">
-            <img src="img/logo.png" alt="logo"> </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle user-name" href="#" id="navbarDropdownUser" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <?php echo $variable_ses;?>
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownUser">
-                        <li><a class="dropdown-item" href="cerrar_sesion.php">Cerrar Sesión</a></li>
+            <div class="container px-lg-5">
+                <a class="navbar-brand" href="menu.php">
+                    <img src="img\logo.png" alt="logo"> </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle user-name" href="#" id="navbarDropdownUser" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <?php echo "Usuario: ".$variable_ses;?> <br><?php echo "Oficina: ". $user_oficina;?> 
+</a>
+                           
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownUser">
+                                <li><a class="dropdown-item" href="cerrar_sesion.php">Cerrar Sesión</a></li>
+                            </ul>
+                        </li>
                     </ul>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
+                </div>
+            </div>
+        </nav>
 
 <div class="container mt-4">
     <p class="display-4 fw-bold text-center" style="color: #004080;">Divorcios</p>
@@ -382,8 +384,9 @@ if ($varsesion == null || $varsesion == '') {
                     </div>
                     
                     <div class="form-field">
-                        <label class="form-label" for="oficina">Oficina</label>
-                        <input class="form-input" name="oficina" id="oficina"/>
+                        <label class="form-label" for="Oficina">Oficina</label>
+                        <input class="form-input" name="Oficina" id="Oficina" 
+                            value="<?php echo htmlspecialchars($_SESSION['oficina_U']); ?>" readonly />
                     </div>
                     <div class="fs-field">
                         <label class="fs-label" for="fecha">Fecha</label>
@@ -572,7 +575,7 @@ if ($varsesion == null || $varsesion == '') {
                     body: formData
                 })
                 .then(res => res.json())
-                .then(data => {
+                .then data => {
                     console.log('Respuesta del servidor:', data);
                     if (data.status == "success") {
                         Swal.fire({

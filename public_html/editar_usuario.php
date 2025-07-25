@@ -1,6 +1,6 @@
 <?php
 session_start();
-error_reporting(0);
+error_reporting(1);
 $varsesion = $_SESSION['usuario'];
 $user_rol = $_SESSION['rol'] ?? '';
 
@@ -33,6 +33,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $rol = $_POST['u_rol'];
     $estado = $_POST['u_estado'];
     $contrasena = $_POST['u_contrasena']; // Get password, will need to hash if not already
+    $ofi = $_POST['u_oficina'];
+
 
     if ($id === null) {
         // Esto no debería pasar si el input hidden está siempre ahí, pero es una buena práctica de seguridad
@@ -48,17 +50,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // ¡¡RECOMENDADO!!: Hashear la contraseña antes de almacenarla.
        // $hashed_password = password_hash($contrasena, PASSWORD_DEFAULT); // Always hash passwords!
 
-        $stmt = $conexion->prepare("UPDATE usuario SET u_nombre = ?, u_apellido = ?, u_usuario = ?, u_rol = ?, u_estado = ?, u_contrasena = ? WHERE id_usuario = ?");
+        $stmt = $conexion->prepare("UPDATE usuario SET u_nombre = ?, u_apellido = ?, u_usuario = ?, u_rol = ?, u_estado = ?, u_oficina = ?, u_contrasena = ? WHERE id_usuario = ?");
         // 'ssssssi' assuming u_nombre, u_apellido, u_usuario, u_rol, u_estado, u_contrasena are strings and id_usuario is integer
         // Adjust 's' or 'i' for u_rol and u_estado based on their actual data types in your DB
-        $stmt->bind_param("ssssssi", $nombre, $apellido, $usuario, $rol, $estado, $contrasena, $id);
+        $stmt->bind_param("sssssssi", $nombre, $apellido, $usuario, $rol, $estado, $ofi, $contrasena, $id);
 
     } else {
         // Si la contraseña está vacía, no se actualiza la contraseña
-        $stmt = $conexion->prepare("UPDATE usuario SET u_nombre = ?, u_apellido = ?, u_usuario = ?, u_rol = ?, u_estado = ? WHERE id_usuario = ?");
+        $stmt = $conexion->prepare("UPDATE usuario SET u_nombre = ?, u_apellido = ?, u_usuario = ?, u_rol = ?, u_estado = ?, u_oficina = ? WHERE id_usuario = ?");
         // 'sssssi' assuming u_nombre, u_apellido, u_usuario, u_rol, u_estado are strings and id_usuario is integer
         // Adjust 's' or 'i' for u_rol and u_estado based on their actual data types in your DB
-        $stmt->bind_param("sssssi", $nombre, $apellido, $usuario, $rol, $estado, $id);
+        $stmt->bind_param("ssssssi", $nombre, $apellido, $usuario, $rol, $estado, $ofi, $id);
     }
 
     if ($stmt && $stmt->execute()) { // Check if $stmt is not null before executing
@@ -76,7 +78,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($user_id) {
         // Fetch user data
-        $stmt = $conexion->prepare("SELECT id_usuario, u_nombre, u_apellido, u_usuario, u_contrasena, u_rol, u_estado FROM usuario WHERE id_usuario = ?");
+        $stmt = $conexion->prepare("SELECT id_usuario, u_nombre, u_apellido, u_usuario, u_contrasena, u_rol, u_estado, u_oficina FROM usuario WHERE id_usuario = ?");
         $stmt->bind_param("i", $user_id);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -455,9 +457,18 @@ $conexion->close();
                         </select>
                     </div>
                     <div class="form-field">
+                        <label for="u_oficina" class="form-label">Oficina:</label>
+                        <select  class="form-select" id="u_oficina" name="u_oficina" >
+                            <option value="Brooklyn">Brooklyn</option>
+                            <option value="Miami">Miami</option>
+                            <option value="New Jersey">New Jersey</option>
+                        </select>
+                    </div>
+                    <div class="form-field">
                         <label for="u_contrasena" class="form-label">Contraseña (dejar en blanco para mantener la actual):</label>
                         <input type="password" class="form-input" id="u_contrasena" name="u_contrasena" placeholder="********">
                     </div>
+                    
                 </div>
             </fieldset>
 
