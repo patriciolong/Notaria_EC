@@ -325,8 +325,9 @@ if ($user_rol != 'Administrador') {
                         <label class="form-label" for="ofi">Oficina</label>
                         <select class="form-select" id="ofi" name="ofi" required> 
                             <option value="Brooklyn">Brooklyn</option>
-                            <option value="Miami">Miami</option>
-                            <option value="New_Jersey">New Jersey</option>
+                            <option value="Spring Valley">Spring Valley</option>
+                            <option value="New Jersey">New Jersey</option>
+                            <option value="Ossining">Ossining</option>
                         </select>
                     </div>
                 </div>
