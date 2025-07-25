@@ -15,14 +15,19 @@ $stmt->close();
 
 
 
-
+    
 
 if (isset($_POST['buscar'])) {
     $buscador = $_POST['buscador'];
+    $user_oficina = $_SESSION['oficina_U']; // Oficina del usuario actual
     $sql = "SELECT * FROM cliente WHERE 
-        c_nombre LIKE '%$buscador%' 
-        OR c_identificacion LIKE '%$buscador%' 
-        OR c_telefono LIKE '%$buscador%'";
+        c_oficina_registro = '" . mysqli_real_escape_string($conexion, $user_oficina) . "' AND
+        (
+            c_nombre LIKE '%$buscador%' 
+            OR c_apellido LIKE '%$buscador%' 
+            OR c_identificacion LIKE '%$buscador%' 
+            OR c_telefono LIKE '%$buscador%'
+        )";
     $resultado = mysqli_query($conexion, $sql);
     $valores = [];
     if ($consulta = mysqli_fetch_array($resultado)) {
