@@ -11,7 +11,8 @@ $sql = "SELECT
             usuario.u_nombre,
             usuario.u_apellido,
             usuario.u_rol,
-            usuario.u_estado
+            usuario.u_estado,
+            usuario.u_oficina
         FROM usuario";
 
 $result = $conexion->query($sql);

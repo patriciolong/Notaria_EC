@@ -459,10 +459,10 @@ $conexion->close();
                     <div class="form-field">
                         <label for="u_oficina" class="form-label">Oficina:</label>
                         <select  class="form-select" id="u_oficina" name="u_oficina" >
-                            <option value="Brooklyn">Brooklyn</option>
-                            <option value="Spring Valley">Spring Valley</option>
-                            <option value="New Jersey">New Jersey</option>
-                            <option value="Ossining">Ossining</option>
+                            <option value="Brooklyn" <?php if($user['u_oficina'] == 'Brooklyn') echo 'selected'; ?>>Brooklyn</option>  
+                            <option value="Spring Valley" <?php if($user['u_oficina'] == 'Spring Valley') echo 'selected'; ?>>Spring Valley</option>
+                            <option value="New Jersey" <?php if($user['u_oficina'] == 'New Jersey') echo 'selected'; ?>>New Jersey</option>
+                            <option value="Ossining" <?php if($user['u_oficina'] == 'Ossining') echo 'selected'; ?>>Ossining</option>
                         </select>
                     </div>
                     <div class="form-field">

@@ -323,7 +323,7 @@ if ($varsesion==null || $varsesion=='') {
 
             <div class="fs-field">
                 <label class="fs-label" for="c_oficina">Oficina</label>
-                <input class="fs-input"  name="c_oficina" id="c_oficina" value=" <?php echo $user_oficina;?> " readonly/>
+                <input class="fs-input"  name="c_oficina" id="c_oficina" value="<?php echo $user_oficina;?>" readonly/>
 
             </div>
 

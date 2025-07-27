@@ -239,6 +239,7 @@ if ($user_rol != 'Administrador') {
             <th>Nombre</th>
             <th>Apellido</th>
             <th>Rol</th>
+            <th>Oficina</th>
             <th>Estado</th>
             <th>Acciones</th> </tr>
     </thead>
@@ -303,6 +304,7 @@ function mostrarDatos() {
                 <td>${row.u_nombre}</td>
                 <td>${row.u_apellido}</td>
                 <td>${row.u_rol}</td>
+                <td>${row.u_oficina}</td>
                 <td>${row.u_estado}</td>
                 <td><a href="editar_usuario.php?id=${row.id_usuario}" class="btn btn-primary btn-sm">Editar</a></td>
             `;
