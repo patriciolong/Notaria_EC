@@ -16,7 +16,7 @@ include("modales.php");
 
 // Búsqueda
 $busqueda = "";
-if ($user_rol === 'Administrador') {
+if ($user_rol === 'Administrador' || $user_rol === 'Supervisor' ) {
     $condicion_oficina = "1"; // Sin filtro, muestra todos
 } else {
     $condicion_oficina = "c_oficina_registro = '" . mysqli_real_escape_string($conexion, $user_oficina) . "'";

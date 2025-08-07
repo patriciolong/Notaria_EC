@@ -19,11 +19,13 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
     $query = "SELECT
                 tv.id_tramite_varios,
                 tv.tv_motivo,
+                tv.tv_razon_t,
                 tv.tv_oenvio,
                 tv.tv_nrecibo,
                 tv.tv_nom_envio,
                 tv.tv_oficina,
                 tv.tv_fecha,
+                tv.tv_firmar_en,
                 tv.tv_ciudad AS tv_ciudad_envio,
                 tv.tv_provincia AS tv_provincia_envio,
                 tv.tv_telefono AS tv_telefono_envio,
@@ -256,6 +258,8 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                     <div class="header-right">
                     <p>Fecha: <?php echo htmlspecialchars(($tramite_data['tv_fecha'] ?? '')); ?></p>
                         <p>Oficina: <?php echo htmlspecialchars(($tramite_data['tv_oficina'] ?? '')); ?></p>
+                        <p>Firmar en: <?php echo htmlspecialchars(($tramite_data['tv_firmar_en'] ?? '')); ?></p>
+                        <p>Atendido por: <?php echo htmlspecialchars($tramite_data['nombre_usuario']); ?></p>
                     </div>
                 </div>
 
@@ -296,6 +300,8 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                 <div class="field-row">
                     <span class="field-label">Motivo del Trámite:</span>
                     <span class="field-value"><?php echo htmlspecialchars($tramite_data['tv_motivo']); ?></span>
+                    <span class="field-label">Razon del Trámite:</span>
+                    <span class="field-value"><?php echo htmlspecialchars($tramite_data['tv_razon_t']); ?></span>
                 </div>
                 <div class="field-row">
                     <span class="field-label">Tipo de Documento:</span>
@@ -356,10 +362,7 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                 </div>
                
 
-                <div class="footer-info">
-                    <p>Atendido por: <?php echo htmlspecialchars($tramite_data['nombre_usuario']); ?></p>
-                    <p>Fecha y Hora de Generación: <?php echo date('d/m/Y H:i:s'); ?></p>
-                </div>
+
 
                 <div class="signature-section">
                     <div class="signature-block">

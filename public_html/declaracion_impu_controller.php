@@ -79,6 +79,7 @@ if (!empty($_POST["btn_registro_imp"])) {
         $abono = $_POST["atramite"];
         $valor = $_POST["vtramite"];
         $oficina = $_POST["oficina"];
+        $ofifirmar = $_POST["ofifirmar"];
 
         $sqlabono = "SELECT c_abonado FROM cliente WHERE id_cliente = ?";
         $stmt = $conexion->prepare($sqlabono);
@@ -115,8 +116,16 @@ if (!empty($_POST["btn_registro_imp"])) {
             echo json_encode(["status" => "error", "message" => "El abono no puede ser mayor al valor del trámite"]);
             exit; // para cortar ejecución
         }else{
-            $sql = $conexion->query("INSERT INTO tramite_impuestos (id_tram_impuestos,id_cliente,ti_fecha,ti_itin,ti_fechain,ti_nitin,ti_ecivil,ti_dependientes,ti_mpago,ti_banco,ti_ncuenta,ti_nruta,ti_observacion,id_usuario,ti_profesion,ti_anio_reporte,ti_oficina,ti_costo_tramite,ti_abono_tramite,ti_saldo) 
-            VALUES ('','$id_cliente','$fechaim','$check1','$fechaeeuu','$numitin','$estcivil','$dependentes','$metpago','$banco','$ncuenta','$nruta','$notas','$user_id','$profesion','$anio_reporte','$oficina','$valor','$abono','$saldo')");
+            $sql = $conexion->query("INSERT INTO tramite_impuestos 
+            (id_tram_impuestos,id_cliente,ti_fecha,ti_itin,
+            ti_fechain,ti_nitin,ti_ecivil,ti_dependientes,ti_mpago,
+            ti_banco,ti_ncuenta,ti_nruta,ti_observacion,id_usuario,
+            ti_profesion,ti_anio_reporte,ti_oficina,ti_costo_tramite,
+            ti_abono_tramite,ti_saldo,ti_firmar_en) 
+            VALUES ('','$id_cliente','$fechaim','$check1','$fechaeeuu',
+            '$numitin','$estcivil','$dependentes','$metpago','$banco',
+            '$ncuenta','$nruta','$notas','$user_id','$profesion','$anio_reporte',
+            '$oficina','$valor','$abono','$saldo','$ofifirmar')");
              // $sql3 = $conexion->query("UPDATE cliente SET c_abonado='$abonot', c_deuda='$deudt', c_saldo='$sald' WHERE id_cliente='$id_cliente'");
              //and $sql3 == 1
              if ($sql) {

@@ -21,14 +21,21 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
     tp.tp_oficina,
     tp.tp_fecha,
     tp.tp_estado_civil,
+    tp.tp_firmar_en,
     tp.tp_nombres_otorga_poder,
     tp.tp_cedulla_otorga_poder,
+    tp.tp_nombres_otorga_poder2,
+    tp.tp_cedulla_otorga_poder2,
     tp.tp_razon_otorga_poder,
     tp.tp_opcion_envio_poder,
     tp.tp_observaciones,
     tp.tp_costo_tramite,
     tp.tp_abono_tramite,
     tp.tp_saldo,
+    tp.tp_nombre2,
+    tp.tp_apellido2,
+    tp.tp_identificacion2,
+    tp.tp_telefono2,
     c.c_deuda,
     c.c_abonado,
     c.c_saldo,
@@ -45,9 +52,11 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
     c.c_ciudad,
     c.c_codpostal,
     c.c_email,
-    c.c_napartamento
+    c.c_napartamento,
+    u.u_usuario AS nombre_usuario
   FROM tramite_poderes tp
   JOIN cliente c ON tp.id_cliente = c.id_cliente
+  JOIN usuario u ON tp.id_usuario = u.id_usuario
   WHERE tp.id_tram_poderes = ?";
 
     $stmt = $conexion->prepare($query);
@@ -280,10 +289,22 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                         <img src="img/logo_impre.png" alt="Logo de la Notaría" class="header-logo">
                     </div>
                     <div class="header-right">
+                    <div class="field-row" style="margin-bottom: 0;">
+                            <div class="field" style="justify-content: flex-end; width: 100%; margin-bottom: 0;">
+                                <span class="field-label">Atendido por:</span>
+                                <span class="field-value" style="border-bottom: none;"><?php echo htmlspecialchars($poder_data['nombre_usuario']); ?></span>
+                            </div>
+                        </div>
                         <div class="field-row" style="margin-bottom: 0;">
                             <div class="field" style="justify-content: flex-end; width: 100%; margin-bottom: 0;">
                                 <span class="field-label">Oficina:</span>
                                 <span class="field-value" style="border-bottom: none;"><?php echo htmlspecialchars($poder_data['tp_oficina']); ?></span>
+                            </div>
+                        </div>
+                        <div class="field-row" style="margin-bottom: 0;">
+                            <div class="field" style="justify-content: flex-end; width: 100%; margin-bottom: 0;">
+                                <span class="field-label">Firmar en:</span>
+                                <span class="field-value" style="border-bottom: none;"><?php echo htmlspecialchars($poder_data['tp_firmar_en']); ?></span>
                             </div>
                         </div>
                         <div class="field-row" style="margin-bottom: 0;">
@@ -383,6 +404,45 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                         <span class="field-value"><?php echo htmlspecialchars($poder_data['c_email']); ?></span>
                     </div>
                 </div>
+                <div class="field-label">PERSONA QUE OTORGA EL PODER (2da Persona):</div>
+
+                <div class="field-row">
+                    <div class="field full-width">
+                        <span class="field-label">NOMBRES Y APELLIDOS:</span>
+                        <span class="field-value"><?php echo htmlspecialchars($poder_data['tp_nombre2'] . ' ' . $poder_data['tp_apellido2']); ?></span>
+                    </div>
+                </div>
+                <div class="field-row">
+                    <div class="field half-width">
+                        <span class="field-label">NÚMERO DE IDENTIFICACIÓN:</span>
+                        <span class="field-value"><?php echo htmlspecialchars($poder_data['tp_identificacion2']); ?></span>
+                    </div>
+                    
+                </div>
+                <div class="field-row">
+                    <div class="field half-width">
+                        <span class="field-label">TELÉFONO:</span>
+                        <span class="field-value"><?php echo htmlspecialchars($poder_data['tp_telefono2']); ?></span>
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                 <div class="section-title">2. PERSONA A FAVOR DE QUIEN OTORGA EL PODER:</div>
                 <div class="field-row">
@@ -393,10 +453,24 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                 </div>
                 <div class="field-row">
                     <div class="field full-width">
-                        <span class="field-label">NO. DE CÉDULA (SI LO SABE):</span>
+                        <span class="field-label">NO. DE CÉDULA:</span>
                         <span class="field-value"><?php echo htmlspecialchars($poder_data['tp_cedulla_otorga_poder']); ?></span>
                     </div>
                 </div>
+                <div class="field-label">PERSONA A FAVOR DE QUIEN OTORGA EL PODER:(2da Persona)</div>
+                <div class="field-row">
+                    <div class="field full-width">
+                        <span class="field-label">NOMBRE Y APELLIDOS COMPLETOS:</span>
+                        <span class="field-value"><?php echo htmlspecialchars($poder_data['tp_nombres_otorga_poder2']); ?></span>
+                    </div>
+                </div>
+                <div class="field-row">
+                    <div class="field full-width">
+                        <span class="field-label">NO. DE CÉDULA:</span>
+                        <span class="field-value"><?php echo htmlspecialchars($poder_data['tp_cedulla_otorga_poder2']); ?></span>
+                    </div>
+                </div>
+               
 
                 <div class="section-title">3. RAZÓN DEL PODER:</div>
                 <div class="field-row">
@@ -412,9 +486,7 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                     </div>
                 </div>
 
-                <div class="disclaimer">
-                    <p>NOTARÍA ECUADOR INC. ESTE DOCUMENTO SERÁ LEGALIZADO A TRAVÉS DE LA APOSTILLA.</p>
-                </div>
+            
 
                 <div class="section-title" style="margin-top: 20px;">DETALLES DE PAGO Y ENVÍO:</div>
                 <div class="field-row">

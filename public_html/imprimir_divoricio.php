@@ -50,6 +50,7 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                 td.td_telefono_c,
                 td.td_estado_c,
                 td.td_ciudad_c,
+                td.td_firmar_en,
                 td.td_apt_c,
                 td.td_cpostal_c,
                 td.td_lugar_matrimonio,

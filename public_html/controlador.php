@@ -8,7 +8,7 @@ if (!empty($_POST["btningresar"])) {
         $clave = $_POST["password"];
         session_start();
         $_SESSION['usuario'] = $usuario;
-        date_default_timezone_set('America/Bogota');
+        date_default_timezone_set('America/New_York');
         $fechaHora = date('Y-m-d H:i:s');
 
         // Prepare and execute the query to get user_id, u_estado and u_rol
