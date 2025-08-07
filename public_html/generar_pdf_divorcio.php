@@ -20,6 +20,7 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                 td.id_tram_div,
                 td.td_controvertido,
                 td.td_consensual,
+                td.td_firmar_en,
                 td.td_notarial,
                 td.td_identificacion_c,
                 td.td_nombre_c,
@@ -313,6 +314,13 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                                 <span class="field-value" style="border-bottom: none;"><?php echo htmlspecialchars($divorcio_data['td_oficina']); ?></span>
                             </div>
                         </div>
+                        <div class="field-row" style="margin-bottom: 0;">
+                            <div class="field" style="justify-content: flex-end; width: 100%; margin-bottom: 0;">
+                                <span class="field-label">Firmar en:</span>
+                                <span class="field-value" style="border-bottom: none;"><?php echo htmlspecialchars($divorcio_data['td_firmar_en']); ?></span>
+                            </div>
+                        </div>
+                        
                         <div class="field-row" style="margin-bottom: 0;">
                             <div class="field" style="justify-content: flex-end; width: 100%; margin-bottom: 0;">
                                 <span class="field-label">Fecha:</span>

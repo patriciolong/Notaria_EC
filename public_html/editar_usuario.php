@@ -447,6 +447,7 @@ $conexion->close();
                             <option value="<?php echo htmlspecialchars($user['u_rol']); ?>"><?php echo htmlspecialchars($user['u_rol']); ?></option>
                             <option value="Empleado">Empleado</option>
                             <option value="Administrador">Administrador</option>
+                            <option value="Supervisor">Supervisor</option>
                         </select>
                     </div>
                     <div class="form-field">

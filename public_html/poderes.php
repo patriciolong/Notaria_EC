@@ -405,6 +405,8 @@ if ($varsesion == null || $varsesion = '') {
                             <option>Casado(a)</option>
                             <option>Divorciado(a)</option>
                             <option>Viudo(a)</option>
+                            <option>Union de Hecho</option>
+                            <option>Casado con disolución conyugal</option>
                         </select>
                     </div>
                     <div class="form-field">
@@ -416,19 +418,60 @@ if ($varsesion == null || $varsesion = '') {
                         <input class="form-input" name="Oficina" id="Oficina" 
                             value="<?php echo htmlspecialchars($_SESSION['oficina_U']); ?>" readonly />
                     </div>
+                    <div class="form-field">
+                        <label class="form-label" for="ofi">Firmar en:</label>
+                        <select class="form-select" id="ofifirmar" name="ofifirmar" required> 
+                            <option value="Brooklyn">Brooklyn</option>
+                            <option value="Spring Valley">Spring Valley</option>
+                            <option value="New Jersey">New Jersey</option>
+                            <option value="Ossining">Ossining</option>
+                        </select>
+                    </div>
                 </div>
+                <legend class="section-title">Persona que otorga el poder (2da Persona)</legend>
+                <div class="form-grid">
+               
+                    <div class="form-field">
+                        <label class="form-label" for="identificacion2">Identificacion</label>
+                        <input class="form-input" id="identificacion2" name="identificacion2" placeholder="identificacion" />
+                    </div>
+                    <div class="form-field">
+                        <label class="form-label" for="nombre2">Nombres</label>
+                        <input class="form-input" id="nombre2" name="nombre2" />
+                    </div>
+                    <div class="form-field">
+                        <label class="form-label" for="apellido2">Apellidos</label>
+                        <input class="form-input" id="apellido2" name="apellido2" />
+                    </div>
+                    <div class="form-field">
+                        <label class="form-label" for="telefono2">Telefono</label>
+                        <input class="form-input" name="telefono2" id="telefono2" />
+                    </div>
+                </div>
+                
             </fieldset>
 
             <fieldset class="form-section">
-                <legend class="section-title">2. Persona a Favor de quien se otorga el poder</legend>
+                <legend class="section-title">2. Persona a favor de quien se otorga el poder</legend>
                 <div class="form-grid">
                     <div class="form-field">
-                        <label class="form-label" for="nombres_otorga">Nombres y Apellidos Completos</label>
+                        <label class="form-label" for="nombres_otorga">Nombres y Apellidos</label>
                         <input class="form-input" name="nombres_otorga" id="nombres_otorga" />
                     </div>
                     <div class="form-field">
-                        <label class="form-label" for="cedula_otorga">Numero de Cedula (Si la sabe)</label>
+                        <label class="form-label" for="cedula_otorga">Numero de Cedula</label>
                         <input class="form-input"  name="cedula_otorga" id="cedula_otorga" />
+                    </div>
+                </div>
+                <legend class="section-title">Persona a favor de quien se otorga el poder (Segunda Persona)</legend>
+                <div class="form-grid">
+                    <div class="form-field">
+                        <label class="form-label" for="nombres_otorga">Nombres y Apellidos</label>
+                        <input class="form-input" name="nombres_otorga2" id="nombres_otorga2" />
+                    </div>
+                    <div class="form-field">
+                        <label class="form-label" for="cedula_otorga">Numero de Cedula</label>
+                        <input class="form-input"  name="cedula_otorga2" id="cedula_otorga2" />
                     </div>
                 </div>
             </fieldset>
@@ -437,13 +480,7 @@ if ($varsesion == null || $varsesion = '') {
                 <legend class="section-title">3. Razon del poder</legend>
                 <div class="form-grid">
                     <div class="form-field">
-                        <label class="form-label" for="razon_poder"></label>
-                        <select class="form-select" name="razon_poder" id="razon_poder">
-                            <option>Elegir</option>
-                            <option>Especial ($160)</option>
-                            <option>General ($170)</option>
-                            <option>Minuta ($160/$90 c/u)</option>  
-                        </select>
+                    <input class="form-input"  name="razon_poder" id="razon_poder" />
                     </div>
                 </div>
             </fieldset>
@@ -455,10 +492,9 @@ if ($varsesion == null || $varsesion = '') {
                         <label class="form-label" for="opcion_envio_poder">Metodo de envio</label>
                         <select class="form-select" name="opcion_envio_poder" id="opcion_envio_poder">
                             <option>Elegir</option>
-                            <option>Scan a un email o Whatsapp ($10)</option>
-                            <option>A su domicilio en EE.UU. ($20)</option>
-                            <option>Venirlo a retirar personalmente en la oficina:</option>  
-                            <option>Original al Ecuador Via Expres 3 dias laborables ($45)</option>  
+                            <option>Original al Ecuador</option>
+                            <option>Scan-Mail-Whatsapp</option>
+                            <option>Envio a domicilio USA</option>  
                         </select>
                     </div>
                     <div class="form-field">

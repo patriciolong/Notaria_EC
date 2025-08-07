@@ -312,6 +312,7 @@ if ($user_rol != 'Administrador') {
                         <select class="form-select" id="rol" name="rol" required> 
                             <option value="Empleado">Empleado</option>
                             <option value="Administrador">Administrador</option>
+                            <option value="Supervisor">Supervisor</option>
                         </select>
                     </div>
                     <div class="form-field">

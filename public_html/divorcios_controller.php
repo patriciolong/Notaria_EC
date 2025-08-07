@@ -92,6 +92,7 @@ if (!empty($_POST["btn_registro_divorcio"])) {
     $fecha_matrimonio = $_POST["fecha_matrimonio"];
     $motivo = $_POST["motivo"];
     $con_quien_vive = $_POST["con_quien_vive"];
+    $ofifirmar = $_POST["ofifirmar"];
 
     $esta_separado = ($_POST["esta_separado"] == "1") ? 1 : 0; // tinyint(1)
     $tiempo_separacion = $_POST["tiempo_separacion"];
@@ -101,7 +102,7 @@ if (!empty($_POST["btn_registro_divorcio"])) {
     $contacto_ecuador = $_POST["contacto_ecuador"];
     $telefono_contacto_ecuador = $_POST["telefono_contacto_ecuador"];
     $observaciones = $_POST["observaciones"];
-    $oficina = $_POST["oficina"];
+    $oficina = $_POST["Oficina"];
     $fecha = $_POST["fecha"];
     $honorarios = floatval($_POST["honorarios"]);
     $abono = floatval($_POST["abono"]);
@@ -155,9 +156,9 @@ if (!empty($_POST["btn_registro_divorcio"])) {
         td_direccion_c, td_telefono_c, td_estado_c, td_ciudad_c, td_apt_c, td_cpostal_c, 
         td_lugar_matrimonio, td_fecha_matrimonio, td_separados, td_noseparados, td_tiempo_separacion, td_hijos,
         td_ep_matrimonio, td_ep_nacimiento, td_estado_contac_ecuador, td_tel_ecuador, td_observaciones, 
-        td_valor, td_abono, td_saldo, id_usuario, td_oficina, td_fecha, td_motivo_divorcio, td_con_quien_vive
+        td_valor, td_abono, td_saldo, id_usuario, td_oficina, td_fecha, td_motivo_divorcio, td_con_quien_vive,td_firmar_en
     ) VALUES (
-        ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?
+        ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?,?
     )";
 
     $stmt_insert = $conexion->prepare($sql_insert_divorcio);
@@ -167,12 +168,12 @@ if (!empty($_POST["btn_registro_divorcio"])) {
         // La cadena de tipos corregida es: i i i s s s s s s s s s s i i s i i s s s d d d i
         // Contemos: 3*i + 13*s + 3*d = 19 s's + 5 i's = 24
         $stmt_insert->bind_param(
-            "iiiisssssssssssisiiisssdddissss", // <-- CADENA DE TIPOS CORREGIDA (24 caracteres)
+            "iiiisssssssssssisiiisssdddisssss", // <-- CADENA DE TIPOS CORREGIDA (24 caracteres)
             $id_cliente, $td_controvertido, $td_consensual, $td_notarial, $identificacion_conyugue, $nombre_conyugue, 
             $direccion_conyugue, $telefono_conyugue, $estado_conyugue, $ciudad_conyugue, $apartamento_conyugue, $postal_conyugue, 
             $lugar_matrimonio, $fecha_matrimonio, $td_separados, $td_noseparados, $tiempo_separacion, $td_hijos,
             $posee_partida_matrimonio, $posee_partida_nacimiento_menores, $contacto_ecuador, $telefono_contacto_ecuador, $observaciones, 
-            $honorarios, $abono, $saldo, $user_id, $oficina, $fecha,$motivo , $con_quien_vive
+            $honorarios, $abono, $saldo, $user_id, $oficina, $fecha,$motivo , $con_quien_vive, $ofifirmar
         );
 
         if ($stmt_insert->execute()) {

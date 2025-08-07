@@ -34,6 +34,7 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                 ti.ti_fecha,
                 ti.ti_itin,
                 ti.ti_fechain,
+                ti.ti_firmar_en,
                 ti.ti_nitin,
                 ti.ti_ecivil,
                 ti.ti_anio_reporte,
@@ -362,6 +363,8 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                     <div class="header-right">
                         <p>Fecha: <?php echo htmlspecialchars(($declaracion_data['ti_fecha'] ?? '')); ?></p>
                         <p>Oficina: <?php echo htmlspecialchars(($declaracion_data['ti_oficina'] ?? '')); ?></p>
+                        <p>Firmar en: <?php echo htmlspecialchars(($declaracion_data['ti_oficina'] ?? '')); ?></p>
+                        <p>Atendido por: <?php echo htmlspecialchars($declaracion_data['nombre_usuario']); ?></p>
                     </div>
                 </div>
 
@@ -493,10 +496,7 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                         </div>
                     </div>
                 </div>
-                <div class="footer-info">
-                    <p>Atendido por: <?php echo htmlspecialchars($declaracion_data['nombre_usuario']); ?></p>
-                    <p>Fecha y Hora de Generación: <?php echo date('d/m/Y H:i:s'); ?></p>
-                </div>
+               
 
 
                 <div class="signature-section">

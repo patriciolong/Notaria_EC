@@ -405,6 +405,15 @@ if ($varsesion==null || $varsesion='') {
                             value="<?php echo htmlspecialchars($_SESSION['oficina_U']); ?>" readonly />
                     </div>
                     <div class="form-field">
+                        <label class="form-label" for="ofi">Firmar en:</label>
+                        <select class="form-select" id="ofifirmar" name="ofifirmar" required> 
+                            <option value="Brooklyn">Brooklyn</option>
+                            <option value="Spring Valley">Spring Valley</option>
+                            <option value="New Jersey">New Jersey</option>
+                            <option value="Ossining">Ossining</option>
+                        </select>
+                    </div>
+                    <div class="form-field">
                         <label class="form-label" for="fecha">Fecha:</label>
                         <input class="form-input" type="date" name="fecha" id="fecha"/>
                     </div>
@@ -454,6 +463,8 @@ if ($varsesion==null || $varsesion='') {
                     <div class="form-field">
                         <label class="form-label" for="motivo">Para uso en:</label>
                         <input class="form-input" id="motivo" name="motivo" />
+                        <label class="form-label" for="motivo">Razon del Tramite:</label>
+                        <input class="form-input" id="razon_t" name="razon_t" />
                     </div>
                     <div class="form-field">
                         <label class="form-label" for="opc_envio">Opcion de envio</label>

@@ -68,6 +68,8 @@ if (!empty($_POST["btn_registro_imp"])) {
         $Oficina = $_POST["Oficina"];
         $nombres_otorga = $_POST["nombres_otorga"];
         $cedula_otorga = $_POST["cedula_otorga"];
+        $nombres_otorga2 = $_POST["nombres_otorga2"];
+        $cedula_otorga2 = $_POST["cedula_otorga2"];
         $estcivil = $_POST["estcivil"];
         $razon_poder = $_POST["razon_poder"];
         $opcion_envio_poder = $_POST["opcion_envio_poder"];
@@ -80,6 +82,12 @@ if (!empty($_POST["btn_registro_imp"])) {
         $provincia_r = $_POST["provincia_r"];
         $telefono_r = $_POST["telefono_r"];
         $observaciones_p = $_POST["observaciones_p"];
+        $identificacion2 = $_POST["identificacion2"];
+        $nombre2 = $_POST["nombre2"];
+        $apellido2 = $_POST["apellido2"];
+        $telefono2 = $_POST["telefono2"];
+        $ofifirmar = $_POST["ofifirmar"];
+        
 
 
 
@@ -118,8 +126,13 @@ if (!empty($_POST["btn_registro_imp"])) {
             echo json_encode(["status" => "error", "message" => "El abono no puede ser mayor al valor del trámite"]);
             exit; // para cortar ejecución
         }else{
-            $sql = $conexion->query("INSERT INTO tramite_poderes (id_tram_poderes,id_cliente,tp_oficina,tp_fecha,tp_estado_civil,tp_nombres_otorga_poder,tp_cedulla_otorga_poder,tp_razon_otorga_poder,tp_opcion_envio_poder,tp_enviar_nombrede,tp_ciudad_enviar,tp_telefonos_enviar,id_usuario,tp_observaciones,tp_costo_tramite,tp_abono_tramite,tp_saldo) 
-            VALUES ('','$id_cliente','$Oficina','$fecha','$estcivil','$nombres_otorga','$cedula_otorga','$razon_poder','$opcion_envio_poder','$remitente','$ciudad_r','$telefono_r','$user_id','$observaciones_p','$costo_tramite','$abono_tramite','$saldo')");
+            $sql = $conexion->query("INSERT INTO tramite_poderes (id_tram_poderes,id_cliente,
+            tp_oficina,tp_fecha,tp_estado_civil,tp_nombres_otorga_poder,
+            tp_cedulla_otorga_poder,tp_razon_otorga_poder,tp_opcion_envio_poder,
+            tp_enviar_nombrede,tp_ciudad_enviar,tp_telefonos_enviar,id_usuario,
+            tp_observaciones,tp_costo_tramite,tp_abono_tramite,tp_saldo,tp_nombre2,	
+            tp_apellido2,tp_identificacion2,tp_telefono2,tp_nombres_otorga_poder2,tp_cedulla_otorga_poder2,tp_firmar_en) 
+            VALUES ('','$id_cliente','$Oficina','$fecha','$estcivil','$nombres_otorga','$cedula_otorga','$razon_poder','$opcion_envio_poder','$remitente','$ciudad_r','$telefono_r','$user_id','$observaciones_p','$costo_tramite','$abono_tramite','$saldo','$nombre2','$apellido2','$identificacion2','$telefono2','$nombres_otorga2','$cedula_otorga2','$ofifirmar')");
              //and $sql3 == 1
              if ($sql) {
                 // Obtener el ID del último registro insertado

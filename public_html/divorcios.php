@@ -4,6 +4,7 @@ session_start();
 error_reporting(0); // Desactivar la visualización de errores en producción
 $varsesion = $_SESSION['usuario'];
 $variable_ses = $varsesion;
+$user_oficina = $_SESSION['oficina_U']; // <-- Agrega esta línea
 
 // Redirigir si la sesión no está activa
 if ($varsesion == null || $varsesion == '') {
@@ -382,8 +383,18 @@ if ($varsesion == null || $varsesion == '') {
                     </div>
                     
                     <div class="form-field">
-                        <label class="form-label" for="oficina">Oficina</label>
-                        <input class="form-input" name="oficina" id="oficina"/>
+                        <label class="form-label" for="Oficina">Oficina</label>
+                        <input class="form-input" name="Oficina" id="Oficina" 
+                            value="<?php echo htmlspecialchars($_SESSION['oficina_U']); ?>" readonly />
+                    </div>
+                    <div class="form-field">
+                        <label class="form-label" for="ofi">Firmar en:</label>
+                        <select class="form-select" id="ofifirmar" name="ofifirmar" required> 
+                            <option value="Brooklyn">Brooklyn</option>
+                            <option value="Spring Valley">Spring Valley</option>
+                            <option value="New Jersey">New Jersey</option>
+                            <option value="Ossining">Ossining</option>
+                        </select>
                     </div>
                     <div class="fs-field">
                         <label class="fs-label" for="fecha">Fecha</label>

@@ -399,8 +399,17 @@ if ($varsesion == null || $varsesion = '') {
                
                 <div class="form-field">
                         <label class="form-label" for="Oficina">Oficina</label>
-                        <input class="form-input" name="Oficina" id="Oficina" 
+                        <input class="form-input" name="oficina" id="oficina" 
                             value="<?php echo htmlspecialchars($_SESSION['oficina_U']); ?>" readonly />
+                    </div>
+                    <div class="form-field">
+                        <label class="form-label" for="ofi">Firmar en:</label>
+                        <select class="form-select" id="ofifirmar" name="ofifirmar" required> 
+                            <option value="Brooklyn">Brooklyn</option>
+                            <option value="Spring Valley">Spring Valley</option>
+                            <option value="New Jersey">New Jersey</option>
+                            <option value="Ossining">Ossining</option>
+                        </select>
                     </div>
             </div>
         </fieldset>
